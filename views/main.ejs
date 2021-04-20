@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/home.css" media="screen" />
+		<script defer type="text/javascript" src="/js/home.js"></script> 
+		<title>PhoneZone</title>
+	</head>
+	<body>
+		<nav>
+			<% if(typeof user_id == 'undefined') { %>	
+				<a href="/checkout">Checkout</a>	
+				<a href="/users/signup">Sign up</a> 
+				<a href="/users/signin">Sign in</a> 
+			<% } else { %>
+				<a href="/checkout">Checkout</a>
+				<a href="/profile">Profile</a>
+				<a href="/user/signout">Sign out</a> 
+			<% } %>
+			
+		</nav>
+		<h2>Home Page</h2>
+		
+	</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/register.css" media="screen" />
+		<script defer type="text/javascript" src="/js/register.js"></script> 
+		<title>PhoneZone</title>
+	</head>
+	<body>
+		<h2>Sign up</h2>
+		<nav>
+			<a href="/">Main</a>
+			<a href="/checkout">Checkout</a>	
+			<a href="/users/signup">Sign up</a> 
+		</nav>
+		<form method = "POST" action="signin">
+			<fieldset>
+				<legend>Sign in to buy</legend>
+
+				<label for="email">Email</label> 
+				<input type="email" name="email" require/>
+
+				<label for="password">Password</label> 
+				<input type="password" name="password" require/>
+
+
+			    <% for (var i = 0; i<errors.length;i++){%>
+                	<p><%= errors[i] %></p>
+            	<% } %>
+
+				<input type = "submit" value = "Sign In" />
+			</fieldset>
+			<p>If you don't have an account <a href="/users/signup">Sign up</a></p>
+		</form>
+		
+	</body>
+</html>
