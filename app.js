@@ -9,7 +9,11 @@ const session= require('express-session')
 
 console.log(config.databaseLocal)
 
-mongoose.connect(config.databaseLocal,{ useNewUrlParser: true ,useUnifiedTopology: true })
+mongoose.connect(config.databaseLocal,{ 
+	useNewUrlParser: true ,
+	useUnifiedTopology: true ,
+	useFindAndModify: false,  
+	useCreateIndex: true })
 
 mongoose.connection.on('connected', ()=>{
 	console.log('Connected to database '+config.databaseLocal)

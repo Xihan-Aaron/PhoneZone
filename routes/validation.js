@@ -3,7 +3,7 @@ function validateEmailRegex(email){
    return regexPattern.test(email); 
  } 
 
-function validatePassword(password){
+const validatePassword = module.exports.validatePassword = function (password){
  	var onlyText = /^[A-Za-z]*$/;
  	var onlyDigit = /^[0-9]+$/;
  	result = []

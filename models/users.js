@@ -12,7 +12,8 @@ const UserSchema = mongoose.Schema({
 		type:String,
 		lowercase:true,
 		required: true,
-		trim:true
+		trim:true,
+		unique : true,
 	},
 	lastname:{
 		type:String,
@@ -26,20 +27,26 @@ const UserSchema = mongoose.Schema({
 	}
 })
 
-const User = module.exports = mongoose.model('User', UserSchema)
 
-module.exports.getUserById = function(id){
-	return User.findById(id)
+
+UserSchema.statics.getUserById = function(user_id){
+	return this
+		.findById(user_id)
 }
-module.exports.getUserByEmail = function(email){
-	return User.findOne({email:email})
+UserSchema.statics.getUserByEmail = function(email){
+	return this
+		.findOne({email:email})
 }
 
-module.exports.addUser = function(newUser){
+UserSchema.statics.addUser = function(newUser){
 	newUser.save()
 	return newUser
 }
 
-module.exports.updateUser = function(user_id,updateInfo){
-	User.updateOne({id:user_id},{$set: updateInfo})
+UserSchema.statics.updateUser = function(user_id,updateInfo){
+	return this
+	.findByIdAndUpdate ({_id:user_id},updateInfo,{new:true})
+	.exec()
 }
+
+module.exports = mongoose.model('User', UserSchema)

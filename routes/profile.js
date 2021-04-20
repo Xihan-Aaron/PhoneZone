@@ -9,6 +9,20 @@ router.get('/', profileController.profilePage)
 router.post('/editProfile', 
 	[
 		(req,res,next)=>{
+			editAttributes = {}
+			if(req.body.email.length>0){
+				editAttributes["email"]=req.body.email
+			}
+			if(req.body.firstname.length>0){
+				editAttributes["firstname"]=req.body.firstname
+			}
+			if(req.body.lastname.length>0){
+				editAttributes["lastname"]=req.body.lastname
+			}
+			req.session.editAttributes=editAttributes
+			next()
+		},
+		(req,res,next)=>{
 			validation.emailValidation(req,res,next)
 		},
 		(req,res,next)=>{
@@ -17,7 +31,18 @@ router.post('/editProfile',
 	],profileController.editProfilePage
 )
 
-router.post('/editPassword', profileController.profilePage)
+router.post('/editPassword',
+	(req,res,next)=>{
+		resultValidatePassword = validation.validatePassword(req.body.newPassword.trim())
+		req.session.errors={}
+		req.session.errors['newPassword']=[]
+		if(resultValidatePassword!==true){
+			req.session.success=false
+			req.session.errors['newPassword']=resultValidatePassword
+		}
+		next()
+	}
+,profileController.editPassword)
 
 
 module.exports = router
