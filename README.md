@@ -48,14 +48,22 @@ Users can change any of these features. Validation rules still apply. All respon
 User can change their password. Validation of their current password applies and validation of the new password also applies. All responses will be in JSON format.(it will not re render the page)
 
 # Further Steps
-Currently the front end is very simple html.
-
-Consider using bootstrap.
-
-The front end needs to us fetch or ajax to get those json responses and use either vanilla js or jquery to paint the DOM.
+## Front end
+### Style the pages 
+- Consider using bootstrap as it just simple html.
+### Set up req and res for event listeners
+- The front end needs to us fetch or ajax to get those json responses and use either vanilla js or jquery to paint the DOM.
 Please ensure event.preventDefault() is applied to event listeners so that the page does not refresh.
+### Validation rules
+- Include very simple validation rules in the front end. 
 
-Consider the main page and think of steps to meeting the requirements. 
+## Back End
+### Consider the main page and think of steps to meeting the requirements. 
+#### MongoDb Algorithms for the main page
+- I will start developing up all the mongodb algorithms needed for the main page
+### Consider the checkout page and think of steps to meeting the requirements. 
+### Consider the profile page (manage listing) and think of steps to meeting the requirements. 
+### Consider further validation rules.
 
-Consider further validation rules.
+
 
