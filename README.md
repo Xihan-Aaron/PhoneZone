@@ -31,12 +31,14 @@ If the validation errors, a json will be returned (no re rendering the page)
 - Name cannot have numbers (only letters)
 
 #### Email
-Follows this regex pattern : /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
-The email does not exists in the database
+-Follows this regex pattern : /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+
+-The email does not exists in the database
 
 #### Password
-Min length is 8 characters
-Cannot only be just text or just numbers
+-Min length is 8 characters
+
+-Cannot only be just text or just numbers
 
 ## Profile Page
 Profile page will display the user's first name, last name and email
