@@ -44,6 +44,7 @@ UserSchema.statics.addUser = function(newUser){
 }
 
 UserSchema.statics.updateUser = function(user_id,updateInfo){
+	console.log(user_id,updateInfo)
 	return this
 	.findByIdAndUpdate ({_id:user_id},updateInfo,{new:true})
 	.exec()

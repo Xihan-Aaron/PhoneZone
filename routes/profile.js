@@ -9,6 +9,7 @@ router.get('/', profileController.profilePage)
 router.post('/editProfile', 
 	[
 		(req,res,next)=>{
+			req.session.success=true
 			editAttributes = {}
 			if(req.body.email.length>0){
 				editAttributes["email"]=req.body.email
@@ -35,6 +36,7 @@ router.post('/editPassword',
 	(req,res,next)=>{
 		resultValidatePassword = validation.validatePassword(req.body.newPassword.trim())
 		req.session.errors={}
+		req.session.success=true // Set to true so that previous false does not carry forward
 		req.session.errors['newPassword']=[]
 		if(resultValidatePassword!==true){
 			req.session.success=false

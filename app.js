@@ -44,7 +44,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 const userAlreadyAuthenticated =(req,res,next)=>{
-	if(req.session.user_id){
+	if(req.session.user_id && req.url !=="/signout"){
 		res.redirect('/')
 	}else{
 		next()

@@ -41,6 +41,7 @@ module.exports.signup = async function (req,res,next){
 
 module.exports.signin = async function(req,res,next){
 	errors=[]
+	req.session.success=true
 	try{
 		userFromDb = await User.getUserByEmail(req.body.email)
 		if(userFromDb ==null){
@@ -49,6 +50,7 @@ module.exports.signin = async function(req,res,next){
 			const hashPasswordBrowser= await crypto.createHash('md5').update(req.body.password).digest("hex");
 			if (userFromDb.password===hashPasswordBrowser){
 				req.session.user_id=userFromDb._id
+				req.session.success=false
 				return res.redirect('/');
 			}else{
 				errors.push("Incorrect Combination of Password and Email")

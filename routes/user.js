@@ -8,6 +8,7 @@ const validation = require('./validation');
 router.post('/signup',
 	[
 		(req,res,next)=>{
+			req.session.success=true
 			validation.emailValidation(req,res,next)
 		},
 		(req,res,next)=>{
@@ -29,5 +30,15 @@ router.get('/signin', (req,res,next)=>{
 	res.render('signin.ejs',{errors: []})
 })
 
+router.get('/signout', (req,res,next)=>{
+    req.session.destroy(function(err) {
+    	if(err){
+    		const error = new Error('Server Error. Incorrect User was logged in');
+  			error.statusCode = 500;
+  			next(error);
+    	}
+     })
+    res.redirect('/');
+});
 
 module.exports = router
