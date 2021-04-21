@@ -49,7 +49,7 @@ User can change their password. Validation of their current password applies and
 
 # Further Steps
 ## Front end
-### Style the pages 
+### Style the pages for login, sign up , profile and layout of Main.
 - Consider using bootstrap as it just simple html.
 ### Set up req and res for event listeners
 - The front end needs to us fetch or ajax to get those json responses and use either vanilla js or jquery to paint the DOM.
