@@ -1,11 +1,23 @@
 # WebDev_G32
 
 ## Installing
--Go to the directory
+- Go to the directory
 
--npm install
+- In MongoDb, create a database called : assignment2Gp32
 
--npm start
+  - Create a collection called: Users
+
+  - Create a collection called: phoneListing
+
+  - In the CMD
+
+    - execute mongoimport --jsonArray --db assignment2Gp32 --collection users --file <location of userlist.json>
+  
+    - execute mongoimport --jsonArray --db assignment2Gp32 --collection phoneListing --file <location of phoneListing.json>
+
+- npm install
+
+- npm start
 
 # Tasks completed
 ## User login and authentification
