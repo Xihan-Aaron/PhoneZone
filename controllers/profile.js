@@ -36,7 +36,6 @@ module.exports.editProfilePage = async function(req,res,next){
 	//Atomic meaning that unless all validation passes, it will not send to the server
 	if(Object.keys(errors).length>0){
 		req.session.success=false
-		console.log(req.session)
 		return res.status(400).json({errors: errors, success:req.session.success})
 		//return res.render('profile/profile.ejs',{errors: req.session.errors, success:req.session.success, userInfo:userInfo});
 	}else{

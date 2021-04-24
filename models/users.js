@@ -24,9 +24,12 @@ const UserSchema = mongoose.Schema({
 		type:String,
 		required: true,
 		trim:true
+	},
+	checkout:{
+		type:Array
 	}
-})
-
+}
+, {collection:"users"})
 
 
 UserSchema.statics.getUserById = function(user_id){

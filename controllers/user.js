@@ -44,6 +44,7 @@ module.exports.signin = async function(req,res,next){
 	req.session.success=true
 	try{
 		userFromDb = await User.getUserByEmail(req.body.email)
+
 		if(userFromDb ==null){
 			errors.push("Email not Found")
 		}else{
