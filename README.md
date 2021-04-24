@@ -11,9 +11,9 @@
 
   - In the CMD
 
-    - execute mongoimport --jsonArray --db assignment2Gp32 --collection users --file <location of userlist.json>
+    - execute mongoimport --jsonArray --db assignment2Gp32 --collection users --file < location of userlist.json >
   
-    - execute mongoimport --jsonArray --db assignment2Gp32 --collection phoneListing --file <location of phoneListing.json>
+    - execute mongoimport --jsonArray --db assignment2Gp32 --collection phoneListing --file < location of phoneListing.json >
   
   - Execute for all brands.
   
