@@ -1,69 +1,87 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="css/register.css" media="screen" />
+		<script type="text/javascript" src="/js/jquery-3.6.0.js"></script>
+		<link rel="stylesheet" type="text/css" href="/bootstrap-3.4.1-dist/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="/css/main.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="/css/register.css" media="screen" />
 		<script defer type="text/javascript" src="/js/register.js"></script> 
-		<title>PhoneZone</title>
+		<title>PhoneZone | Sign up</title>
 	</head>
 	<body>
-		<h2>Sign up</h2>
-		<nav>
-			<a href="/">Main</a>
-			<a href="/checkout">Checkout</a>	
-			<a href="/users/signin">Sign in</a> 
+		<nav class="navbar navbar-default navbar-static-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"></button>
+					<a class="navbar-brand" href="/">PhoneZone</a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="/">Main</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="/checkout">Check out</a></li>
+						<li><a href="/users/signin">Sign in</a></li>
+					</ul>
+				</div>
+			</div>
 		</nav>
-		<form method = "POST" action="signup">
-			<fieldset>
-				<legend>Sign up to buy</legend>
+		<div class="container">
+			<h2>Sign up</h2>
+			<form method = "POST" action="signup" class="form-signup_in">
+				<fieldset>
+					<!-- <legend>Sign up to buy</legend> -->
+	
+					<label for="firstname">First Name</label> 
+					<input type="text" name="firstname" class="form-control" required/>
+					<% if (errors.hasOwnProperty('firstname')) { %>
+						<% for (var i = 0; i<errors['firstname'].length;i++){%>
+							<p><%= errors['firstname'][i] %></p>
+						<% } %>
+					<% } %>
+					
+					<label  for="lastname">Last Name</label> 
+					<input type="text" name="lastname" class="form-control" required/>
+					<% if (errors.hasOwnProperty('lastname')) { %>
+						<% for (var i = 0; i<errors['lastname'].length;i++){%>
+							<p><%= errors['lastname'][i] %></p>
+						<% } %>
+					<% } %>
+	
+					<label for="email">Email</label> 
+					<input type="email" name="email" class="form-control" required/>
+					<% if (errors.hasOwnProperty('email')) { %>
+						<% for (var i = 0; i<errors['email'].length;i++){%>
+							<p><%= errors['email'][i] %></p>
+						<% } %>
+					<% } %>
+	
+					<label for="password">Password</label> 
+					<input type="password" name="password" class="form-control" required/>
+					<% if (errors.hasOwnProperty('password')) { %>
+						<% for (var i = 0; i<errors['password'].length;i++){%>
+							<p><%= errors['password'][i] %></p>
+						<% } %>
+					<% } %>
+					
+					<label for="comfirm_password">Confirm Password</label> 
+					<input type="password" name="comfirm_password" class="form-control" style="margin-bottom: 10px;" required/>
+					<% if (errors.hasOwnProperty('comfirm_password')) { %>
+						<% for (var i = 0; i<errors['comfirm_password'].length;i++){%>
+							<p><%= errors['comfirm_password'][i] %></p>
+						<% } %>
+					<% } %>
+					<% if (errors.hasOwnProperty('server')) { %>
+						<% for (var i = 0; i<errors['server'].length;i++){%>
+							<p><%= errors['server'][i] %></p>
+						<% } %>
+					<% } %>
+					<input class="btn btn-primary" type="submit" value="Register" />
+				</fieldset>
+				<p>If you already have an account <a href="/users/signin">Sign in</a></p>
+			</form>
 
-				<label for="firstname">First Name</label> 
-				<input type="text" name="firstname" require/>
-				<% if (errors.hasOwnProperty('firstname')) { %>
-				    <% for (var i = 0; i<errors['firstname'].length;i++){%>
-                    	<p><%= errors['firstname'][i] %></p>
-                	<% } %>
-				<% } %>
-				
-				<label  for="lastname">Last Name</label> 
-				<input type="text" name="lastname" require/>
-				<% if (errors.hasOwnProperty('lastname')) { %>
-				    <% for (var i = 0; i<errors['lastname'].length;i++){%>
-                    	<p><%= errors['lastname'][i] %></p>
-                	<% } %>
-				<% } %>
-
-				<label for="email">Email</label> 
-				<input type="email" name="email" require/>
-				<% if (errors.hasOwnProperty('email')) { %>
-				    <% for (var i = 0; i<errors['email'].length;i++){%>
-                    	<p><%= errors['email'][i] %></p>
-                	<% } %>
-				<% } %>
-
-				<label for="password">Password</label> 
-				<input type="password" name="password" require/>
-				<% if (errors.hasOwnProperty('password')) { %>
-				    <% for (var i = 0; i<errors['password'].length;i++){%>
-                    	<p><%= errors['password'][i] %></p>
-                	<% } %>
-				<% } %>
-				
-				<label for="comfirm_password">Confirm Password</label> 
-				<input type="password" name="comfirm_password" require/>
-				<% if (errors.hasOwnProperty('comfirm_password')) { %>
-				    <% for (var i = 0; i<errors['comfirm_password'].length;i++){%>
-                    	<p><%= errors['comfirm_password'][i] %></p>
-                	<% } %>
-				<% } %>
-				<% if (errors.hasOwnProperty('server')) { %>
-				    <% for (var i = 0; i<errors['server'].length;i++){%>
-                    	<p><%= errors['server'][i] %></p>
-                	<% } %>
-				<% } %>
-				<input type = "submit" value = "Register Account" />
-			</fieldset>
-			<p>If you alreadu have an account <a href="/users/signin">Sign in</a></p>
-		</form>
+		</div>
 		
 	</body>
 </html>
