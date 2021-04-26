@@ -1,0 +1,7 @@
+"comfirm_password"
+
+form layout for sign up, and sign in
+
+profile form layout?
+
+nav bar for main, check out, sign up, sign in, profile

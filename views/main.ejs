@@ -1,22 +1,35 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="css/home.css" media="screen" />
-		<script defer type="text/javascript" src="/js/home.js"></script> 
+		<script type="text/javascript" src="/js/jquery-3.6.0.js"></script>
+		<link rel="stylesheet" type="text/css" href="/bootstrap-3.4.1-dist/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="/css/main.css" media="screen" />
+		<script defer type="text/javascript" src="/js/main.js"></script> 
 		<title>PhoneZone</title>
 	</head>
 	<body>
-		<nav>
-			<% if(typeof user_id == 'undefined') { %>	
-				<a href="/checkout">Checkout</a>	
-				<a href="/users/signup">Sign up</a> 
-				<a href="/users/signin">Sign in</a> 
-			<% } else { %>
-				<a href="/checkout">Checkout</a>
-				<a href="/profile">Profile</a>
-				<a href="/users/signout">Sign out</a> 
-			<% } %>
-			
+		<nav class="navbar navbar-default navbar-static-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"></button>
+					<a class="navbar-brand" href="/">PhoneZone</a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="/">Main</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="/checkout">Check out</a></li>
+						<% if(typeof user_id == 'undefined') { %>
+							<li><a href="/users/signup">Sign up</a></li>
+							<li><a href="/users/signin">Sign in</a></li>
+						<% } else { %>
+							<li><a href="/profile">Profile</a></li>
+							<li><a href="/signout">Sign out</a></li>
+						<% } %>
+					</ul>
+				</div>
+			</div>
 		</nav>
 		<h2>Home Page</h2>
 		

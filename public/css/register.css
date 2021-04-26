@@ -1,0 +1,38 @@
+.form-signup_in {
+    padding: 10px;
+    margin: 0 auto;
+}
+
+.form-signup_in legend {
+    font-size: 20px;
+    border-bottom: 2px solid #e5e5e5;
+}
+
+.form-signup_in label {
+    margin: 2px 0px 2px 0px;
+    font-weight: 600;
+}
+
+.form-signup_in p {
+    margin: 5px 0px 5px 0px;
+}
+.form-signup_in .form-control {
+    position: relative;
+    box-sizing: border-box;
+    /* height: auto; */
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: -1px;
+}
+
+/* .form-signup_in input[type="text" ] {
+    margin-bottom: -1px;
+}
+
+.form-signup_in input[type="email"] {
+    margin-bottom: -1px;
+} */
+
+.form-signup_in input[name="confirm_password"] {
+    margin-bottom: 10px;
+}

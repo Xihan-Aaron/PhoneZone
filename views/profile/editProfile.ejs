@@ -3,16 +3,16 @@
 		<legend>Edit Profile</legend>
 
 		<label for="firstname">First Name</label> 
-		<input type="text" name="firstname" placeholder="<%= userInfo["firstname"] %>" />
+		<input type="text" name="firstname" class="form-control" placeholder="<%= userInfo["firstname"] %>" />
 
 		
 		<label  for="lastname">Last Name</label> 
-		<input type="text" name="lastname" placeholder="<%= userInfo["lastname"] %>"/>
+		<input type="text" name="lastname" class="form-control" placeholder="<%= userInfo["lastname"] %>"/>
 
 
 		<label for="email">Email</label> 
-		<input type="email" name="email" placeholder="<%= userInfo["email"] %>"/>
+		<input type="email" name="email" class="form-control" placeholder="<%= userInfo["email"] %>"/>
 
-		<input type = "submit" value = "Update Profile" />
+		<input class="btn btn-primary" type = "submit" value = "Update profile" />
 	</fieldset>
 </form>
