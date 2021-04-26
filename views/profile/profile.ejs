@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/home.css" media="screen" />
+		<script defer type="text/javascript" src="/js/home.js"></script> 
+		<title>PhoneZone</title>
+	</head>
+	<body>
+		<nav>
+			<a href="/">Main</a>
+			<a href="/checkout">Checkout</a>
+			<a href="/users/signout">Sign out</a> 
+		</nav>
+		<h2>Profile</h2>
+		<label for="firstname">First Name</label> 	
+		<input  type="text" name="firstname" disabled value="<%= userInfo["firstname"] %>"/>
+
+		<label  for="lastname">Last Name</label> 
+		<input type="text" name="lastname" disabled value="<%= userInfo["lastname"] %>"/>
+		
+		<label for="email">Email</label> 
+		<input type="email" name="email" disabled value="<%= userInfo["email"] %>"/>
+
+		<%- include('editProfile') %>
+
+		<%- include('editPassword') %>
+		
+	</body>
+</html>

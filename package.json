@@ -1,0 +1,23 @@
+{
+  "name": "mean",
+  "version": "1.0.0",
+  "description": "Assignment 2",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "dependencies": {
+    "body-parser": "*",
+    "cors": "*",
+    "crpyto": "*",
+    "express": "*",
+    "express-session": "^1.17.1",
+    "jsonwebtoken": "*",
+    "mongoose": "*",
+    "ejs": "*"
+  },
+  "author": "Alan Hoang",
+  "license": "ISC",
+  "devDependencies": {},
+  "keywords": []
+}
