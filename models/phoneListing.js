@@ -39,6 +39,15 @@ const PhoneListingSchema = mongoose.Schema({
 , {collection:"phoneListing"})
 
 
+PhoneListingSchema.statics.getMatchingItems = function(search){
+	return this
+		.find({
+				title: {$regex: search,$options: 'i'},
+				disabled:null
+		})
+}
+
+
 PhoneListingSchema.statics.getUserById = function(user_id){
 	return this
 		.findById(user_id)
