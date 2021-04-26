@@ -9,7 +9,17 @@ router.get('/', (req,res,next)=>{
 mainCheckout.main
 )
 
+router.post('/search', (req,res,next)=> {
+	next()
+},
+mainCheckout.search
+)
 
+router.post('/selectItem', (req,res,next)=> {
+		next()
+},
+mainCheckout.selectItem
+)
 
 
 module.exports = router
