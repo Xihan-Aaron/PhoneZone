@@ -5,8 +5,8 @@ const User = require('../models/users');
 
 module.exports.signup = async function (req,res,next){
 	if(req.session.success==false){
-		// return res.status(400).json({errors: req.session.errors, success:req.session.success})
-		return res.render('signup.ejs',{errors: req.session.errors, success:req.session.success});
+		return res.status(400).json({errors: req.session.errors, success:req.session.success})
+		// return res.render('signup.ejs',{errors: req.session.errors, success:req.session.success});
 	}
 	try{
 		const hashPassword= await crypto.createHash('md5').update(req.body.password).digest("hex");
