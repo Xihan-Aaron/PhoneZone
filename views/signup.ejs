@@ -64,11 +64,11 @@
 						<% } %>
 					<% } %>
 					
-					<label for="comfirm_password">Confirm Password</label> 
-					<input type="password" name="comfirm_password" class="form-control" style="margin-bottom: 10px;" required/>
-					<% if (errors.hasOwnProperty('comfirm_password')) { %>
-						<% for (var i = 0; i<errors['comfirm_password'].length;i++){%>
-							<p><%= errors['comfirm_password'][i] %></p>
+					<label for="confirm_password">Confirm Password</label> 
+					<input type="password" name="confirm_password" class="form-control" style="margin-bottom: 10px;" required/>
+					<% if (errors.hasOwnProperty('confirm_password')) { %>
+						<% for (var i = 0; i<errors['confirm_password'].length;i++){%>
+							<p><%= errors['confirm_password'][i] %></p>
 						<% } %>
 					<% } %>
 					<% if (errors.hasOwnProperty('server')) { %>

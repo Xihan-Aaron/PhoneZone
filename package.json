@@ -8,13 +8,15 @@
   },
   "dependencies": {
     "body-parser": "*",
+    "bcryptjs": "*",
     "cors": "*",
-    "crpyto": "*",
+    "crypto": "*",
+    "ejs": "*",
     "express": "*",
     "express-session": "^1.17.1",
     "jsonwebtoken": "*",
     "mongoose": "*",
-    "ejs": "*"
+    "passport": "*"
   },
   "author": "Alan Hoang",
   "license": "ISC",

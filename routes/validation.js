@@ -49,14 +49,14 @@ module.exports.emailValidation=function (req,res,next){
 module.exports.passwordValidation =function (req,res,next){
 	resultValidatePassword = validatePassword(req.body.password.trim())
 	req.session.errors['password']=[]
-	req.session.errors['comfirm_password']=[]
+	req.session.errors['confirm_password']=[]
 	if(resultValidatePassword!==true){
 		req.session.success=false
 		req.session.errors['password']=resultValidatePassword
 	}
-	if(req.body.password.trim()!==req.body.comfirm_password.trim()){
+	if(req.body.password.trim()!==req.body.confirm_password.trim()){
 		req.session.success=false
-		req.session.errors['comfirm_password'].push("Please make sure your password matches")
+		req.session.errors['confirm_password'].push("Please make sure your password matches")
 	}
 	next()
 }
