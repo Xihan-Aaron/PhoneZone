@@ -17,11 +17,7 @@
   
   - Execute for all brands.
   
-    - db.getCollection('phoneListing')
-    .updateMany(
-        {"brand" : < Brand >},
-        {$set: { "image" : "images/phone_default_images/< Brand >.jpeg"}}
-    );
+    - db.getCollection('phoneListing').updateMany({}, [{$set:{"image":{$concat: ["/images/phone_default_images/", "$brand", ".jpeg"]}}}]);
  
 
 - npm install
