@@ -10,10 +10,6 @@ module.exports.main = async function(req,res,next){
 		test = await PhoneListing.getMatchingItems("iphone");
 		topFive = await PhoneListing.getTopFive();
 		soldOut = await PhoneListing.soldOut();
-		all = await PhoneListing.all();
-		console.log("topFive", topFive);
-		console.log("soldOut", soldOut);
-		console.log("test", test);
 
 	}catch(err){
 		err.statusCode=500
