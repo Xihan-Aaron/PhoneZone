@@ -1,0 +1,31 @@
+I was working on the main page functionality.
+
+the routing of the main page is setup allowing the transition between the three different states ('home', 'search', 'item')
+
+each state has its own .ejs file stored in views/main/...
+where each of them are only shown if the relevant variable exists
+
+home state is pretty much complete functionally using Alan's db queries 
+
+search state basic functionality complete where type in search in searchbar and it finds all listings that contain that string and is case insensitive
+
+item state not started. 
+
+still TODO main page
+- functionality to select any shown item(maybe add id to each row)
+- search state
+	- drop down selection to filter based on the brand
+	- range slider to filter items based on maximum price
+- item state
+	- db queries
+	- get full name of seller
+	- initially only show 3 reviews
+	- show more reviews button
+	- limit review comments to 200 characters
+	- show more in comments
+	- add to cart
+	- box with currently added quantity
+
+
+other things
+- I think the validation is probably more a controller than a routes 
