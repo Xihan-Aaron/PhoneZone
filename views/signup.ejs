@@ -33,7 +33,7 @@
 					<!-- <legend>Sign up to buy</legend> -->
 	
 					<label for="firstname">First Name</label> 
-					<input type="text" name="firstname" class="form-control" required/>
+					<input type="text" name="firstname" class="form-control" />
 					<% if (errors.hasOwnProperty('firstname')) { %>
 						<% for (var i = 0; i<errors['firstname'].length;i++){%>
 							<p><%= errors['firstname'][i] %></p>
@@ -41,7 +41,7 @@
 					<% } %>
 					
 					<label  for="lastname">Last Name</label> 
-					<input type="text" name="lastname" class="form-control" required/>
+					<input type="text" name="lastname" class="form-control" />
 					<% if (errors.hasOwnProperty('lastname')) { %>
 						<% for (var i = 0; i<errors['lastname'].length;i++){%>
 							<p><%= errors['lastname'][i] %></p>
@@ -49,7 +49,7 @@
 					<% } %>
 	
 					<label for="email">Email</label> 
-					<input type="email" name="email" class="form-control" required/>
+					<input type="email" name="email" class="form-control" />
 					<% if (errors.hasOwnProperty('email')) { %>
 						<% for (var i = 0; i<errors['email'].length;i++){%>
 							<p><%= errors['email'][i] %></p>
@@ -57,7 +57,7 @@
 					<% } %>
 	
 					<label for="password">Password</label> 
-					<input type="password" name="password" class="form-control" required/>
+					<input type="password" name="password" class="form-control" />
 					<% if (errors.hasOwnProperty('password')) { %>
 						<% for (var i = 0; i<errors['password'].length;i++){%>
 							<p><%= errors['password'][i] %></p>
@@ -65,7 +65,7 @@
 					<% } %>
 					
 					<label for="confirm_password">Confirm Password</label> 
-					<input type="password" name="confirm_password" class="form-control" style="margin-bottom: 10px;" required/>
+					<input type="password" name="confirm_password" class="form-control" style="margin-bottom: 10px;" />
 					<% if (errors.hasOwnProperty('confirm_password')) { %>
 						<% for (var i = 0; i<errors['confirm_password'].length;i++){%>
 							<p><%= errors['confirm_password'][i] %></p>
