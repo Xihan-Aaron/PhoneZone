@@ -1,0 +1,35 @@
+<h3>Sold out soon</h3>
+<table>
+  <thead>
+    <th>image</th>
+    <th>price</th>
+    <th>stock</th>
+  </thead>
+  <tbody>
+    <% for(var i =0;i<soldOut.length;i++) {%>
+      <tr>
+        <td><img src=<%= soldOut[i].image %> alt=""> </td>
+        <td><%= soldOut[i].price %></td>
+        <td><%= soldOut[i].stock %></td>
+      </tr>
+      <% } %>
+    </tbody>
+</table>
+
+<h3>Best sellers</h3>
+<table>
+  <thead>
+    <th>image</th>
+    <th>price</th>
+    <th>average rating</th>
+  </thead>
+  <tbody>
+    <% for(var i =0;i<topFive.length;i++) {%>
+      <tr>
+        <td><img src=<%=topFive[i].image %> alt=""></td>
+        <td><%= topFive[i].price %></td>
+        <td><%= topFive[i].avgReviews %></td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
