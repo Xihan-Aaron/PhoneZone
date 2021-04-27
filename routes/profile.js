@@ -6,6 +6,7 @@ const validation = require('./validation');
 
 router.get('/', profileController.profilePage)
 
+
 router.post('/editProfile', 
 	[
 		(req,res,next)=>{

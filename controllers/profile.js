@@ -1,11 +1,13 @@
 var express = require('express');
 var crypto = require('crypto');
 const User = require('../models/users');
-
+const PhoneListing = require('../models/phoneListing');
+const helper = require('./helper');
 
 module.exports.profilePage = async function(req,res,next){
 	try{
 		userFromDb = await User.getUserById(req.session.user_id)
+		itemsFromSeller = await PhoneListing.getItemsBySeller('5f5237a4c1beb1523fa3da39')	
 		if(userFromDb ==null){
 			redirect('/')
 		}else{
@@ -15,7 +17,14 @@ module.exports.profilePage = async function(req,res,next){
 				lastname:userFromDb.lastname,
 				email:userFromDb.email,
 			}
-			res.render('profile/profile.ejs',{userInfo:userInfo,errors: req.session.errors, success:req.session.success,})
+			helper.extractNames(itemsFromSeller)
+			.then((items)=>{
+				if(items instanceof Error){
+					next(items)
+				}else{
+					res.render('profile/profile.ejs',{userInfo:userInfo,errors: req.session.errors, success:req.session.success,items:items})
+				}
+			})
 		}
 	}catch(err){
 		err.statusCode=500
