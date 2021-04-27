@@ -12,11 +12,9 @@ mainCheckout.main
 router.post('/',function (req, res,next) {
 	searchtext = req.body.searchtext
 	console.log("search");
-	if(searchtext == null) {
-		next('router')
+	if(searchtext == undefined) {
+		return next('route')
 	}
-	next()
-
 },
 mainCheckout.search
 
@@ -26,10 +24,9 @@ router.post('/',function (req, res,next) {
 	selectedItem = req.body.selectItem
 
 	console.log("selectedItem");
-	if(selectItem == null) {
-		next('router')
+	if(selectItem == undefined) {
+		next('route')
 	}
-	next()
 },
 mainCheckout.selectItem
 

@@ -36,6 +36,7 @@ UserSchema.statics.getUserById = function(user_id){
 	return this
 		.findById(user_id)
 }
+
 UserSchema.statics.getUserByEmail = function(email){
 	return this
 		.findOne({email:email})
@@ -51,6 +52,16 @@ UserSchema.statics.updateUser = function(user_id,updateInfo){
 	return this
 	.findByIdAndUpdate ({_id:user_id},updateInfo,{new:true})
 	.exec()
+}
+
+UserSchema.statics.getUserNameById = function(user_id){
+	return this
+		.findById(user_id)
+		.aggregate (
+			[
+				{$project: {fullName: { $concat: ["$firstname", " ", "$lastname"]}}}
+			]
+		)
 }
 
 module.exports = mongoose.model('User', UserSchema)
