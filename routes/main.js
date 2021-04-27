@@ -9,20 +9,53 @@ router.get('/', (req,res,next)=>{
 mainCheckout.main
 )
 
-router.post('/',(req,res,next)=> {
-	console.log("main post")
-	test = req.body.searchtext
-	console.log(test)
-		next()
+router.post('/',function (req, res,next) {
+	searchtext = req.body.searchtext
+	console.log("search");
+	if(searchtext == null) {
+		next('router')
+	}
+	next()
+
 },
 mainCheckout.search
+
 )
 
-router.post('/selectItem', (req,res,next)=> {
-		next()
+router.post('/',function (req, res,next) {
+	selectedItem = req.body.selectItem
+
+	console.log("selectedItem");
+	if(selectItem == null) {
+		next('router')
+	}
+	next()
 },
 mainCheckout.selectItem
+
 )
+
+router.post('/',function (req, res,next) {
+	console.log("main");
+},
+mainCheckout.main
+)
+
+// router.post('/',(req,res,next)=> {
+// 	console.log("main post")
+// 	searchtext = req.body.searchtext
+// 	if(searchtext == null) {
+// 		mainCheckout.main
+// 	}
+// 	selectedItem = req.body.selectItem
+// 	if(searchtext != null) {
+// 		mainCheckout.search
+// 	}
+// 	console.log(test)
+// 		next()
+// },
+// mainCheckout.search
+// )
 
 
 module.exports = router
