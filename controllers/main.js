@@ -19,7 +19,7 @@ module.exports.main = async function(req,res,next){
 		err.statusCode=500
 		next(err)
 	}
-	res.render('main.ejs',{user_id:req.session.user_id})
+	res.render('main.ejs',{user_id:req.session.user_id,topFive:topFive,soldOut:soldOut})
 }
 
 module.exports.search = async function(req,res,next){

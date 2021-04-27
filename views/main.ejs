@@ -33,5 +33,27 @@
 		</nav>
 		<h2>Home Page</h2>
 		
+		<h3>Sold out soon</h3>
+		<table>
+			<% for(var i =0;i<soldOut.length;i++) {%>
+				<tr>
+					<td><%= soldOut[i].image %></td>
+					<td><%= soldOut[i].price %></td>
+					<td><%= soldOut[i].stock %></td>
+				</tr>
+				<% } %>
+		</table>
+
+		<h3>Best sellers</h3>
+		<table>
+			<% for(var i =0;i<topFive.length;i++) {%>
+				<tr>
+					<td><%= topFive[i].image %></td>
+					<td><%= topFive[i].price %></td>
+					<td><%= topFive[i].avgReviews %></td>
+				</tr>
+			<% } %>
+		</table>
+
 	</body>
 </html>
