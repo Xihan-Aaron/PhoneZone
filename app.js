@@ -73,6 +73,8 @@ app.use(session({
 
 app.get('/',mainRoute)
 
+app.use('/',mainRoute)
+
 app.use('/users', userAlreadyAuthenticated,usersRoute)
 
 app.use('/profile', userAuthenticate,profileRoute)

@@ -32,6 +32,12 @@
 			</div>
 		</nav>
 		<h2>Home Page</h2>
+		<form method = "POST" name="search" class="form-search">
+			<fieldset>
+				<input type="text" placeholder="Search..." name="searchtext">
+				<input class="btn btn-primary" type="submit" value="Search" />
+			</fieldset>
+		</form>
 
 		<% if(locals.searchResults) { %>
 			<%- include('main/search') %>
@@ -42,3 +48,4 @@
 		<% } %>
 
 	</body>
+</html>

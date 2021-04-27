@@ -24,13 +24,15 @@ module.exports.main = async function(req,res,next){
 
 module.exports.search = async function(req,res,next){
 	try{
-		console.log('search', req.body)
+		console.log("Search")
+		searchtext = req.body.searchtext
+		searchResults = await PhoneListing.getMatchingItems(searchtext);
 
 	}catch(err){
 		err.statusCode=500
 		next(err)
 	}
-	res.render('main.ejs',{user_id:req.session.user_id})
+	res.render('main.ejs',{user_id:req.session.user_id,searchResults:searchResults})
 }
 
 module.exports.selectItem = async function(req,res,next){

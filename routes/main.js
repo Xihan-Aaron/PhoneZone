@@ -9,8 +9,11 @@ router.get('/', (req,res,next)=>{
 mainCheckout.main
 )
 
-router.post('/search', (req,res,next)=> {
-	next()
+router.post('/',(req,res,next)=> {
+	console.log("main post")
+	test = req.body.searchtext
+	console.log(test)
+		next()
 },
 mainCheckout.search
 )
