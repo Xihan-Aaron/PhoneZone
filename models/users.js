@@ -54,14 +54,4 @@ UserSchema.statics.updateUser = function(user_id,updateInfo){
 	.exec()
 }
 
-UserSchema.statics.getUserNameById = function(user_id){
-	return this
-		.findById(user_id)
-		.aggregate (
-			[
-				{$project: {fullName: { $concat: ["$firstname", " ", "$lastname"]}}}
-			]
-		)
-}
-
 module.exports = mongoose.model('User', UserSchema)

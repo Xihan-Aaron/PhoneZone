@@ -33,10 +33,14 @@ module.exports.search = async function(req,res,next){
 
 module.exports.selectItem = async function(req,res,next){
 	try{
-		console.log('selectItem', req.body)
+		item_id = req.body.selectItem
+		console.log('selectItem', req.body.item_id)
+		item = await PhoneListing.getItemById(item_id)
+		seller = await User.getUserById(item.seller)
+		// fullname = seller.firstname + seller.lastname
 	}catch(err){
 		err.statusCode=500
 		next(err)
 	}
-	res.render('main.ejs',{user_id:req.session.user_id})
+	res.render('main.ejs',{user_id:req.session.user_id, item:item})
 }

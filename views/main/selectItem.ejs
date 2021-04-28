@@ -1,0 +1,9 @@
+<p><%= item.title %></p>
+<p><%= item.brand %></p>
+<p><%= item.image %></p>
+<p><%= item.stock %></p>
+<p><%= "name TODO" %></p>
+<% for(var i =0; i<item.reviews.length;i++) {%>
+  <p><%= item.reviews[i].rating %></p>
+  <p><%= item.reviews[i].comment %></p>
+<% } %>
