@@ -28,6 +28,7 @@ router.post('/',function (req, res,next) {
 	if(selectItem == undefined) {
 		next('route')
 	}
+	next()
 },
 mainCheckout.selectItem
 
