@@ -5,11 +5,11 @@ the routing of the main page is setup allowing the transition between the three 
 each state has its own .ejs file stored in views/main/...
 where each of them are only shown if the relevant variable exists
 
-home state is pretty much complete functionally using Alan's db queries 
+home state is pretty much complete functionally using Alan's db queries
 
 search state basic functionality complete where type in search in searchbar and it finds all listings that contain that string and is case insensitive
 
-item state not started. 
+item state started basic functionality with hardcode button to go to a specific item. 
 
 still TODO main page
 - functionality to select any shown item(maybe add id to each row)
@@ -28,4 +28,4 @@ still TODO main page
 
 
 other things
-- I think the validation is probably more a controller than a routes 
+- I think the validation is probably more a controller than a routes
