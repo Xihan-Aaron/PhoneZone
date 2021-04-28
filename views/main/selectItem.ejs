@@ -1,16 +1,16 @@
-<p><%= "title: " + item.title %></p>
-<p><%= "brand: " + item.brand %></p>
-<p><%= "image: " + item.image %></p>
-<p><%= "stock: " + item.stock %></p>
-<p><%= "seller: " + item.seller %></p>
-<p><%= "price: " + item.price %></p>
+<p> title: <%=item.title %></p>
+<p> brand: <%=item.brand %></p>
+<p> image: <%=item.image %></p>
+<p> stock: <%=item.stock %></p>
+<p> seller: <%= item.seller %></p>
+<p> price: <%=item.price %></p>
 <% for(var i =0; i<item.reviews.length ;i++) {%>
 
 
   <div <% if(i >= 3) { %> class="hide" <% } %> >
-    <p><%= "reviewer: " + item.reviews[i].reviewer %></p>
-    <p><%= "rating: " + item.reviews[i].rating %></p>
-    <p><%= "comment: " + item.reviews[i].comment %></p>
+    <p> reviewer: <%= item.reviews[i].reviewer %></p>
+    <p> rating: <%= item.reviews[i].rating %></p>
+    <p> comment: <%= item.reviews[i].comment %></p>
   </div>
 
 <% } %>

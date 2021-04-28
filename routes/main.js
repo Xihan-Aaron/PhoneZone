@@ -11,7 +11,6 @@ mainCheckout.main
 
 router.post('/',function (req, res,next) {
 	searchtext = req.body.searchtext
-	console.log("search",searchtext);
 	if(searchtext == undefined) {
 		return next('route')
 	}
@@ -23,7 +22,6 @@ mainCheckout.search
 router.post('/',function (req, res,next) {
 	selectItem = req.body.selectItem
 
-	console.log("selectedItem", selectItem);
 	if(selectItem == undefined) {
 		next('route')
 	}
@@ -33,26 +31,10 @@ mainCheckout.selectItem
 )
 
 router.post('/',function (req, res,next) {
-	console.log("main");
+	next()
 },
 mainCheckout.main
 )
-
-// router.post('/',(req,res,next)=> {
-// 	console.log("main post")
-// 	searchtext = req.body.searchtext
-// 	if(searchtext == null) {
-// 		mainCheckout.main
-// 	}
-// 	selectedItem = req.body.selectItem
-// 	if(searchtext != null) {
-// 		mainCheckout.search
-// 	}
-// 	console.log(test)
-// 		next()
-// },
-// mainCheckout.search
-// )
 
 
 module.exports = router
