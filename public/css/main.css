@@ -1,3 +1,16 @@
 body {
     padding-bottom: 20px;
 }
+
+.form-control {
+    position: relative;
+    /* box-sizing: border-box; */
+    /* height: auto; */
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: -1px;
+}
+
+#searchBox {
+    width: auto;
+}
