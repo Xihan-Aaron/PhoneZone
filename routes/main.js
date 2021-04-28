@@ -11,10 +11,11 @@ mainCheckout.main
 
 router.post('/',function (req, res,next) {
 	searchtext = req.body.searchtext
-	console.log("search");
+	console.log("search",searchtext);
 	if(searchtext == undefined) {
 		return next('route')
 	}
+	next()
 },
 mainCheckout.search
 
