@@ -15,11 +15,11 @@
 					<a class="navbar-brand" href="/">PhoneZone</a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
-					<form method = "POST" name="search" class="navbar-form navbar-left">
+					<form method="POST" name="search" class="navbar-form navbar-left" role="search">
 						<div class="form-group">
 							<input type="text" placeholder="Search..." name="searchtext" class="form-control">
 						</div>
-						<input class="btn btn-primary" type="submit" value="Search" />
+						<input id="searchBtn" class="btn btn-primary" type="submit" value="Search" />
 					</form>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="/checkout">Check out</a></li>
@@ -42,6 +42,9 @@
 				<input class="btn btn-primary" type="submit" value="select" />
 			</form>
 
+			<div id="searchResult">
+
+			</div>
 			<% if(locals.searchResults) { %>
 				<%- include('main/search') %>
 			<% } else if(locals.item) { %>
