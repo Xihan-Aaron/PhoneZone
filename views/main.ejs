@@ -34,22 +34,23 @@
 				</div>
 			</div>
 		</nav>
-		<h2>Home Page</h2>
-		<form method = "POST" name="selectItemTest" class="form-select">
-			<!-- ObjectId("6086b9b11a7d20aabcdd370e") -->
-			<input type="text" name="selectItem" hidden=true value="6086b9b11a7d20aabcdd370e">
-			<input class="btn btn-primary" type="submit" value="select" />
-		</form>
+		<div class="container">
+			<h2>Home Page</h2>
+			<form method = "POST" name="selectItemTest" class="form-select">
+				<!-- ObjectId("6086b9b11a7d20aabcdd370e") -->
+				<input type="text" name="selectItem" hidden=true value="6086b9b11a7d20aabcdd370e">
+				<input class="btn btn-primary" type="submit" value="select" />
+			</form>
 
+			<% if(locals.searchResults) { %>
+				<%- include('main/search') %>
+			<% } else if(locals.item) { %>
+				<%- include('main/selectItem') %>
+			<% } else { %>
+				<%- include('main/home') %>
+			<% } %>
+		</div>
 		
-
-		<% if(locals.searchResults) { %>
-			<%- include('main/search') %>
-		<% } else if(locals.item) { %>
-			<%- include('main/selectItem') %>
-		<% } else { %>
-			<%- include('main/home') %>
-		<% } %>
 
 	</body>
 </html>
