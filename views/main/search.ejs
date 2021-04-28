@@ -1,21 +1,25 @@
-<h3>Search results</h3>
-<table>
-  <thead>
-    <th>image</th>
-    <th>title</th>
-    <th>brand</th>
-    <th>price</th>
-    <th>stock</th>
-  </thead>
-  <tbody>
-    <% for(var i =0;i<searchResults.length;i++) {%>
-      <tr>
-        <td><img src=<%=searchResults[i].image %> alt=""></td>
-        <td><%= searchResults[i].title %></td>
-        <td><%= searchResults[i].brand %></td>
-        <td><%= searchResults[i].price %></td>
-        <td><%= searchResults[i].stock %></td>
-      </tr>
-    <% } %>
-  </tbody>
-</table>
+<div id="searchResults">
+  <h3>Search results</h3>
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <th></th>
+        <th>Title</th>
+        <th>Brand</th>
+        <th>Price</th>
+        <th>Stock</th>
+      </thead>
+      <tbody>
+        <% for(var i =0;i<searchResults.length;i++) {%>
+          <tr>
+            <td><img src=<%=searchResults[i].image %> alt="" class="thumbnail"></td>
+            <td><%= searchResults[i].title %></td>
+            <td><%= searchResults[i].brand %></td>
+            <td><%= searchResults[i].price %></td>
+            <td><%= searchResults[i].stock %></td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
