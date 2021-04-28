@@ -1,9 +1,16 @@
-<p><%= item.title %></p>
-<p><%= item.brand %></p>
-<p><%= item.image %></p>
-<p><%= item.stock %></p>
-<p><%= "name TODO" %></p>
-<% for(var i =0; i<item.reviews.length;i++) {%>
-  <p><%= item.reviews[i].rating %></p>
-  <p><%= item.reviews[i].comment %></p>
+<p><%= "title: " + item.title %></p>
+<p><%= "brand: " + item.brand %></p>
+<p><%= "image: " + item.image %></p>
+<p><%= "stock: " + item.stock %></p>
+<p><%= "seller: " + item.seller %></p>
+<p><%= "price: " + item.price %></p>
+<% for(var i =0; i<item.reviews.length ;i++) {%>
+
+
+  <div <% if(i >= 3) { %> class="hide" <% } %> >
+    <p><%= "reviewer: " + item.reviews[i].reviewer %></p>
+    <p><%= "rating: " + item.reviews[i].rating %></p>
+    <p><%= "comment: " + item.reviews[i].comment %></p>
+  </div>
+
 <% } %>
