@@ -15,9 +15,12 @@
 					<a class="navbar-brand" href="/">PhoneZone</a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
-					<ul class="nav navbar-nav">
-						<li><a href="/">Main</a></li>
-					</ul>
+					<form method = "POST" name="search" class="navbar-form navbar-left">
+						<div class="form-group">
+							<input type="text" placeholder="Search..." name="searchtext" class="form-control">
+						</div>
+						<input class="btn btn-primary" type="submit" value="Search" />
+					</form>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="/checkout">Check out</a></li>
 						<% if(typeof user_id == 'undefined') { %>
@@ -41,12 +44,7 @@
 			<input class="btn btn-primary" type="submit" value="select" />
 		</form>
 
-		<form method = "POST" name="search" class="form-search">
-			<fieldset>
-				<input type="text" placeholder="Search..." name="searchtext">
-				<input class="btn btn-primary" type="submit" value="Search" />
-			</fieldset>
-		</form>
+		
 
 		<% if(locals.searchResults) { %>
 			<%- include('main/search') %>
