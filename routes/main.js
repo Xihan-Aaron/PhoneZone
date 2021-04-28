@@ -11,25 +11,25 @@ mainCheckout.main
 
 router.post('/',function (req, res,next) {
 	searchtext = req.body.searchtext
-	console.log("search");
+	console.log("search",searchtext);
 	if(searchtext == undefined) {
 		return next('route')
 	}
+	next()
 },
 mainCheckout.search
-
 )
 
 router.post('/',function (req, res,next) {
-	selectedItem = req.body.selectItem
+	selectItem = req.body.selectItem
 
-	console.log("selectedItem");
+	console.log("selectedItem", selectItem);
 	if(selectItem == undefined) {
 		next('route')
 	}
+	next()
 },
 mainCheckout.selectItem
-
 )
 
 router.post('/',function (req, res,next) {
