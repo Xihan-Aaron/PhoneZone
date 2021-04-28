@@ -47,6 +47,29 @@ PhoneListingSchema.statics.getMatchingItems = function(search){
 		})
 }
 
+PhoneListingSchema.statics.getItemsBySeller = function(user_id){
+	return this
+		.find({
+				seller: user_id
+		})
+}
+
+PhoneListingSchema.statics.updateDisabled = function(objectId,disabled){
+	if(disabled){
+		return this
+			this.update(
+			    {"_id" : ObjectId(objectId)},
+			    {$set: { "disabled" : ""}}
+			);
+	}else{
+			this.update(
+			    {"_id" : ObjectId(objectId)},
+			    {$unset: { "disabled" : ""}}
+			);
+	}
+}
+
+
 
 PhoneListingSchema.statics.getItemById = function(item_id){
 	return this
@@ -58,15 +81,15 @@ PhoneListingSchema.statics.getTopFive = function(){
 	return this
 		.aggregate(
 		    [
-		    {$match:{
-		        "reviews":{$elemMatch:{"rating":{$exists:true}}},
-		        disabled:null
-		        }
-		    },
-		    {$project:{"_id":1,image:1,price:1,avgReviews:{$avg:"$reviews.rating"},numReviews:{$size:"$reviews"}}},
-		    {$match:{"numReviews":{$gte:2}}},
-		    {$limit:5},
-		    {$sort:{"avgReviews":-1,}}
+			    {$match:{
+			        "reviews":{$elemMatch:{"rating":{$exists:true}}},
+			        disabled:null
+			        }
+			    },
+			    {$project:{"_id":1,image:1,price:1,avgReviews:{$avg:"$reviews.rating"},numReviews:{$size:"$reviews"}}},
+			    {$match:{"numReviews":{$gte:2}}},
+			    {$limit:5},
+			    {$sort:{"avgReviews":-1,}}
 		    ]
 		)
 }
