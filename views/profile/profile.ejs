@@ -62,7 +62,7 @@
 					</thead>
 					  <tbody>
 					    <% for(var i =0;i<items.length;i++) {%>
-					      <tr <%=id=items[i]._id %>>
+					      <tr id=<%=items[i]._id %>>
 					      	<td><%= items[i].title %></td>
 					      	<td><%= items[i].brand %></td>
 					        <td><img src=<%=items[i].image %> alt="" class="thumbnail"></td>
@@ -70,6 +70,8 @@
 					        <td><%= items[i].seller %></td>
 					        <td><%= items[i].price %></td>
 					        <td><%= items[i].disabled %></td>
+					        <td><button>Disabled</button></td>
+					        <td><button>Removed</button></td>
 					        <td></td>
 					      </tr>
 					    <% } %>

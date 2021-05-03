@@ -207,7 +207,7 @@ module.exports.removeListing = async function(req,res,next){
 
 module.exports.editListing = async function(req,res,next){
 	try{
-		const editNow = await PhoneListing.updateDisabled('60816adde25dd4c3ba274f0b',req.body.disabled)
+		const editNow = await PhoneListing.updateDisabled(req.body.editId,req.body.disabled)
 		if(editNow['nModified']==1){
 			return res.status(200).json({errors:req.session.errors, success:req.session.success})
 		}else{
