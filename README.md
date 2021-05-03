@@ -34,6 +34,8 @@ For sign in and sign up, there is a middlewear that makes sure that if the sessi
 
 Signout will destroy the session. When the session is destroyed, then the client will be unable to access profile and checkout due to the middlewear. 
 
+If a user is searching something or have selected something in the main page but is not signed in, they will be reverted back to that page when they immediately sign in or sign up.
+
 ## Validation
 The validation that requires access to the database is in the controller. 
 
@@ -77,8 +79,6 @@ To remove the listing use endpoint profile/removeListing with parameters req.bod
 To edit the listing for disabled or not disabled use endpoint profile/editListing with parameters req.body.editId (the id of the listing) ,req.body.disabled (boolean: True - Disabled and False - Enable)
 
 
-
-
 # Further Steps
 ## Front end
 ### Style the pages for login, sign up , profile and layout of Main.
@@ -90,7 +90,6 @@ Please ensure event.preventDefault() is applied to event listeners so that the p
 - Include very simple validation rules in the front end. 
 
 ## Back End
-### Consider the main page and think of steps to meeting the requirements. 
 ### Consider the checkout page and think of steps to meeting the requirements. 
 ### Consider further validation rules.
 
