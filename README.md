@@ -91,10 +91,7 @@ Please ensure event.preventDefault() is applied to event listeners so that the p
 
 ## Back End
 ### Consider the main page and think of steps to meeting the requirements. 
-#### MongoDb Algorithms for the main page
-- I will start developing up all the mongodb algorithms needed for the main page
 ### Consider the checkout page and think of steps to meeting the requirements. 
-### Consider the profile page (manage listing) and think of steps to meeting the requirements. 
 ### Consider further validation rules.
 
 
