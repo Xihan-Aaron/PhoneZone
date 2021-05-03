@@ -1,0 +1,24 @@
+<form method = "POST" action="../profile/addNewListing" enctype="multipart/form-data">
+	<fieldset>
+		<legend>Add New Listing</legend>
+
+		<label for="title">Title</label> 
+		<input type="text" name="title" class="form-control" required/>
+
+		<label for="brand">Brand</label> 
+		<input type="text" name="brand" class="form-control" required/>
+
+		<label for="stock">Stock</label> 
+		<input type="number" name="stock" class="form-control" min=0 step=1 required/>
+
+		<label for="price">Price</label> 
+		<input type="number" name="price" class="form-control" min=0 required/>
+
+		<label for="disabled">Disable</label> 
+		<input type="checkbox" name="disabled" class="form-control" />
+
+		<input type="file" name="productImage" accept="image/png, image/jpeg">
+
+		<input class="btn btn-primary" type = "submit" value = "Add New Listing" />
+	</fieldset>
+</form>

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const config = require('../config/database')
+var objectId = require('mongodb').ObjectID;
 
 //PhoneListing Schema
 const PhoneListingSchema = mongoose.Schema({
@@ -54,22 +55,37 @@ PhoneListingSchema.statics.getItemsBySeller = function(user_id){
 		})
 }
 
-PhoneListingSchema.statics.updateDisabled = function(objectId,disabled){
+PhoneListingSchema.statics.updateDisabled = function(id,disabled){
 	if(disabled){
-		return this
-			this.update(
-			    {"_id" : ObjectId(objectId)},
-			    {$set: { "disabled" : ""}}
-			);
+		return this.updateOne(
+		    {"_id" :  new objectId(id)},
+		    {$set: { "disabled" : ""}}
+		)	
 	}else{
-			this.update(
-			    {"_id" : ObjectId(objectId)},
-			    {$unset: { "disabled" : ""}}
-			);
+		return this.updateOne(
+		    {"_id" :  new objectId(id)},
+		    {$unset: { "disabled" : ""}}
+		)
 	}
 }
 
+PhoneListingSchema.statics.addNewListing=function(newListing){
+	newListing.save()
+	return newListing;
+}	
 
+PhoneListingSchema.statics.removeListingById=function(listingId){
+	return this.deleteOne({"_id": new objectId(listingId)})
+}
+
+PhoneListingSchema.statics.getItemByTitleBrand = function(titleName,brandName){
+	return this
+		.find({
+			title: titleName.trim(),
+			brand: brandName.trim()
+		})
+
+}
 
 PhoneListingSchema.statics.getItemById = function(item_id){
 	return this

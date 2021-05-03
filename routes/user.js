@@ -9,13 +9,25 @@ router.post('/signup',
 	[
 		(req,res,next)=>{
 			req.session.success=true
+			req.session.errors={}
 			validation.emailValidation(req,res,next)
 		},
 		(req,res,next)=>{
 			validation.passwordValidation(req,res,next)
 		},
 		(req,res,next)=>{
-			validation.nameValidation(req,res,next)
+			namesToValidate=[]
+			lastNameObject = {}
+			lastNameObject['field']='lastname'
+			lastNameObject['body']=req.body.lastname
+			lastNameObject['properName']='Last Name'
+			namesToValidate.push(lastNameObject)
+			firstnameObject = {}
+			firstnameObject['field']='firstname'
+			firstnameObject['body']=req.body.firstname
+			firstnameObject['properName']='First Name'
+			namesToValidate.push(firstnameObject)
+			validation.nameValidation(namesToValidate,req,res,next)
 		}
 	],userController.signup	
 )

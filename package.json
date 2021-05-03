@@ -7,8 +7,8 @@
     "start": "nodemon app.js"
   },
   "dependencies": {
-    "body-parser": "*",
     "bcryptjs": "*",
+    "body-parser": "*",
     "cors": "*",
     "crypto": "*",
     "ejs": "*",
@@ -16,6 +16,7 @@
     "express-session": "^1.17.1",
     "jsonwebtoken": "*",
     "mongoose": "*",
+    "multer": "^1.4.2",
     "passport": "*"
   },
   "author": "Alan Hoang",

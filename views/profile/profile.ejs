@@ -43,36 +43,39 @@
 	
 			<%- include('editPassword') %>
 
-		</div>
+			<%- include('addNewListing') %>
 
+		</div>
 		<div>
-			<table>
-				<thead>
-					<tr>
-						<th>Title</th>
-						<th>Brand</th>
-						<th>Image</th>
-						<th>Avaliable Stock</th>
-						<th>Seller</th>
-						<th>Price</th>
-						<th>Disabled</th>
-					</tr>
-				</thead>
-				  <tbody>
-				    <% for(var i =0;i<items.length;i++) {%>
-				      <tr>
-				      	<td><%= items[i].title %></td>
-				      	<td><%= items[i].brand %></td>
-				        <td><img src=<%=items[i].image %> alt=""></td>
-				        <td><%= items[i].stock %></td>
-				        <td><%= items[i].seller %></td>
-				        <td><%= items[i].price %></td>
-				        <td><%= items[i].disabled %></td>
-				        <td></td>
-				      </tr>
-				    <% } %>
-				  </tbody>
-			</table>
+			<div class="table-responsive">
+				<table  class="table table-hover">
+					<thead>
+						<tr>
+							<th>Title</th>
+							<th>Brand</th>
+							<th>Image</th>
+							<th>Avaliable Stock</th>
+							<th>Seller</th>
+							<th>Price</th>
+							<th>Disabled</th>
+						</tr>
+					</thead>
+					  <tbody>
+					    <% for(var i =0;i<items.length;i++) {%>
+					      <tr <%=id=items[i]._id %>>
+					      	<td><%= items[i].title %></td>
+					      	<td><%= items[i].brand %></td>
+					        <td><img src=<%=items[i].image %> alt="" class="thumbnail"></td>
+					        <td><%= items[i].stock %></td>
+					        <td><%= items[i].seller %></td>
+					        <td><%= items[i].price %></td>
+					        <td><%= items[i].disabled %></td>
+					        <td></td>
+					      </tr>
+					    <% } %>
+					  </tbody>
+				</table>
+			</div>
 		</div>
 		
 	</body>

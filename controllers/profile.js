@@ -3,11 +3,13 @@ var crypto = require('crypto');
 const User = require('../models/users');
 const PhoneListing = require('../models/phoneListing');
 const helper = require('./helper');
+const path = require('path');
+var fs = require('fs');
 
 module.exports.profilePage = async function(req,res,next){
 	try{
 		userFromDb = await User.getUserById(req.session.user_id)
-		itemsFromSeller = await PhoneListing.getItemsBySeller('5f5237a4c1beb1523fa3da39')	
+		itemsFromSeller = await PhoneListing.getItemsBySeller(req.session.user_id)	
 		if(userFromDb ==null){
 			redirect('/')
 		}else{
@@ -108,3 +110,117 @@ module.exports.editPassword = async function(req,res,next){
 	}
 	
 }	
+
+module.exports.addNewListing = async function(req,res,next){
+	if(req.session.success==false){
+		fs.unlinkSync('public/'+imagePath);
+		return res.status(400).json({errors: req.session.errors, success:req.session.success})
+		// return res.render('signup.ejs',{errors: req.session.errors, success:req.session.success});
+	}
+	var imagePath
+	if(req.file!= undefined){
+		imagePath = 'images/phone_default_images/'+req.file.filename
+	}else{
+		imagePath = 'images/phone_default_images/default.jpeg'
+	}
+	
+	try{
+		const existingInfo = await PhoneListing.getItemByTitleBrand(req.body.title,req.body.brand)
+		if(existingInfo.length==0){
+			if(req.body.diabled='on'){
+				var listingInformation
+				listingInformation = new PhoneListing({
+					title: req.body.title.trim(),
+					brand: req.body.brand.trim(),
+				    stock: req.body.stock,
+				    price: req.body.price,
+				    seller: req.session.user_id,
+				    image: imagePath,
+				    reviews:[],
+				    disabled:""
+				})
+			}else{
+				listingInformation = new PhoneListing({
+					title: req.body.title.trim(),
+					brand: req.body.brand.trim(),
+				    stock: req.body.stock,
+				    price: req.body.price,
+				    seller: req.session.user_id,
+				    image: imagePath,
+				    reviews:[],
+				})
+			}
+			const addLisitng = await PhoneListing.addNewListing(listingInformation)
+			req.session.success=true
+			console.log(addLisitng)
+			return res.status(200).json({errors:req.session.errors, success:req.session.success})
+		}else{
+			fs.unlinkSync('public/'+imagePath);
+			req.session.errors['title']=['There already exists a listing with the same title and brand']
+			req.session.success=false
+			return res.status(400).json({errors: req.session.errors, success:req.session.success})
+		}
+	}catch(err){
+		console.log(err)
+		fs.unlinkSync('public/'+imagePath);
+		req.session.success=false
+		req.session.errors['server']=[]
+		req.session.errors['server'].push('Server Side Error:'+err["codeName"])
+		return res.status(400).json({errors: req.session.errors, success:req.session.success})
+	}
+
+}
+
+module.exports.removeListing = async function(req,res,next){
+	try{
+		const deletedItem = await PhoneListing.getItemById(req.body.removeId)
+		if(deletedItem !=null){
+			if(deletedItem['image'].includes('_')){
+			  if (fs.existsSync('public/'+deletedItem['image'])) {
+			    fs.unlinkSync('public/'+deletedItem['image'])
+			  }
+			}
+			const deleteNow = await PhoneListing.removeListingById(req.body.removeId)
+			if(deleteNow['deleteCount']==1){
+				return res.status(200).json({errors:req.session.errors, success:req.session.success})
+			}else{
+				req.session.success=false
+				req.session.errors['item']=[]
+				req.session.errors['item'].push('Server Unable to Delete')
+				return res.status(400).json({errors:req.session.errors, success:req.session.success})
+			}
+			
+		}
+		req.session.success=false
+		req.session.errors['item']=[]
+		req.session.errors['item'].push('Item has already been deleted')
+		return res.status(400).json({errors: req.session.errors, success:req.session.success})
+		
+	}catch(err){
+		req.session.success=false
+		req.session.errors['server']=[]
+		console.log(err)
+		req.session.errors['server'].push('Server Side Error:'+err["codeName"])
+		return res.status(400).json({errors: req.session.errors, success:req.session.success})
+	}
+}
+
+module.exports.editListing = async function(req,res,next){
+	try{
+		const editNow = await PhoneListing.updateDisabled('60816adde25dd4c3ba274f0b',req.body.disabled)
+		if(editNow['nModified']==1){
+			return res.status(200).json({errors:req.session.errors, success:req.session.success})
+		}else{
+			req.session.success=false
+			req.session.errors['item']=[]
+			req.session.errors['item'].push('Server Unable to Edit')
+			return res.status(400).json({errors:req.session.errors, success:req.session.success})
+		}	
+	}catch(err){
+		req.session.success=false
+		req.session.errors['server']=[]
+		console.log(err)
+		req.session.errors['server'].push('Server Side Error:'+err["codeName"])
+		return res.status(400).json({errors: req.session.errors, success:req.session.success})
+	}
+}

@@ -36,7 +36,6 @@ function validateName(name){
 
 module.exports.emailValidation=function (req,res,next){
 	resultValidateEmail = validateEmailRegex(req.body.email.trim())
-	req.session.errors={}
 	req.session.errors['email']=[]
 	req.session.success=true
 	if(resultValidateEmail==false){
@@ -61,18 +60,15 @@ module.exports.passwordValidation =function (req,res,next){
 	next()
 }
 
-module.exports.nameValidation= function (req,res,next){
-	resultValidateLastname = validateName(req.body.lastname.trim())
-	resultValidateFirstname = validateName(req.body.firstname.trim())
-	req.session.errors['firstname']=[]
-	req.session.errors['lastname']=[]
-	if(resultValidateLastname!==true){
-		req.session.success=false
-		req.session.errors['lastname'].push('Last name '+resultValidateLastname)
-	}
-	if(resultValidateFirstname!==true){
-		req.session.success=false
-		req.session.errors['firstname'].push('First name '+resultValidateFirstname)		
+module.exports.nameValidation= function (fieldsToValidate,req,res,next){
+	for(i=0;i<fieldsToValidate.length;i++){
+		nameObject = fieldsToValidate[i]
+		resultValidate = validateName(nameObject['body'].trim())
+		req.session.errors[nameObject['field']]=[]
+		if(resultValidate!==true){
+			req.session.success=false
+			req.session.errors[nameObject['field']].push(nameObject['properName']+ ' ' +resultValidate)
+		}
 	}
 	next()
 }

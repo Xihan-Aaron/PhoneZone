@@ -3,7 +3,7 @@ const router =express.Router();
 const mainCheckout = require('../controllers/main');
 
 router.get('/', (req,res,next)=>{
-	console.log(req.session.user_id)
+	console.log(req.session.user_id,'Main')
 	next()
 },
 mainCheckout.main
