@@ -10,11 +10,11 @@
         <th>Stock</th>
       </thead>
       <tbody>
-        <% for(var i =0;i<soldOut.length;i++) {%>
+        <% for(var i =0;i<info['soldOut'].length;i++) {%>
           <tr>
-            <td><img src=<%= soldOut[i].image %> alt="" class="thumbnail"> </td>
-            <td><%= soldOut[i].price %></td>
-            <td><%= soldOut[i].stock %></td>
+            <td><img src=<%= info['soldOut'][i].image %> alt="" class="thumbnail"> </td>
+            <td><%= info['soldOut'][i].price %></td>
+            <td><%= info['soldOut'][i].stock %></td>
           </tr>
           <% } %>
         </tbody>
@@ -33,11 +33,11 @@
         <th>Average rating</th>
       </thead>
       <tbody>
-        <% for(var i =0;i<topFive.length;i++) {%>
+        <% for(var i =0;i<info['topFive'].length;i++) {%>
           <tr>
-            <td><img src=<%=topFive[i].image %> alt="" class="thumbnail"></td>
-            <td><%= topFive[i].price %></td>
-            <td><%= topFive[i].avgReviews.toFixed(2) %></td>
+            <td><img src=<%=info['topFive'][i].image %> alt="" class="thumbnail"></td>
+            <td><%= info['topFive'][i].price %></td>
+            <td><%= info['topFive'][i].avgReviews.toFixed(2) %></td>
           </tr>
         <% } %>
       </tbody>

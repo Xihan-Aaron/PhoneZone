@@ -54,6 +54,9 @@ const userAlreadyAuthenticated =(req,res,next)=>{
 
 const userAuthenticate =(req,res,next)=>{
 	if(!req.session.user_id){
+		if(req.originalUrl==='/checkout'){
+			res.redirect('/users/signin')
+		}
 		res.redirect('/')
 	}else{
 		next()
