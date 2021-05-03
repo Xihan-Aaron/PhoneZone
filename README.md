@@ -64,6 +64,21 @@ Users can change any of these features. Validation rules still apply. All respon
 
 User can change their password. Validation of their current password applies and validation of the new password also applies. All responses will be in JSON format.(it will not re render the page)
 
+User can now see their listing. The row of the listing has the _id of that item
+
+User can add listings. It will check the listing for the combination of title and brand.
+
+If the User does not upload an image then it will lead to a default.jpeg image.
+
+If the User uploads the image, it will named: < branch name >_< user_id >_< timestamp >.jpeg
+
+To remove the listing use endpoint profile/removeListing with parameters req.body.removeId as the id of the listing. 
+
+To edit the listing for disabled or not disabled use endpoint profile/editListing with parameters req.body.editId (the id of the listing) ,req.body.disabled (boolean: True - Disabled and False - Enable)
+
+
+
+
 # Further Steps
 ## Front end
 ### Style the pages for login, sign up , profile and layout of Main.
