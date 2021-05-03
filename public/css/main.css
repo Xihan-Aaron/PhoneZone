@@ -15,7 +15,20 @@ body {
     width: auto;
 }
 
+#searchFilter {
+    padding-left: 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+#filter {
+    padding: 0px 2px 0px 2px;
+}
+
 .thumbnail {
     width: 6em;
     margin-bottom: -1px;
+}
+
+.hide {
+    display: none;
 }
