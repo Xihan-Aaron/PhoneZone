@@ -30,7 +30,7 @@ module.exports.search = async function(req,res,next){
 		searchResults = await PhoneListing.getMatchingItems(searchtext);
 		req.session.prevInfo = searchResults
 		req.session.prevUrl = 'search'
-		console.log(locals.searchResults)
+		console.log("good")
 	}catch(err){
 		err.statusCode=500
 		next(err)

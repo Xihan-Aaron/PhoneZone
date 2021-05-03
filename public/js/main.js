@@ -3,8 +3,8 @@
 
 $(document).ready(function() {
     $('#searchBtn').on('click', function(e){
+        e.preventDefault()
         var searchText = {searchtext: $('input[name="searchtext"]').val()}
-        console.log(searchText);
         $.post('/', searchText, function(result){
             if (result.searchResults.length > 0){
                 viewSearch(result.searchResults);
