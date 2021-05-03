@@ -15,12 +15,17 @@
 					<a class="navbar-brand" href="/">PhoneZone</a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
-					<form method="POST" name="search" class="navbar-form navbar-left" role="search">
+					<!-- <form method="POST" name="search" class="navbar-form navbar-left" role="search"> -->
+					<form id="search" name="search" class="navbar-form navbar-left" role="search">
 						<div class="form-group">
 							<input type="text" placeholder="Search..." name="searchtext" class="form-control">
 						</div>
-						<input id="searchBtn" class="btn btn-primary" type="submit" value="Search" />
+						<!-- <input id="searchBtn" class="btn btn-primary" type="submit" value="Search" /> -->
+						<input id="searchBtn" class="btn btn-primary" type="button" value="Search" role="button" />
 					</form>
+					<ul id="searchFilter" class="navbar-form navbar-left"></ul>
+					<ul id="searchRange" class="navbar-form navbar-left"></ul>
+
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="/checkout">Check out</a></li>
 						<% if(typeof user_id == 'undefined') { %>

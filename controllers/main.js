@@ -35,7 +35,11 @@ module.exports.search = async function(req,res,next){
 		err.statusCode=500
 		next(err)
 	}
-	res.render('main.ejs',{user_id:req.session.user_id,searchResults:searchResults})
+	// res.render('main.ejs',{user_id:req.session.user_id,searchResults:searchResults})
+	res.json({
+		user_id:req.session.user_id,
+		searchResults:searchResults
+	});
 }
 
 module.exports.selectItem = async function(req,res,next){
