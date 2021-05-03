@@ -3,14 +3,8 @@ var crypto = require('crypto');
 const User = require('../models/users');
 
 redirectToPrev = function(req,res){
-	console.log(req.session)
-	if(req.session.prevUrl=='search'){
-		delete req.session.prevUrl
-		delete req.session.prevInfo
-		console.log("hello")
-		return res.render('main.ejs',{user_id:req.session.user_id,searchResults:req.session.prevInfo})
-
-	}
+	req.session.auth=true;
+	res.redirect('/')
 }
 
 module.exports.signup = async function (req,res,next){
@@ -45,7 +39,7 @@ module.exports.signup = async function (req,res,next){
 		return res.status(400).json({errors: req.session.errors, success:req.session.success})
 		//return res.render('signup.ejs',{errors: req.session.errors, success:req.session.success});
 	}else{
-		return res.redirect('/');
+		return redirectToPrev(req,res);
 	}
 }
 

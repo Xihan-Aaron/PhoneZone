@@ -10,13 +10,13 @@
         <th>Stock</th>
       </thead>
       <tbody>
-        <% for(var i =0;i<searchResults.length;i++) {%>
+        <% for(var i =0;i<info.length;i++) {%>
           <tr class="searchItem">
-            <td><img src=<%=searchResults[i].image %> alt="" class="thumbnail"></td>
-            <td><%= searchResults[i].title %></td>
-            <td><%= searchResults[i].brand %></td>
-            <td><%= searchResults[i].price %></td>
-            <td><%= searchResults[i].stock %></td>
+            <td><img src=<%=info[i].image %> alt="" class="thumbnail"></td>
+            <td><%= info[i].title %></td>
+            <td><%= info[i].brand %></td>
+            <td><%= info[i].price %></td>
+            <td><%= info[i].stock %></td>
           </tr>
         <% } %>
       </tbody>

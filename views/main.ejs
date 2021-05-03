@@ -50,7 +50,7 @@
 			<div id="searchResult">
 
 			</div>
-			<% if(locals.searchResults) { %>
+			<% if(tab=='search') { %>
 				<%- include('main/search') %>
 			<% } else if(locals.item) { %>
 				<%- include('main/selectItem') %>
