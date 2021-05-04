@@ -10,7 +10,12 @@
   <div <% if(i >= 3) { %> class="hide" <% } %> >
     <p> reviewer: <%= info.reviews[i].reviewer %></p>
     <p> rating: <%= info.reviews[i].rating %></p>
-    <p> comment: <%= info.reviews[i].comment %></p>
+    <% if(info.reviews[i].comment.length > 200) { %>
+      <p> comment: <%= info.reviews[i].comment.substring(0,200) %> </p>
+      <p> show more </p>
+    <% } else {%>
+      <p> comment: <%= info.reviews[i].comment %></p>
+    <% } %>
   </div>
-
 <% } %>
+<p>show more comments </p>
