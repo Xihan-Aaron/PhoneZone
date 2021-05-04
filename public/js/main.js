@@ -5,50 +5,67 @@ $(document).ready(function() {
     $('#searchBtn').on('click', function(e){
         e.preventDefault()
         var searchText = {searchtext: $('input[name="searchtext"]').val()}
-        $.post('/', searchText, function(result){
-            if (result.searchResults.length > 0){
+        if ($('input[name="searchtext"]').val() != ""){
+            $.post('/', searchText, function(result){
+                // console.log(result);
+                if (result.searchResults.length < 1){
+                    alert("No result matches.");
+                }
                 viewSearch(result.searchResults);
                 addDropDown(result.searchResults);
                 addRange(result.searchResults);
                 $('#soldOutSoon').remove();
                 $('#bestSellers').remove();
-            }
-            $('#filter').on('change', function(e){
-                var brandFilter = $('#filter').val();
-                $('tr.searchItem').show();
-
-                if(brandFilter != 'All'){
-                    var brandList = $('#filter option')
-                    var exceptList = [];
-                    // console.log(brandList[1].val());
-                    for(var i = 0; i < brandList.length; i++){
-                       if(brandList[i].innerText != brandFilter && brandList[i].innerText != 'All'){
-                           exceptList.push(brandList[i].innerText);
-                       }
-                    }
-                    // console.log(exceptList);
-                    for(var i = 0; i < exceptList.length; i++){
-                       $('.' + exceptList[i]).hide();
-                    }
-                }
-            });
-            $('#priceRange').on('change', function(e){
-                var price = parseFloat($('#priceRange').val());
-                console.log("Current threshold: " + price.toString());
-
-                $('td.price').each(function(){
-                    $(this).parent().show();
-                    // console.log(parseFloat($(this).text()));
-                    if (parseFloat($(this).text()) > price){
-                        $(this).parent().hide();
+                $('#filter').on('change', function(e){
+                    var brandFilter = $('#filter').val();
+                    var priceFilter = parseFloat($('#priceRange').val());
+                    // $('tr.searchItem').show();
+        
+                    if(brandFilter != 'All'){
+                        $('.searchItem').each(function(){
+                            if(!$(this).hasClass(brandFilter)){
+                                if(!$(this).hasClass('hide')){
+                                    $(this).addClass('hide');
+                                }
+                            } else {
+                                $(this).removeClass('hide');
+                                if(parseFloat($(this).find('.price').val()) > priceFilter){
+                                    $(this).addClass('hide');
+                                }
+                            }
+                        });
+                    } else {
+                        $('.searchItem').each(function(){
+                            $(this).removeClass('hide');
+                        })
                     }
                 });
-                $('#filter').children()[0].remove();
-                $('#filter').prepend('<option selected>All</option>');
+                $('#priceRange').on('change', function(e){
+                    var price = parseFloat($('#priceRange').val());
+                    var brandFilter = $('#filter').val();
+                    console.log("Current threshold: " + price.toString());
+                    console.log(brandFilter);
+        
+                    $('td.price').each(function(){
+                        // $(this).parent().show();
+                        console.log(parseFloat($(this).text()));
+                        if (parseFloat($(this).text()) > price){
+                            if(!$(this).parent().hasClass('hide')){
+                                $(this).parent().addClass('hide');
+                            }
+                            // $(this).parent().hide();
+                        } else {
+                            $(this).parent().removeClass('hide');
+                            if(!$(this).parent().hasClass(brandFilter)){
+                                $(this).parent().addClass('hide');
+                            }
+                        }
+                    });
+                });
             });
-            
-
-        });
+        } else {
+            alert("Please type in the search content.");
+        }
     });
 });
 
@@ -63,11 +80,18 @@ function viewSearch(result){
     for(var i = 0; i < result.length; i++){
         var tableRow = '<tr class="searchItem ' + result[i].brand + '">';
         // console.log(tableRow);
+        tableRow += '<td class="id hide">' + result[i]._id + '</td>';
         tableRow += '<td><img src=' + result[i].image + ' alt="" class="thumbnail"></td>';
         tableRow += '<td class="title">' + result[i].title + '</td>';
         tableRow += '<td class="brand">' + result[i].brand + '</td>';
         tableRow += '<td class="price">' + result[i].price + '</td>';
         tableRow += '<td class="stock">' + result[i].stock + '</td>';
+        tableRow += '<td class="seller hide">' + result[i].seller + '</td>'
+        tableRow += '<td class="review hide">';
+        for (var j = 0; i < result[i].reviews.length; i++){
+            tableRow += '<div class="reviewDetails">' + result[i].reviews[j] + '</div>'
+        }
+        tableRow += '</td>'
         tableRow += '</tr>';
         tableBody += tableRow;
     }
@@ -78,19 +102,23 @@ function viewSearch(result){
 }
 
 function addDropDown(result){
-    var brandList = [result[0].brand];
-    for(var i = 1; i < result.length; i++){
-        if (!brandList.includes(result[i].brand)){
-            brandList.push(result[i].brand);
-        }
-    }
-    brandList.sort();
-    // console.log(brandList);
     var section = $('#searchFilter');
     section.empty();
     // var filterList = '<li class="dropdown">';
     var filterList = '<select id="filter" class="navbar-form navbar-left">';
-    filterList += '<option>All</option>'
+    filterList += '<option>All</option>';
+    var brandList = [];
+    if (result.length > 0){
+        brandList.push(result[0].brand);
+        for(var i = 1; i < result.length; i++){
+            if (!brandList.includes(result[i].brand)){
+                brandList.push(result[i].brand);
+            }
+        }
+        brandList.sort();
+
+    }
+    // console.log(brandList);
     for(var i = 0; i < brandList.length; i++){
         filterList += '<option>' + brandList[i] + '</option>';
     }
@@ -102,14 +130,17 @@ function addDropDown(result){
 }
 
 function addRange(result){
-    var priceList = [];
-    for(var i = 0; i < result.length; i++){
-        priceList.push(result[i].price);
-    }
-    var max = Math.max(...priceList);
-    console.log(max);
     var section = $('#searchRange');
     section.empty();
+    var priceList = [];
+    var max = 50;
+    if (result.length > 0){
+        for(var i = 0; i < result.length; i++){
+            priceList.push(result[i].price);
+        }
+        max = Math.max(...priceList) + 1;
+    }
+    console.log(max);
     var rangeComponent = '<label for="priceRange" class="form-label">Price range</label>';
     rangeComponent += '<input type="range" class="form-range" id="priceRange" min="0" ' + 'max="' + max + '"' + '>';
     section.append(rangeComponent);
