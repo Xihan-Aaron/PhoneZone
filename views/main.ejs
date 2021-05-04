@@ -52,7 +52,7 @@
 			</div>
 			<% if(tab=='search') { %>
 				<%- include('main/search') %>
-			<% } else if(locals.item) { %>
+			<% } else if(tab == 'item') { %>
 				<%- include('main/selectItem') %>
 			<% } else { %>
 				<%- include('main/home') %>
