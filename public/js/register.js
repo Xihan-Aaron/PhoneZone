@@ -29,9 +29,24 @@ $(document).ready(function(){
             $.ajax({
                 data: signinInfo,
                 type: "post",
-                url: "/users/signin"
-            }).done(function(data){
-                console.log(data)
+                url: "/users/signin",
+                success: function(result){
+                    var userid = result.user_id;
+                    var tab = result.tab;
+                    // console.log(tab);
+                    history.back(-1);
+                    // window.location = tab;
+                    // console.log(userid);
+                    // $('html').remove();
+
+                    // console.log(result);
+                    // window.location.href = '/';
+
+                },
+                error: function(result){
+                    console.log(result.responseJSON);
+                    $('#emailError').append('<p class="error">- ' + result.responseJSON.errors[0] + '</p>');
+                }
             })
             // $.post('/users/signin', signinInfo, function(result){
             //     console.log(result);

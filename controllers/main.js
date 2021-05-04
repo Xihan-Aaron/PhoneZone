@@ -27,6 +27,11 @@ module.exports.main = async function(req,res,next){
 		}else{
 			req.session.prevInfo = info
 			req.session.prevUrl = 'main'
+			// res.json({
+			// 	user_id:req.session.user_id,
+			// 	info:info,
+			// 	tab:'main'
+			// })
 			res.render('main.ejs',{user_id:req.session.user_id,info:info,tab:'main'})
 		}
 

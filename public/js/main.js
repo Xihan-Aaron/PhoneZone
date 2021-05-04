@@ -1,7 +1,10 @@
 // var brandFilter;
 // var price;
+var searchResultBackup;
 
 $(document).ready(function() {
+    // var searchResultBackup;
+
     $('#searchBtn').on('click', function(e){
         e.preventDefault()
         var searchText = {searchtext: $('input[name="searchtext"]').val()}
@@ -11,62 +14,30 @@ $(document).ready(function() {
                 if (result.searchResults.length < 1){
                     alert("No result matches.");
                 }
+                searchResultBackup = result.searchResults;
                 viewSearch(result.searchResults);
                 addDropDown(result.searchResults);
                 addRange(result.searchResults);
                 $('#soldOutSoon').remove();
                 $('#bestSellers').remove();
-                $('#filter').on('change', function(e){
-                    var brandFilter = $('#filter').val();
-                    var priceFilter = parseFloat($('#priceRange').val());
-                    // $('tr.searchItem').show();
-        
-                    if(brandFilter != 'All'){
-                        $('.searchItem').each(function(){
-                            if(!$(this).hasClass(brandFilter)){
-                                if(!$(this).hasClass('hide')){
-                                    $(this).addClass('hide');
-                                }
-                            } else {
-                                $(this).removeClass('hide');
-                                if(parseFloat($(this).find('.price').val()) > priceFilter){
-                                    $(this).addClass('hide');
-                                }
-                            }
-                        });
-                    } else {
-                        $('.searchItem').each(function(){
-                            $(this).removeClass('hide');
-                        })
-                    }
-                });
-                $('#priceRange').on('change', function(e){
-                    var price = parseFloat($('#priceRange').val());
-                    var brandFilter = $('#filter').val();
-                    console.log("Current threshold: " + price.toString());
-                    console.log(brandFilter);
-        
-                    $('td.price').each(function(){
-                        // $(this).parent().show();
-                        console.log(parseFloat($(this).text()));
-                        if (parseFloat($(this).text()) > price){
-                            if(!$(this).parent().hasClass('hide')){
-                                $(this).parent().addClass('hide');
-                            }
-                            // $(this).parent().hide();
-                        } else {
-                            $(this).parent().removeClass('hide');
-                            if(!$(this).parent().hasClass(brandFilter)){
-                                $(this).parent().addClass('hide');
-                            }
-                        }
-                    });
-                });
+                $('#filter').on('change', changeFilter);
+                $('#priceRange').on('change', changeRange);
             });
         } else {
             alert("Please type in the search content.");
         }
     });
+    // console.log($('#searchResults').children());
+    // console.log($('#priceRange').children());
+    // if($('#searchResults').children().length > 0 && $('#priceRange').children().length == 0){
+    //     // console.log($('#searchResults').children());
+    //     // console.log($('#priceRange').children());
+    //     addDropDown(searchResultBackup);
+    //     addRange(searchResultBackup);
+
+    // } else {
+    //     console.log("-1");
+    // }
 });
 
 
@@ -87,11 +58,11 @@ function viewSearch(result){
         tableRow += '<td class="price">' + result[i].price + '</td>';
         tableRow += '<td class="stock">' + result[i].stock + '</td>';
         tableRow += '<td class="seller hide">' + result[i].seller + '</td>'
-        tableRow += '<td class="review hide">';
-        for (var j = 0; i < result[i].reviews.length; i++){
-            tableRow += '<div class="reviewDetails">' + result[i].reviews[j] + '</div>'
-        }
-        tableRow += '</td>'
+        // tableRow += '<td class="review hide">';
+        // for (var j = 0; i < result[i].reviews.length; i++){
+        //     tableRow += '<div class="reviewDetails">' + result[i].reviews[j] + '</div>'
+        // }
+        // tableRow += '</td>'
         tableRow += '</tr>';
         tableBody += tableRow;
     }
@@ -144,4 +115,56 @@ function addRange(result){
     var rangeComponent = '<label for="priceRange" class="form-label">Price range</label>';
     rangeComponent += '<input type="range" class="form-range" id="priceRange" min="0" ' + 'max="' + max + '"' + '>';
     section.append(rangeComponent);
+}
+
+
+function changeFilter(){
+    var brandFilter = $('#filter').val();
+    var priceFilter = parseFloat($('#priceRange').val());
+    // $('tr.searchItem').show();
+
+    if(brandFilter != 'All'){
+        $('.searchItem').each(function(){
+            if(!$(this).hasClass(brandFilter)){
+                if(!$(this).hasClass('hide')){
+                    $(this).addClass('hide');
+                }
+            } else {
+                $(this).removeClass('hide');
+                console.log(parseFloat($(this).find('.price').text()));
+                if(parseFloat($(this).find('.price').text()) > priceFilter){
+                    $(this).addClass('hide');
+                }
+            }
+        });
+    } else {
+        $('.searchItem').each(function(){
+            $(this).removeClass('hide');
+        })
+    }
+}
+
+function changeRange(){
+    var price = parseFloat($('#priceRange').val());
+    var brandFilter = $('#filter').val();
+    console.log("Current threshold: " + price.toString());
+    console.log(brandFilter);
+
+    $('td.price').each(function(){
+        // $(this).parent().show();
+        // console.log(parseFloat($(this).text()));
+        if (parseFloat($(this).text()) > price){
+            if(!$(this).parent().hasClass('hide')){
+                $(this).parent().addClass('hide');
+            }
+            // $(this).parent().hide();
+        } else {
+            $(this).parent().removeClass('hide');
+            if(!$(this).parent().hasClass(brandFilter)){
+                if(brandFilter != 'All'){
+                    $(this).parent().addClass('hide');
+                }
+            }
+        }
+    });
 }
