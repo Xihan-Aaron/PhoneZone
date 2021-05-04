@@ -18,6 +18,11 @@ module.exports.main = async function(req,res,next){
 			delete req.session.prevUrl
 			delete req.session.prevInfo
 			delete req.session.auth
+			// res.json({
+			// 	user_id:req.session.user_id,
+			// 	info:prevInfo,
+			// 	tab:prevUrl
+			// })
 			res.render('main.ejs',{user_id:req.session.user_id,info:prevInfo,tab:prevUrl})
 		}else{
 			req.session.prevInfo = info

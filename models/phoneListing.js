@@ -102,7 +102,7 @@ PhoneListingSchema.statics.getTopFive = function(){
 			        disabled:null
 			        }
 			    },
-			    {$project:{"_id":1,image:1,price:1,avgReviews:{$avg:"$reviews.rating"},numReviews:{$size:"$reviews"}}},
+			    {$project:{"_id":1,image:1,title:1,brand:1,price:1,seller:1,reviews:1,avgReviews:{$avg:"$reviews.rating"},numReviews:{$size:"$reviews"}}},
 			    {$match:{"numReviews":{$gte:2}}},
 			    {$limit:5},
 			    {$sort:{"avgReviews":-1,}}

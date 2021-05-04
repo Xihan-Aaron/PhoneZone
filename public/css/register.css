@@ -36,3 +36,7 @@
 .form-signup_in input[name="confirm_password"] {
     margin-bottom: 10px;
 }
+
+.error {
+    color: red;
+}
