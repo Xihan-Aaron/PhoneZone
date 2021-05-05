@@ -36,6 +36,7 @@ router.post('/editProfile',
 	[
 		(req,res,next)=>{
 			req.session.success=true
+			console.log("here")
 			req.session.errors={}
 			editAttributes = {}
 			if(req.body.email.length>0){

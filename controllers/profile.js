@@ -11,6 +11,7 @@ module.exports.profilePage = async function(req,res,next){
 		userFromDb = await User.getUserById(req.session.user_id)
 		itemsFromSeller = await PhoneListing.getItemsBySeller(req.session.user_id)	
 		if(userFromDb ==null){
+			console.log("null");
 			redirect('/')
 		}else{
 			userInfo = 

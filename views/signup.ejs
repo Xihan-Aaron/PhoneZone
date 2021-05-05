@@ -3,9 +3,8 @@
 	<head>
 		<script type="text/javascript" src="/js/jquery-3.6.0.js"></script>
 		<link rel="stylesheet" type="text/css" href="/bootstrap-3.4.1-dist/css/bootstrap.css" />
-		<link rel="stylesheet" type="text/css" href="/css/main.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="/css/register.css" media="screen" />
-		<script defer type="text/javascript" src="/js/register.js"></script> 
+		<script defer type="text/javascript" src="/js/signup.js"></script> 
 		<title>PhoneZone | Sign up</title>
 	</head>
 	<body>
@@ -28,60 +27,31 @@
 		</nav>
 		<div class="container">
 			<h2>Sign up</h2>
-			<form id="signup" action="signup" class="form-signup_in">
+			<form id="signup" action="signup" class="form-form">
 				<fieldset>
 					<!-- <legend>Sign up to buy</legend> -->
 	
 					<label for="firstname">First Name</label> 
 					<input type="text" name="firstname" class="form-control" />
 					<div id="firstnameError"></div>
-					<% if (errors.hasOwnProperty('firstname')) { %>
-						<% for (var i = 0; i<errors['firstname'].length;i++){%>
-							<p><%= errors['firstname'][i] %></p>
-						<% } %>
-					<% } %>
 					
 					<label for="lastname">Last Name</label> 
 					<input type="text" name="lastname" class="form-control" />
 					<div id="lastnameError"></div>
-					<% if (errors.hasOwnProperty('lastname')) { %>
-						<% for (var i = 0; i<errors['lastname'].length;i++){%>
-							<p><%= errors['lastname'][i] %></p>
-						<% } %>
-					<% } %>
 	
 					<label for="email">Email</label> 
 					<input type="email" name="email" class="form-control" />
 					<div id="emailError"></div>
-					<% if (errors.hasOwnProperty('email')) { %>
-						<% for (var i = 0; i<errors['email'].length;i++){%>
-							<p><%= errors['email'][i] %></p>
-						<% } %>
-					<% } %>
 	
 					<label for="password">Password</label> 
 					<input type="password" name="password" class="form-control" />
-					<div id="password1Error"></div>
-					<% if (errors.hasOwnProperty('password')) { %>
-						<% for (var i = 0; i<errors['password'].length;i++){%>
-							<p><%= errors['password'][i] %></p>
-						<% } %>
-					<% } %>
+					<div id="passwordError"></div>
 					
 					<label for="confirm_password">Confirm Password</label> 
 					<input type="password" name="confirm_password" class="form-control" style="margin-bottom: 10px;" />
-					<div id="password2Error"></div>
-					<% if (errors.hasOwnProperty('confirm_password')) { %>
-						<% for (var i = 0; i<errors['confirm_password'].length;i++){%>
-							<p><%= errors['confirm_password'][i] %></p>
-						<% } %>
-					<% } %>
+					<div id="confirm_passwordError"></div>
+					
 					<div id="searversideError"></div>
-					<% if (errors.hasOwnProperty('server')) { %>
-						<% for (var i = 0; i<errors['server'].length;i++){%>
-							<p><%= errors['server'][i] %></p>
-						<% } %>
-					<% } %>
 					<input id="signupBtn" class="btn btn-primary" type="button" value="Register" role="button"/>
 				</fieldset>
 				<p>If you already have an account <a href="/users/signin">Sign in</a></p>

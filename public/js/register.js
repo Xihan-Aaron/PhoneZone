@@ -3,23 +3,28 @@ $(document).ready(function(){
     $('input[name="firstname"]').on('focus', function(e){
         $('#firstnameError').empty();
         $('#searversideError').empty();
+        $('#edit-serverError').empty();
     });
     $('input[name="lastname"]').on('focus', function(e){
         $('#lastnameError').empty();
         $('#searversideError').empty();
+        $('#edit-serverError').empty();
     });
     $('input[name="email"]').on('focus', function(e){
         $('#emailError').empty();
         $('#searversideError').empty();
+        $('#edit-serverError').empty();
     });
     $('input[name="password"]').on('focus', function(e){
         $('#passwordError').empty();
         $('#password1Error').empty();
         $('#searversideError').empty();
+        $('#edit-serverError').empty();
     });
     $('input[name="confirm_password"]').on('focus', function(e){
         $('#password2Error').empty();
         $('#searversideError').empty();
+        $('#edit-serverError').empty();
     });
     
     // $('#password').on('click', function(e){
@@ -59,7 +64,11 @@ $(document).ready(function(){
 
                 },
                 error: function(result){
-                    // console.log(result.responseJSON);
+                    console.log(result.responseJSON);
+                    // Array
+                    // for(var i = 0; i < result.responseJSON; i++){
+
+                    // }
                     $('#emailError').append('<p class="error">- ' + result.responseJSON.errors[0] + '</p>');
                 }
             });
@@ -138,6 +147,73 @@ $(document).ready(function(){
             });
         }
     });
+
+    $('#confirmPasswordBtn').on('click', function(e){
+        $('#firstnameError').empty();
+        $('#lastnameError').empty();
+        $('#emailError').empty();
+        $('#edit-serverError').empty();
+        e.preventDefault();
+        var editInfo = {
+            firstname: $('#editProfile').find('input[name="firstname"]').val().trim(),
+            lastname: $('#editProfile').find('input[name="lastname"]').val().trim(),
+            email: $('#editProfile').find('input[name="email"]').val().trim()
+        }
+        // if(editInfo.firstname != ""){
+        //     if(checkName(editInfo.firstname) !== true){
+        //         $('#firstnameError').append('<p class="error">- ' + checkName(editInfo.firstname) + '</p>');
+        //     }
+        // } else {
+        //     $('#firstnameError').append('<p class="error">- Please enter a name.</p>');
+        // }
+        // if(editInfo.lastname != ""){
+        //     if(checkName(editInfo.lastname) !== true){
+        //         $('#lastnameError').append('<p class="error">- ' + checkName(editInfo.lastname) + '</p>');
+        //     }
+        // } else {
+        //     $('#lastnameError').append('<p class="error">- Please enter a name.</p>');
+        // }
+        // if(editInfo.email != ""){
+        //     if (checkEmail(editInfo.email) !== true){
+        //         $('#emailError').append('<p class="error">- Please enter a valid email address.</p>');
+        //     }
+        // } else {
+        //     $('#emailError').append('<p class="error">- Please enter an email address.</p>');
+        // }
+        // if(checkName(editInfo.firstname) && checkName(editInfo.lastname) && checkEmail(editInfo.email)){
+        
+        // Check password
+
+        if(true){
+            $.ajax({
+                data: editInfo,
+                type: "post",
+                url: "/profile/editProfile",
+                success: function(result){
+                    console.log(result);
+                    if(result.success == false){
+                        for(error in result.errors){
+                            $('#edit-serverError').append('<p class="error">- ' + result.errors[error] + '</p>');
+                        }
+                    } else {
+                        alert("Update success");
+                        // console.log($('#editProfile').find('input[name="firstname"]'));
+                        // $('#editProfile').find('input[name="lastname"]').empty();
+                        // $('#editProfile').find('input[name="email"]').empty();
+                    }
+                },
+                error: function(result){
+                    console.log(result);
+                    if(result.success == false){
+                        for(error in result.errors){
+                            $('#edit-serverError').append('<p class="error">- ' + result.errors[error] + '</p>');
+                        }
+                    }
+                }
+            })
+        }
+
+    })
 });
 
 
