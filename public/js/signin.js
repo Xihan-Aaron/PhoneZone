@@ -2,11 +2,11 @@ $(document).ready(function(){
 
     $('input[name="email"]').on('focus', function(e){
         $('#emailError').empty();
-        $('#searversideError').empty();
+        $('#serversideError').empty();
     });
     $('input[name="password"]').on('focus', function(e){
         $('#passwordError').empty();
-        $('#searversideError').empty();
+        $('#serversideError').empty();
     });
     
     

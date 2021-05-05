@@ -2,23 +2,23 @@ $(document).ready(function(){
     
     $('input[name="firstname"]').on('focus', function(e){
         $('#firstnameError').empty();
-        $('#searversideError').empty();
+        $('#serversideError').empty();
     });
     $('input[name="lastname"]').on('focus', function(e){
         $('#lastnameError').empty();
-        $('#searversideError').empty();
+        $('#serversideError').empty();
     });
     $('input[name="email"]').on('focus', function(e){
         $('#emailError').empty();
-        $('#searversideError').empty();
+        $('#serversideError').empty();
     });
     $('input[name="password"]').on('focus', function(e){
         $('#passwordError').empty();
-        $('#searversideError').empty();
+        $('#serversideError').empty();
     });
     $('input[name="confirm_password"]').on('focus', function(e){
         $('#confirm_passwordError').empty();
-        $('#searversideError').empty();
+        $('#serversideError').empty();
     });
     
     $('#signupBtn').on('click', function(e){
@@ -66,7 +66,7 @@ $(document).ready(function(){
                         for(error in result.responseJSON.errors){
                             if(result.responseJSON.errors[error].length > 0){
                                 for(var i = 0; i < result.responseJSON.errors[error].length; i++){
-                                    $('#' + error + 'Error').append('<p class="error">- ' + result.responseJSON.errors[error][i] + '</p>');// $('#searversideError').append('<p class="error">- ' + result.responseJSON.errors[error][i] + '</p>');
+                                    $('#' + error + 'Error').append('<p class="error">- ' + result.responseJSON.errors[error][i] + '</p>');// $('#serversideError').append('<p class="error">- ' + result.responseJSON.errors[error][i] + '</p>');
                                 }
                             }
                         }

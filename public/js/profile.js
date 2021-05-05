@@ -2,27 +2,27 @@ $(document).ready(function(){
     
     $('input[name="firstname"]').on('focus', function(e){
         $('#firstnameError').empty();
-        $('#searversideError').empty();
+        $('#serversideError').empty();
     });
     $('input[name="lastname"]').on('focus', function(e){
         $('#lastnameError').empty();
-        $('#searversideError').empty();
+        $('#serversideError').empty();
     });
     $('input[name="email"]').on('focus', function(e){
         $('#emailError').empty();
-        $('#searversideError').empty();
+        $('#serversideError').empty();
     });
     $('#confirmPassword').on('focus', function(e){
         $('#confirmPasswordError').empty();
-        $('#searversideError').empty();
+        $('#serversideError').empty();
     });
     $('input[name="currentPassword"]').on('focus', function(e){
         $('#password1Error').empty();
-        $('#searversideError').empty();
+        $('#serversideError').empty();
     });
     $('input[name="newPassword"]').on('focus', function(e){
         $('#password2Error').empty();
-        $('#searversideError').empty();
+        $('#serversideError').empty();
     });
 
     // $('#editProfileBtn').on('click', function(e){

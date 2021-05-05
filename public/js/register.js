@@ -2,28 +2,28 @@ $(document).ready(function(){
     
     $('input[name="firstname"]').on('focus', function(e){
         $('#firstnameError').empty();
-        $('#searversideError').empty();
+        $('#serversideError').empty();
         $('#edit-serverError').empty();
     });
     $('input[name="lastname"]').on('focus', function(e){
         $('#lastnameError').empty();
-        $('#searversideError').empty();
+        $('#serversideError').empty();
         $('#edit-serverError').empty();
     });
     $('input[name="email"]').on('focus', function(e){
         $('#emailError').empty();
-        $('#searversideError').empty();
+        $('#serversideError').empty();
         $('#edit-serverError').empty();
     });
     $('input[name="password"]').on('focus', function(e){
         $('#passwordError').empty();
         $('#password1Error').empty();
-        $('#searversideError').empty();
+        $('#serversideError').empty();
         $('#edit-serverError').empty();
     });
     $('input[name="confirm_password"]').on('focus', function(e){
         $('#password2Error').empty();
-        $('#searversideError').empty();
+        $('#serversideError').empty();
         $('#edit-serverError').empty();
     });
     
@@ -138,7 +138,7 @@ $(document).ready(function(){
                         for(error in result.responseJSON.errors){
                             if(result.responseJSON.errors[error].length > 0){
                                 for(var i = 0; i < result.responseJSON.errors[error].length; i++){
-                                    $('#searversideError').append('<p class="error">- ' + result.responseJSON.errors[error][i] + '</p>');
+                                    $('#serversideError').append('<p class="error">- ' + result.responseJSON.errors[error][i] + '</p>');
                                 }
                             }
                         }
