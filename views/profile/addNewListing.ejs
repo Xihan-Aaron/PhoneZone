@@ -13,7 +13,7 @@
 			<input type="number" name="stock" class="form-control" min=0 step=1 required/>
 			<div id="stockError"></div>
 			<label for="price">Price</label> 
-			<input type="number" name="price" class="form-control" min=0 required/>
+			<input type="text" name="price" class="form-control" required/>
 			<div id="priceError"></div>
 			<!-- <label for="disabled">Disable</label>  -->
 			<div class="checkbox">
@@ -24,7 +24,8 @@
 			<!-- <input type="checkbox" name="disabled" class="form-control" /> -->
 	
 			<input type="file" name="productImage" accept="image/png, image/jpeg">
-			<div class="serversideError"></div>
+			<div id="fileError"></div>
+			<div id="newList-serverError"></div>
 			<input id="addNewPhone" class="btn btn-primary" type = "button" value = "Add New Listing"  style="margin-top: 10px;"/>
 		</fieldset>
 	</form>

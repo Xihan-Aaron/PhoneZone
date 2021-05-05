@@ -66,7 +66,8 @@ $(document).ready(function(){
                         for(error in result.responseJSON.errors){
                             if(result.responseJSON.errors[error].length > 0){
                                 for(var i = 0; i < result.responseJSON.errors[error].length; i++){
-                                    $('#' + error + 'Error').append('<p class="error">- ' + result.responseJSON.errors[error][i] + '</p>');// $('#serversideError').append('<p class="error">- ' + result.responseJSON.errors[error][i] + '</p>');
+                                    $('#' + error + 'Error').append('<p class="error">- ' + result.responseJSON.errors[error][i] + '</p>');
+                                    // $('#serversideError').append('<p class="error">- ' + result.responseJSON.errors[error][i] + '</p>');
                                 }
                             }
                         }
