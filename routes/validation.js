@@ -8,13 +8,13 @@ const validatePassword = module.exports.validatePassword = function (password){
  	var onlyDigit = /^[0-9]+$/;
  	result = []
  	if(password.length<7){
- 		result.push('Please set a password with more than 7 characters');
+ 		result.push('Please set a password with more than 7 characters.');
  	}
  	if(onlyText.test(password)){
- 		result.push('Please add numbers or special characters');
+ 		result.push('Please add numbers or special characters.');
  	}
  	if(onlyDigit.test(password)){
- 		result.push('Please add letters and special characters')
+ 		result.push('Please add letters and special characters.')
  	}
  	if(result.length>0){
  		return result
@@ -40,7 +40,7 @@ module.exports.emailValidation=function (req,res,next){
 	req.session.success=true
 	if(resultValidateEmail==false){
 		req.session.success=false
-		req.session.errors['email'].push('Email is not valid')
+		req.session.errors['email'].push('Email is not valid.')
 	}
 	next()
 }
@@ -55,7 +55,7 @@ module.exports.passwordValidation =function (req,res,next){
 	}
 	if(req.body.password.trim()!==req.body.confirm_password.trim()){
 		req.session.success=false
-		req.session.errors['confirm_password'].push("Please make sure your password matches")
+		req.session.errors['confirm_password'].push("Please make sure your password matches.")
 	}
 	next()
 }
