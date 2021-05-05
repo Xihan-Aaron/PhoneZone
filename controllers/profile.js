@@ -127,7 +127,7 @@ module.exports.addNewListing = async function(req,res,next){
 	try{
 		const existingInfo = await PhoneListing.getItemByTitleBrand(req.body.title,req.body.brand)
 		if(existingInfo.length==0){
-			if(req.body.diabled='on'){
+			if(req.body.disabled=='on'){
 				var listingInformation
 				listingInformation = new PhoneListing({
 					title: req.body.title.trim(),
@@ -148,6 +148,7 @@ module.exports.addNewListing = async function(req,res,next){
 				    seller: req.session.user_id,
 				    image: imagePath,
 				    reviews:[],
+					// disabled: "Not disabled"
 				})
 			}
 			const addLisitng = await PhoneListing.addNewListing(listingInformation)
