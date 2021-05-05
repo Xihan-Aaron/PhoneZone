@@ -51,6 +51,7 @@ module.exports.signin = async function(req,res,next){
 
 		if(userFromDb ==null){
 			errors.push("Email not Found")
+			req.session.success=false
 		}else{
 			const hashPasswordBrowser= await crypto.createHash('md5').update(req.body.password).digest("hex");
 			if (userFromDb.password===hashPasswordBrowser){
