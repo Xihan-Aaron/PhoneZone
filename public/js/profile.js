@@ -40,6 +40,10 @@ $(document).ready(function(){
         $('#priceError').empty();
         $('#newList-serverError').empty();
     });
+    $('input[name="productImage"]').on('focus', function(e){
+        $('#fileError').empty();
+        $('#newList-serverError').empty();
+    })
 
     // $('#editProfileBtn').on('click', function(e){
     //     $('#firstnameError').empty();
@@ -191,12 +195,12 @@ $(document).ready(function(){
         } else {
             disabled = 'off';
         }
-        var file = $('#addNewListing').find('input[name="productImage"]')[0].files;
-        if(file.length < 1){
+        console.log(disabled);
+        var files = $('#addNewListing').find('input[name="productImage"]')[0].files;
+        if(files.length < 1){
             $('#fileError').append('<p class="error">- Please choose a product image.</p>');
         }
-        var fd = new FormData();
-        fd.append('image', file[0]);
+        var file = files[0];
 
         if(title == ""){
             $('#titleError').append('<p class="error">- Please type in a title/description.</p>');
@@ -219,16 +223,51 @@ $(document).ready(function(){
         // if(floatTest.test(price) == false){
         // }
         var phoneInfo = {
-            title: $('#addNewListing').find('input[name="title"]').val().trim(),
-            brand: $('#addNewListing').find('input[name="brand"]').val().trim(),
-            stock: $('#addNewListing').find('input[name="stock"]').val().trim(),
+            title: title,
+            brand: brand,
+            stock: stock,
             price: floatNum,
-            image: fd,
+            productImage: file,
             disable: disabled
         }
+        var formData = new FormData();
+        $.each(phoneInfo, function(key, value){
+            formData.append(key, value);
+        })
+        
         console.log(phoneInfo.stock);
         // console.log(phoneInfo.price);
         // if(phoneInfo.title != "" && phoneInfo.brand != "" && phoneInfo.stock != "" )
+        if(title != "" && brand != "" && !isNaN(stock) && !isNaN(floatNum) && floatNum >= 0 && files.length > 0){
+            $.ajax({
+                data: formData,
+                type: "post",
+                url: "/profile/addNewListing",
+                processData: false,
+                contentType: false,
+                success: function(result){
+                    // console.log("success");
+                    console.log(result);
+                    window.location.href = '/profile';
+                },
+                error: function(result){
+                    // console.log("error");
+                    // console.log(result);
+                    if(result.responseJSON.success == false){
+                        for(error in result.responseJSON.errors){
+                            if(error == 'server'){
+                                $('#newList-serverError').append('<p class="error">- ' + result.responseJSON.errors[error][0] + '</p>');
+                            }
+                            if(result.responseJSON.errors[error].length > 0){
+                                for(var i = 0; i < result.responseJSON.errors[error].length; i++){
+                                    $('#' + error + 'Error').append('<p class="error">- ' + result.responseJSON.errors[error][i] + '</p>');
 
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+        }
     });
 });
