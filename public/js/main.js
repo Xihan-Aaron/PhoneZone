@@ -1,7 +1,3 @@
-// var brandFilter;
-// var price;
-// var searchResultBackup;
-
 $(document).ready(function() {
     // var searchResultBackup;
 
@@ -76,7 +72,6 @@ function addDropDown(result){
             }
         }
         brandList.sort();
-
     }
     // console.log(brandList);
     for(var i = 0; i < brandList.length; i++){
@@ -103,7 +98,6 @@ function addRange(result){
     rangeComponent += '<input type="range" class="form-range" id="priceRange" min="0" ' + 'max="' + max + '"' + '>';
     section.append(rangeComponent);
 }
-
 
 function changeFilter(){
     var brandFilter = $('#filter').val();
