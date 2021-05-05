@@ -27,7 +27,6 @@
 </div>
 <script>
   function collectBrand(){
-    console.log("collectBrand");
     var tempList = [];
     var brandList = [];
     $('.brand').each(function(){
@@ -41,11 +40,10 @@
       }
     }
     brandList.sort();
-    console.log(brandList);
+    // console.log(brandList);
     return brandList;
   }
   function maxPrice(){
-    console.log("collectMaxPrice");
     var priceList = [];
     $('.price').each(function(){
       priceList.push(parseFloat($(this).text()));
@@ -56,11 +54,9 @@
     }
     // priceList.sort();
     console.log(max);
-    return max;
+    return max + 1;
   }
   function addFilter(brandList){
-    
-    console.log("AddFilter");
     var section = $('#searchFilter');
     section.empty();
     var filterList = '<select id="filter" class="navbar-form navbar-left">';
@@ -74,7 +70,6 @@
     section.append(filterList);
   }
   function addRange(max){
-    console.log("addRange");
     var section = $('#searchRange');
     section.empty();
     var rangeComponent = '<label for="priceRange" class="form-label">Price range</label>';

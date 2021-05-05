@@ -1,6 +1,6 @@
 // var brandFilter;
 // var price;
-var searchResultBackup;
+// var searchResultBackup;
 
 $(document).ready(function() {
     // var searchResultBackup;
@@ -14,7 +14,7 @@ $(document).ready(function() {
                 if (result.searchResults.length < 1){
                     alert("No result matches.");
                 }
-                searchResultBackup = result.searchResults;
+                // searchResultBackup = result.searchResults;
                 viewSearch(result.searchResults);
                 addDropDown(result.searchResults);
                 addRange(result.searchResults);
@@ -27,17 +27,6 @@ $(document).ready(function() {
             alert("Please type in the search content.");
         }
     });
-    // console.log($('#searchResults').children());
-    // console.log($('#priceRange').children());
-    // if($('#searchResults').children().length > 0 && $('#priceRange').children().length == 0){
-    //     // console.log($('#searchResults').children());
-    //     // console.log($('#priceRange').children());
-    //     addDropDown(searchResultBackup);
-    //     addRange(searchResultBackup);
-
-    // } else {
-    //     console.log("-1");
-    // }
 });
 
 
@@ -95,9 +84,7 @@ function addDropDown(result){
     }
     
     filterList += '</select>';
-    // filterList += '</li>';
     section.append(filterList);
-    // console.log(filterList);
 }
 
 function addRange(result){
@@ -151,8 +138,6 @@ function changeRange(){
     console.log(brandFilter);
 
     $('td.price').each(function(){
-        // $(this).parent().show();
-        // console.log(parseFloat($(this).text()));
         if (parseFloat($(this).text()) > price){
             if(!$(this).parent().hasClass('hide')){
                 $(this).parent().addClass('hide');
