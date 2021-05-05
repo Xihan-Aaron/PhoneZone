@@ -71,6 +71,9 @@ router.post('/editProfile',
 	],profileController.editProfilePage
 )
 
+
+router.post('/checkPassword',profileController.checkPassword)
+
 router.post('/editPassword',
 	(req,res,next)=>{
 		resultValidatePassword = validation.validatePassword(req.body.newPassword.trim())

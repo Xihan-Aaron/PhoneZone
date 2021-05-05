@@ -74,9 +74,36 @@ module.exports.editProfilePage = async function(req,res,next){
 			req.session.success=false
 			errors['server']=[]
 			errors['server'].push('Server Side Error:'+err["codeName"])
-			return res.status(400).json({errors: errors, success:req.session.success})
+			return res.status(500).json({errors: errors, success:req.session.success})
 		}
 	}
+}
+
+module.exports.checkPassword = async function(req,res,next){
+	errors=[]
+	req.session.success=true
+	try{
+		userFromDb = await User.getUserById(req.session.user_id)
+		if(userFromDb !=null){
+			const hashPasswordBrowser= await crypto.createHash('md5').update(req.body.password).digest("hex");
+			if (userFromDb.password===hashPasswordBrowser){
+				req.session.success=true
+				return res.status(500).json({errors: errors, success:req.session.success})
+			}else{
+				errors.push("Incorrect Password")
+			}
+		}else{
+			const error = new Error('Server Error. Incorrect User was logged in');
+	  			error.statusCode = 500;
+	  			next(error); //Goes to Error Page
+		}
+	}catch(err){
+		errors.push('Server side error: '+err["codeName"])
+		req.session.success=false
+		return res.status(500).json({errors: req.session.errors, success:req.session.success})
+	}
+	req.session.success=false
+	return res.status(400).json({errors:errors})
 }
 
 module.exports.editPassword = async function(req,res,next){
@@ -99,14 +126,13 @@ module.exports.editPassword = async function(req,res,next){
 				req.session.errors["currentPassword"]=['Please enter the correct current password']
 				req.session.success=false
 			}
-			console.log("not good")
 			return res.status(400).json({errors: req.session.errors, success:req.session.success})
 		}
 	}catch(err){
 		req.session.success=false
 		req.session.errors['server']=[]
 		req.session.errors['server'].push('Server Side Error:'+err["codeName"])
-		return res.status(400).json({errors: errors, success:req.session.success})
+		return res.status(500).json({errors: errors, success:req.session.success})
 	}
 	
 }	
@@ -167,7 +193,7 @@ module.exports.addNewListing = async function(req,res,next){
 		req.session.success=false
 		req.session.errors['server']=[]
 		req.session.errors['server'].push('Server Side Error:'+err["codeName"])
-		return res.status(400).json({errors: req.session.errors, success:req.session.success})
+		return res.status(500).json({errors: req.session.errors, success:req.session.success})
 	}
 
 }
@@ -200,9 +226,8 @@ module.exports.removeListing = async function(req,res,next){
 	}catch(err){
 		req.session.success=false
 		req.session.errors['server']=[]
-		console.log(err)
 		req.session.errors['server'].push('Server Side Error:'+err["codeName"])
-		return res.status(400).json({errors: req.session.errors, success:req.session.success})
+		return res.status(500).json({errors: req.session.errors, success:req.session.success})
 	}
 }
 
@@ -222,6 +247,6 @@ module.exports.editListing = async function(req,res,next){
 		req.session.errors['server']=[]
 		console.log(err)
 		req.session.errors['server'].push('Server Side Error:'+err["codeName"])
-		return res.status(400).json({errors: req.session.errors, success:req.session.success})
+		return res.status(500).json({errors: req.session.errors, success:req.session.success})
 	}
 }
