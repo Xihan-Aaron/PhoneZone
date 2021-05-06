@@ -43,6 +43,9 @@ $(document).ready(function(){
     $('input[name="productImage"]').on('focus', function(e){
         $('#fileError').empty();
         $('#newList-serverError').empty();
+    });
+    $('#phoneListBody').on('click', function(e){
+        $('#modifyListError').empty();
     })
 
     // $('#editProfileBtn').on('click', function(e){
@@ -135,10 +138,7 @@ $(document).ready(function(){
                 }
             });
         }
-        
-
-
-    })
+    });
 
     $('#editPasswordBtn').on('click', function(e){
         $('#password-serverError').empty();
@@ -276,5 +276,77 @@ $(document).ready(function(){
                 }
             })
         }
+    });
+
+    $('.disableBtn').on('click', function(e){
+        $('#modifyListError').empty();
+        e.preventDefault();
+
+        var id = $(this).parent().parent().parent().prop('id');
+        var disableDiv = $(this).parent().parent().parent().find('.disabled');
+        console.log(disableDiv);
+        var disable = 'on';
+        var disableInfo = {
+            editId: id,
+            disabled: disable
+        }
+        $.ajax({
+            data: disableInfo,
+            type: "put",
+            url: "/profile/editListing",
+            success: function(result){
+                console.log(result);
+                alert("Disabled successfully.");
+                disableDiv.html('<del>Disabled</del>');
+            },
+            error: function(result){
+                for(error in result.responseJSON.errors){
+                    if(error == 'item'){
+                        for(var i = 0; i < result.responseJSON.errors[error].length; i++){
+                            $('#modifyListError').append('<p class="error">- ' + result.responseJSON.errors['item'][i] + '</p>');
+                        }
+                    } else {
+                        for(var i = 0; i < result.responseJSON.errors[error].length; i++){
+                            $('#modifyListError').append('<p class="error">- ' + result.responseJSON.errors['item'][i] + '</p>');
+                        }
+                    }
+                }
+                // for(var i = 0; i < result.responseJSON.errors['item'].length; i++){
+                //     $('#modifyListError').append('<p class="error">- ' + result.responseJSON.errors['item'][i] + '</p>');
+                // }
+            }
+        })
+    });
+
+    $('.removeBtn').on('click', function(e){
+        $('#modifyListError').empty();
+        e.preventDefault();
+
+        var id = $(this).parent().parent().parent().prop('id');
+        var itemRow = $(this).parent().parent().parent();
+        $.ajax({
+            data: {removeId: id},
+            type: "post",
+            url: "/profile/removeListing",
+            success: function(result){
+                console.log(result);
+                alert("Remove successfully.");
+                itemRow.remove();
+            },
+            error: function(result){
+                console.log(result.responseJSON);
+                for(error in result.responseJSON.errors){
+                    if(error == 'item'){
+                        for(var i = 0; i < result.responseJSON.errors[error].length; i++){
+                            $('#modifyListError').append('<p class="error">- ' + result.responseJSON.errors['item'][i] + '</p>');
+                        }
+                    } else {
+                        for(var i = 0; i < result.responseJSON.errors[error].length; i++){
+                            $('#modifyListError').append('<p class="error">- ' + result.responseJSON.errors['item'][i] + '</p>');
+                        }
+                    }
+                }
+            }
+        })
     });
 });

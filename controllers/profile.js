@@ -153,6 +153,7 @@ module.exports.addNewListing = async function(req,res,next){
 	try{
 		const existingInfo = await PhoneListing.getItemByTitleBrand(req.body.title,req.body.brand)
 		if(existingInfo.length==0){
+			console.log(req.body.disabled);
 			if(req.body.disabled=='on'){
 				var listingInformation
 				listingInformation = new PhoneListing({
@@ -208,19 +209,19 @@ module.exports.removeListing = async function(req,res,next){
 			  }
 			}
 			const deleteNow = await PhoneListing.removeListingById(req.body.removeId)
-			if(deleteNow['deleteCount']==1){
+			if(deleteNow['deletedCount']==1){
 				return res.status(200).json({errors:req.session.errors, success:req.session.success})
 			}else{
 				req.session.success=false
 				req.session.errors['item']=[]
-				req.session.errors['item'].push('Server Unable to Delete')
+				req.session.errors['item'].push('Server Unable to Delete.')
 				return res.status(400).json({errors:req.session.errors, success:req.session.success})
 			}
 			
 		}
 		req.session.success=false
 		req.session.errors['item']=[]
-		req.session.errors['item'].push('Item has already been deleted')
+		req.session.errors['item'].push('Item has already been deleted.')
 		return res.status(400).json({errors: req.session.errors, success:req.session.success})
 		
 	}catch(err){

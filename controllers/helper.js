@@ -8,7 +8,7 @@ module.exports.extractNames =async function (arrayOfItems){
 			sellerInfo = await User.getUserById(itemInfo['seller'])
 			concatFullName = sellerInfo['firstname']+' '+sellerInfo['lastname']
 			itemInfo['seller']=concatFullName
-			if('disabled' in itemInfo){
+			if(itemInfo['disabled'] == ""){
 				itemInfo['disabled']='Disabled'
 			}else{
 				itemInfo['disabled']='Enabled'
