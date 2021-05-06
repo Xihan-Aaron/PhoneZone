@@ -59,19 +59,15 @@
 						<li>
 							<a href="#addNewListingTab" data-toggle="tab">Add New Phone</a>
 						</li>
-
 					</ul>
 				</div>
 				<div id="tabContent" class="tab-content">
 					<%- include('editProfile') %>
 					<%- include('editPassword') %>
 					<%- include('addNewListing') %>
-
 				</div>
-
 			</div>
 
-			
 			<div id="phoneList">
 				<legend style="margin-top: 15px;">My Phone List</legend>
 				<div id="modifyListError"></div>
@@ -122,48 +118,10 @@
 							<% } else {%>
 								<td colspan="9" style="text-align: center;">You do not have anything listed yet.</td>
 							<% } %>
-
 						</tbody>
 					</table>
 				</div>
-
-
 			</div>
-
 		</div>
-		<!-- <div>
-			<div class="table-responsive">
-				<table  class="table table-hover">
-					<thead>
-						<tr>
-							<th>Title</th>
-							<th>Brand</th>
-							<th>Image</th>
-							<th>Avaliable Stock</th>
-							<th>Seller</th>
-							<th>Price</th>
-							<th>Disabled</th>
-						</tr>
-					</thead>
-					  <tbody>
-					    <% for(var i =0;i<items.length;i++) {%>
-					      <tr id=<%=items[i]._id %>>
-					      	<td><%= items[i].title %></td>
-					      	<td><%= items[i].brand %></td>
-					        <td><img src=<%=items[i].image %> alt="" class="thumbnail"></td>
-					        <td><%= items[i].stock %></td>
-					        <td><%= items[i].seller %></td>
-					        <td><%= items[i].price %></td>
-					        <td><%= items[i].disabled %></td>
-					        <td><button>Disabled</button></td>
-					        <td><button>Removed</button></td>
-					        <td></td>
-					      </tr>
-					    <% } %>
-					  </tbody>
-				</table>
-			</div>
-		</div> -->
-		
 	</body>
 </html>
