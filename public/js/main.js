@@ -23,8 +23,26 @@ $(document).ready(function() {
             alert("Please type in the search content.");
         }
     });
-});
 
+    $('.soldOutItem').on('click', function(e){
+        e.preventDefault();
+        var id = $(this).find('.id').text();
+        console.log(id);
+        $.ajax({
+            data: {selectItem: id},
+            type: "post",
+            url: "/",
+            success: function(result){
+                // history.back(-1);
+                // console.log("success");
+                // console.log(result);
+            },
+            error: function(result){
+                console.log(result);
+            }
+        });
+    })
+});
 
 function viewSearch(result){
     var searchSection = $('#searchResult');
@@ -77,7 +95,6 @@ function addDropDown(result){
     for(var i = 0; i < brandList.length; i++){
         filterList += '<option>' + brandList[i] + '</option>';
     }
-    
     filterList += '</select>';
     section.append(filterList);
 }
@@ -102,7 +119,6 @@ function addRange(result){
 function changeFilter(){
     var brandFilter = $('#filter').val();
     var priceFilter = parseFloat($('#priceRange').val());
-    // $('tr.searchItem').show();
 
     if(brandFilter != 'All'){
         $('.searchItem').each(function(){

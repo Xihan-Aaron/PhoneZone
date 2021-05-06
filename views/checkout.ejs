@@ -9,15 +9,11 @@
 		<title>Check out</title>
 	</head>
 	<body>
-		<nav class="navbar navbar-default navbar-static-top">
+		<!-- <nav class="navbar navbar-default navbar-static-top">
 			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"></button>
-					<a class="navbar-brand" href="/">PhoneZone</a>
-				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-						<li><a href="/">Main</a></li>
+						<li id="goBack"><a>Go back</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="/profile">Profile</a></li>
@@ -25,8 +21,67 @@
 					</ul>
 				</div>
 			</div>
-		</nav>
-		<h2>Checkout</h2>
+		</nav> -->
+
+		<div class="container">
+			<div>
+				<h2>Checkout</h2>
+			</div>
+			<div>
+				<div class="nav" style="margin-bottom: 20px;">
+					<button id="goBack" class="btn btn-info" type="button">Go back</button>
+					<!-- state? -->
+					<script>
+						$('#goBack').on('click', function(){
+							history.back(-1);
+						});
+					</script>
+					<button id="confirm" class="btn btn-primary pull-right" type="button">Confirm</button>
+				</div>
+				<div style="margin-bottom: 10px;">
+					<input type="text" placeholder="Quantity" name="quantity" style="width:6em; display:inline;" class="form-control">
+					<input id="changeQuantity" class="btn btn-primary" type="button" value="Change quantity"/>
+				</div>
+				<div>
+					<input id="remove" class="btn btn-primary" type="button" value="Remove"/>
+					<div class="text-right" style="font-size: 16px;">
+						<span>Total items:</span>
+						<span id="total">QUANTITY</span>
+					</div>
+				</div>
+				
+			</div>
+			<div class="table-responsive">
+				<table class="table table-hover">
+					<thead>
+						<th></th>
+						<th></th>
+						<th>Title</th>
+						<th>Price</th>
+						<th>Quantity</th>
+					</thead>
+					<tbody>
+						<!--  -->
+						<tr class="cartItem">
+							<td>
+								<div class="checkbox">
+									<label>
+										<input class="cartCheck" type="checkbox">
+									</label>
+								</div>
+							</td>
+							<td><img src="" alt="" class="thumbnail"></td>
+							<td class="title"></td>
+							<td class="price"></td>
+							<td class="quantity"></td>
+						</tr>
+						<!--  -->
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+		
 
 
 		
