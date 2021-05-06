@@ -88,12 +88,12 @@ module.exports.checkPassword = async function(req,res,next){
 			const hashPasswordBrowser= await crypto.createHash('md5').update(req.body.password).digest("hex");
 			if (userFromDb.password===hashPasswordBrowser){
 				req.session.success=true
-				return res.status(500).json({errors: errors, success:req.session.success})
+				return res.status(200).json({errors: errors, success:req.session.success})
 			}else{
-				errors.push("Incorrect Password")
+				errors.push("Incorrect Password.")
 			}
 		}else{
-			const error = new Error('Server Error. Incorrect User was logged in');
+			const error = new Error('Server Error. Incorrect User was logged in.');
 	  			error.statusCode = 500;
 	  			next(error); //Goes to Error Page
 		}

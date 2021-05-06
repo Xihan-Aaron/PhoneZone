@@ -82,15 +82,11 @@ $(document).ready(function(){
             $('#confirmPasswordError').append('<p class="error">- Please enter your password to continue.</p>');
         } else {
             $.ajax({
-                data: password,
+                data: {password:password},
                 type: "post",
-                url: "/profile/editPassword",
+                url: "/profile/checkPassword",
                 success: function(result){
-                    console.log(result);
-                    $('#passwordModal').attr('style', 'display: none;');
-                    $('#editProfile').find('input[name="firstname"]').val("");
-                    $('#editProfile').find('input[name="lastname"]').val("");
-                    $('#editProfile').find('input[name="email"]').val("");
+                    $('#passwordModal').modal('hide');
 
                     // Send profile update
                     $.ajax({
@@ -98,23 +94,34 @@ $(document).ready(function(){
                         type: "post",
                         url: "/profile/editProfile",
                         success: function(updateResult){
-                            // console.log(result);
                             if(updateResult.success == false){
                                 for(error in updateResult.errors){
-                                    $('#edit-serverError').append('<p class="error">- ' + updateResult.errors[error] + '</p>');
+                                    $('#profile-serverError').append('<p class="error">- ' + updateResult.errors[error] + '</p>');
                                 }
                             } else {
                                 alert("Update success");
-                                // console.log($('#editProfile').find('input[name="firstname"]'));
-                                // $('#editProfile').find('input[name="lastname"]').empty();
-                                // $('#editProfile').find('input[name="email"]').empty();
+                                $('#editProfile').find('input[name="firstname"]').val("");
+                                $('#editProfile').find('input[name="lastname"]').val("");
+                                $('#editProfile').find('input[name="email"]').val("");
+                                if(editInfo.firstname != ''){
+                                    $('#editProfile').find('input[name="firstname"]').attr('placeholder', editInfo.firstname);
+                                    $('#basicInfo').find('input[name="firstname"]').attr('value', editInfo.firstname);
+                                }
+                                if(editInfo.lastname != ''){
+                                    $('#editProfile').find('input[name="lastname"]').attr('placeholder', editInfo.lastname);
+                                    $('#basicInfo').find('input[name="lastname"]').attr('value', editInfo.lastname);
+                                }
+                                if(editInfo.email != ''){
+                                    $('#editProfile').find('input[name="email"]').attr('placeholder', editInfo.email);
+                                    $('#basicInfo').find('input[name="email"]').attr('value', editInfo.email);
+
+                                }
                             }
                         },
                         error: function(updateResult){
-                            console.log(updateResult);
                             if(updateResult.success == false){
                                 for(error in updateResult.errors){
-                                    $('#edit-serverError').append('<p class="error">- ' + updateResult.errors[error] + '</p>');
+                                    $('#profile-serverError').append('<p class="error">- ' + updateResult.errors[error] + '</p>');
                                 }
                             }
                         }
