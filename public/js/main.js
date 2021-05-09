@@ -2,8 +2,8 @@ $(document).ready(function() {
     // var searchResultBackup;
 
     $('#searchBtn').on('click', function(e){
-        e.preventDefault()
-        var searchText = {searchtext: $('input[name="searchtext"]').val()}
+        e.preventDefault();
+        var searchText = {searchtext: $('input[name="searchtext"]').val()};
         if ($('input[name="searchtext"]').val() != ""){
             $.post('/', searchText, function(result){
                 // console.log(result);
@@ -23,6 +23,32 @@ $(document).ready(function() {
             alert("Please type in the search content.");
         }
     });
+
+    $('#search').find('input[name="searchtext"]').bind('keypress', function(e){
+        if(e.keyCode == 13){
+            e.preventDefault();
+            var searchText = {searchtext: $('input[name="searchtext"]').val()};
+            if ($('input[name="searchtext"]').val() != ""){
+                $.post('/', searchText, function(result){
+                    // console.log(result);
+                    if (result.searchResults.length < 1){
+                        alert("No result matches.");
+                    }
+                    // searchResultBackup = result.searchResults;
+                    viewSearch(result.searchResults);
+                    addDropDown(result.searchResults);
+                    addRange(result.searchResults);
+                    $('#soldOutSoon').remove();
+                    $('#bestSellers').remove();
+                    $('#filter').on('change', changeFilter);
+                    $('#priceRange').on('change', changeRange);
+                });
+            } else {
+                alert("Please type in the search content.");
+            }
+            
+        }
+    })
 
     $('.soldOutItem').on('click', function(e){
         e.preventDefault();
