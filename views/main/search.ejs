@@ -1,3 +1,4 @@
+
 <div id="searchResults">
   <h3>Search results</h3>
   <div class="table-responsive">
@@ -11,15 +12,121 @@
       </thead>
       <tbody>
         <% for(var i =0;i<info.length;i++) {%>
-          <tr class="searchItem">
+          <tr class="searchItem <%= info[i].brand %>">
+            <td class="id hide"><%= info[i]._id %></td>
             <td><img src=<%=info[i].image %> alt="" class="thumbnail"></td>
-            <td><%= info[i].title %></td>
-            <td><%= info[i].brand %></td>
-            <td><%= info[i].price %></td>
-            <td><%= info[i].stock %></td>
+            <td class="title"><%= info[i].title %></td>
+            <td class="brand"><%= info[i].brand %></td>
+            <td class="price"><%= info[i].price %></td>
+            <td class="stock"><%= info[i].stock %></td>
           </tr>
         <% } %>
       </tbody>
     </table>
   </div>
 </div>
+<script>
+  function collectBrand(){
+    var tempList = [];
+    var brandList = [];
+    $('.brand').each(function(){
+      tempList.push($(this).text());
+    });
+    brandList.push(tempList[0]);
+    for (var i = 0; i < tempList.length; i++){
+      // console.log(tempList[i]);
+      if(!brandList.includes(tempList[i])){
+        brandList.push(tempList[i]);
+      }
+    }
+    brandList.sort();
+    // console.log(brandList);
+    return brandList;
+  }
+  function maxPrice(){
+    var priceList = [];
+    $('.price').each(function(){
+      priceList.push(parseFloat($(this).text()));
+    });
+    var max = 50;
+    if(priceList.length > 0){
+      max = Math.max(...priceList);
+    }
+    // priceList.sort();
+    console.log(max);
+    return max + 1;
+  }
+  function addFilter(brandList){
+    var section = $('#searchFilter');
+    section.empty();
+    var filterList = '<select id="filter" class="navbar-form navbar-left">';
+    filterList += '<option>All</option>';
+    if(brandList.length > 0){
+      for(var i = 0; i < brandList.length; i++){
+        filterList += '<option>' + brandList[i] + '</option>';
+      }
+    }
+    filterList += '</select>';
+    section.append(filterList);
+  }
+  function addRange(max){
+    var section = $('#searchRange');
+    section.empty();
+    var rangeComponent = '<label for="priceRange" class="form-label">Price range</label>';
+    rangeComponent += '<input type="range" class="form-range" id="priceRange" min="0" ' + 'max="' + max + '"' + '>';
+    section.append(rangeComponent);
+  }
+
+  addFilter(collectBrand());
+  addRange(maxPrice());
+  $('#filter').on('change', function(){
+    var brandFilter = $('#filter').val();
+    var priceFilter = parseFloat($('#priceRange').val());
+    // $('tr.searchItem').show();
+
+    if(brandFilter != 'All'){
+        $('.searchItem').each(function(){
+            if(!$(this).hasClass(brandFilter)){
+                if(!$(this).hasClass('hide')){
+                    $(this).addClass('hide');
+                }
+            } else {
+                $(this).removeClass('hide');
+                if(parseFloat($(this).find('.price').val()) > priceFilter){
+                    $(this).addClass('hide');
+                }
+            }
+        });
+    } else {
+        $('.searchItem').each(function(){
+            $(this).removeClass('hide');
+        })
+    }
+
+  });
+  $('#priceRange').on('change', function(){
+    var price = parseFloat($('#priceRange').val());
+    var brandFilter = $('#filter').val();
+    console.log("Current threshold: " + price.toString());
+    console.log(brandFilter);
+
+    $('td.price').each(function(){
+        // $(this).parent().show();
+        // console.log(parseFloat($(this).text()));
+        if (parseFloat($(this).text()) > price){
+            if(!$(this).parent().hasClass('hide')){
+                $(this).parent().addClass('hide');
+            }
+            // $(this).parent().hide();
+        } else {
+            $(this).parent().removeClass('hide');
+            if(!$(this).parent().hasClass(brandFilter)){
+                if(brandFilter != 'All'){
+                    $(this).parent().addClass('hide');
+                }
+            }
+        }
+    });
+
+  });
+</script>

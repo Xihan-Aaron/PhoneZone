@@ -74,9 +74,36 @@ module.exports.editProfilePage = async function(req,res,next){
 			req.session.success=false
 			errors['server']=[]
 			errors['server'].push('Server Side Error:'+err["codeName"])
-			return res.status(400).json({errors: errors, success:req.session.success})
+			return res.status(500).json({errors: errors, success:req.session.success})
 		}
 	}
+}
+
+module.exports.checkPassword = async function(req,res,next){
+	errors=[]
+	req.session.success=true
+	try{
+		userFromDb = await User.getUserById(req.session.user_id)
+		if(userFromDb !=null){
+			const hashPasswordBrowser= await crypto.createHash('md5').update(req.body.password).digest("hex");
+			if (userFromDb.password===hashPasswordBrowser){
+				req.session.success=true
+				return res.status(200).json({errors: errors, success:req.session.success})
+			}else{
+				errors.push("Incorrect Password.")
+			}
+		}else{
+			const error = new Error('Server Error. Incorrect User was logged in.');
+	  			error.statusCode = 500;
+	  			next(error); //Goes to Error Page
+		}
+	}catch(err){
+		errors.push('Server side error: '+err["codeName"])
+		req.session.success=false
+		return res.status(500).json({errors: req.session.errors, success:req.session.success})
+	}
+	req.session.success=false
+	return res.status(400).json({errors:errors})
 }
 
 module.exports.editPassword = async function(req,res,next){
@@ -99,14 +126,13 @@ module.exports.editPassword = async function(req,res,next){
 				req.session.errors["currentPassword"]=['Please enter the correct current password']
 				req.session.success=false
 			}
-			console.log("not good")
 			return res.status(400).json({errors: req.session.errors, success:req.session.success})
 		}
 	}catch(err){
 		req.session.success=false
 		req.session.errors['server']=[]
 		req.session.errors['server'].push('Server Side Error:'+err["codeName"])
-		return res.status(400).json({errors: errors, success:req.session.success})
+		return res.status(500).json({errors: errors, success:req.session.success})
 	}
 	
 }	
@@ -127,7 +153,8 @@ module.exports.addNewListing = async function(req,res,next){
 	try{
 		const existingInfo = await PhoneListing.getItemByTitleBrand(req.body.title,req.body.brand)
 		if(existingInfo.length==0){
-			if(req.body.diabled='on'){
+			console.log(req.body.disabled);
+			if(req.body.disabled=='on'){
 				var listingInformation
 				listingInformation = new PhoneListing({
 					title: req.body.title.trim(),
@@ -148,6 +175,7 @@ module.exports.addNewListing = async function(req,res,next){
 				    seller: req.session.user_id,
 				    image: imagePath,
 				    reviews:[],
+					// disabled: "Not disabled"
 				})
 			}
 			const addLisitng = await PhoneListing.addNewListing(listingInformation)
@@ -166,7 +194,7 @@ module.exports.addNewListing = async function(req,res,next){
 		req.session.success=false
 		req.session.errors['server']=[]
 		req.session.errors['server'].push('Server Side Error:'+err["codeName"])
-		return res.status(400).json({errors: req.session.errors, success:req.session.success})
+		return res.status(500).json({errors: req.session.errors, success:req.session.success})
 	}
 
 }
@@ -181,27 +209,26 @@ module.exports.removeListing = async function(req,res,next){
 			  }
 			}
 			const deleteNow = await PhoneListing.removeListingById(req.body.removeId)
-			if(deleteNow['deleteCount']==1){
+			if(deleteNow['deletedCount']==1){
 				return res.status(200).json({errors:req.session.errors, success:req.session.success})
 			}else{
 				req.session.success=false
 				req.session.errors['item']=[]
-				req.session.errors['item'].push('Server Unable to Delete')
+				req.session.errors['item'].push('Server Unable to Delete.')
 				return res.status(400).json({errors:req.session.errors, success:req.session.success})
 			}
 			
 		}
 		req.session.success=false
 		req.session.errors['item']=[]
-		req.session.errors['item'].push('Item has already been deleted')
+		req.session.errors['item'].push('Item has already been deleted.')
 		return res.status(400).json({errors: req.session.errors, success:req.session.success})
 		
 	}catch(err){
 		req.session.success=false
 		req.session.errors['server']=[]
-		console.log(err)
 		req.session.errors['server'].push('Server Side Error:'+err["codeName"])
-		return res.status(400).json({errors: req.session.errors, success:req.session.success})
+		return res.status(500).json({errors: req.session.errors, success:req.session.success})
 	}
 }
 
@@ -221,6 +248,6 @@ module.exports.editListing = async function(req,res,next){
 		req.session.errors['server']=[]
 		console.log(err)
 		req.session.errors['server'].push('Server Side Error:'+err["codeName"])
-		return res.status(400).json({errors: req.session.errors, success:req.session.success})
+		return res.status(500).json({errors: req.session.errors, success:req.session.success})
 	}
 }

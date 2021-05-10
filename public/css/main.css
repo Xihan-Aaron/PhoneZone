@@ -32,3 +32,7 @@ body {
 .hide {
     display: none;
 }
+
+.phoneListItem td {
+    vertical-align: middle;
+}
