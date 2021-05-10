@@ -36,5 +36,16 @@ router.post('/',function (req, res,next) {
 mainCheckout.main
 )
 
+router.post('/search',function (req, res,next) {
+	next()
+},
+mainCheckout.search
+)
+
+router.post('/item',function (req, res,next) {
+	next()
+},
+mainCheckout.selectItem
+)
 
 module.exports = router

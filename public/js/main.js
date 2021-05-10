@@ -5,7 +5,7 @@ $(document).ready(function() {
         e.preventDefault()
         var searchText = {searchtext: $('input[name="searchtext"]').val()}
         if ($('input[name="searchtext"]').val() != ""){
-            $.post('/', searchText, function(result){
+            $.post('/search', searchText, function(result){
                 // console.log(result);
                 if (result.searchResults.length < 1){
                     alert("No result matches.");
@@ -16,15 +16,21 @@ $(document).ready(function() {
                 addRange(result.searchResults);
                 $('#soldOutSoon').remove();
                 $('#bestSellers').remove();
+                $('#itemInfo').empty();
                 $('#filter').on('change', changeFilter);
                 $('#priceRange').on('change', changeRange);
+                $('.searchItem').on('click', selectItem);
             });
         } else {
             alert("Please type in the search content.");
         }
     });
 
-    $('.soldOutItem').on('click', function(e){
+    $('.soldOutItem').on('click', selectItem);
+    $('.searchItem').on('click', selectItem);
+    $('.topFiveItem').on('click', selectItem);
+
+    $('.comment').on('click', function(e){
         e.preventDefault();
         var id = $(this).find('.id').text();
         console.log(id);
@@ -73,6 +79,114 @@ function viewSearch(result){
     table += tableTitle + tableBody + '</table>'
     var tableDiv = '<div class="table-responsive">' + table + '</div>'
     searchSection.append(tableDiv)
+}
+
+function viewItem(result) {
+  var info = $('#itemInfo');
+  info.append('<h3>' + result.title + '</h3>');
+
+  var image = '<img src=' + result.image + ' alt="">'
+
+  div = '<div class="row"> <div class="col-md-6">' + image + '</div>'
+  div += '<div class="col-md-6">'
+
+  div += '<p> brand: ' + result.brand  + '</p>'
+  div += '<p> stock: ' + result.stock  + '</p>'
+  div += '<p> seller: ' + result.seller  + '</p>'
+  div += '<p> price: ' + result.price  + '</p>'
+  div += '<input id="addToCart" class="btn btn-primary" type="button" value="Add to Cart" role="button" />'
+  div += '</div> </div> '
+
+  info.append(div)
+
+  var reviews = result.reviews;
+
+  var table = '<table class="table table-hover">';
+  var tableTitle = '<thead><th>Reviewer</th><th>Rating</th><th>Comment</th></thead>';
+  var tableBody = '<tbody>';
+  if(reviews == undefined || reviews.length == 0) {
+    var tableRow = '<tr class="reviews ' + '">';
+    tableRow += '<td colspan=3>' + 'No Reviews Yet' + '</td>'
+    tableRow += '</tr>';
+    tableBody += tableRow;
+
+  } else {
+    for(var i = 0; i < reviews.length; i++){
+      if(i >= 3) {
+        var tableRow = '<tr class="reviews hide ' +  '">';
+
+      } else {
+        var tableRow = '<tr class="reviews ' + '">';
+      }
+        // console.log(tableRow);
+        tableRow += '<td class="id hide">' + reviews[i].id + '</td>';
+        tableRow += '<td class="reviewer">' + reviews[i].reviewer + '</td>';
+        tableRow += '<td class="rating">' + reviews[i].rating + '</td>';
+
+        if(reviews[i].comment.length > 200) {
+          tableRow += '<td class="partialComment ">' + reviews[i].comment.substring(0,200) + "<b>...Show More...</b>" + '</td>';
+          tableRow += '<td class="fullComment hide">' + reviews[i].comment + '</td>';
+        } else {
+          tableRow += '<td class="comment">' + reviews[i].comment + '</td>';
+        }
+
+        tableRow += '</tr>';
+        tableBody += tableRow;
+    }
+    if(reviews.length > 3) {
+      tableBody += '<tr class="showMoreComments"> <td colspan=3>show more</td> </tr>'
+    }
+  }
+
+  tableBody += '</tbody>';
+  table += tableTitle + tableBody + '</table>'
+  var tableDiv = '<div class="table-responsive">' + table + '</div>'
+
+  info.append(tableDiv)
+
+  $('.reviews').on('click', function(e){
+    e.preventDefault();
+    var comment = $(this).find('.partialComment');
+    var fullComment = $(this).find('.fullComment');
+    comment.toggleClass("hide")
+    fullComment.toggleClass("hide")
+  })
+  $('.showMoreComments').on('click', function(e){
+    e.preventDefault();
+    reviews = $('.reviews');
+    var added = 0;
+    var more = true;
+    for(var i =0; i<reviews.length;i++) {
+      if(i == reviews.length -1 && added < 3) {
+        more = false;
+      }
+      if(added >= 3) {
+        break;
+      }
+      if(reviews[i].classList.contains("hide")) {
+        reviews[i].classList.remove("hide");
+        added++;
+
+      }
+    }
+    if(!more) {
+      $('.showMoreComments').addClass('hide')
+    }
+  })
+}
+
+function selectItem(result) {
+      result.preventDefault();
+      var id = {id: $(this).find('.id').text() };
+      console.log(id);
+
+      $.post('/item',id,function(result) {
+        viewItem(result.info);
+        $('#soldOutSoon').remove();
+        $('#bestSellers').remove();
+        $('#searchResult').empty();
+
+      })
 }
 
 function addDropDown(result){

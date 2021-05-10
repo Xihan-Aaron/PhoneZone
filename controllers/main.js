@@ -40,7 +40,7 @@ module.exports.main = async function(req,res,next){
 		err.statusCode=500
 		next(err)
 	}
-	
+
 }
 
 module.exports.search = async function(req,res,next){
@@ -62,13 +62,18 @@ module.exports.search = async function(req,res,next){
 
 module.exports.selectItem = async function(req,res,next){
 	try{
-		item_id = req.body.selectItem
+		item_id = req.body.id
 		items = await PhoneListing.getItemById(item_id)
 		item = (await helper.extractNames([items]))[0]
 		req.session.prevInfo = item
 		req.session.prevUrl = 'item'
 		// fullname = seller.firstname + seller.lastname
-		res.render('main.ejs',{user_id:req.session.user_id, info:item, tab:'item'})
+		// res.render('main.ejs',{user_id:req.session.user_id, info:item, tab:'item'})
+		res.json({
+			user_id:req.session.user_id,
+			info:item
+		});
+
 	}catch(err){
 		err.statusCode=500
 		next(err)
