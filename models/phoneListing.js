@@ -40,6 +40,15 @@ const PhoneListingSchema = mongoose.Schema({
 , {collection:"phoneListing"})
 
 
+PhoneListingSchema.statics.editCart = function(item_id,quantity){
+	return this
+	.updateOne(
+		{_id:user_id,"checkout.id":item},
+		{$set: {"checkout.$.quantity":quantity}}
+	)
+	.exec();
+}
+
 PhoneListingSchema.statics.getMatchingItems = function(search){
 	return this
 		.find({
@@ -60,7 +69,7 @@ PhoneListingSchema.statics.updateDisabled = function(id,disabled){
 		return this.updateOne(
 		    {"_id" :  new objectId(id)},
 		    {$set: { "disabled" : ""}}
-		)	
+		)
 	}else{
 		return this.updateOne(
 		    {"_id" :  new objectId(id)},
@@ -72,7 +81,7 @@ PhoneListingSchema.statics.updateDisabled = function(id,disabled){
 PhoneListingSchema.statics.addNewListing=function(newListing){
 	newListing.save()
 	return newListing;
-}	
+}
 
 PhoneListingSchema.statics.removeListingById=function(listingId){
 	return this.deleteOne({"_id": new objectId(listingId)})

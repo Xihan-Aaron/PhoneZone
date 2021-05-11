@@ -100,9 +100,8 @@ module.exports.addItemToCart = async function(req,res,next){
 			var itemToAdd = {id:item_id,quantity:item_quantity}
 			var item = await User.addToCart(user_id,itemToAdd)
 		} else {
-			var item = await User.editCart(user_id,item_id,item_quantity)
+			var item = await User.addExistingToCart(user_id,item_id,item_quantity)
 		}
-		var checkingExisting2 = await User.checkExisting(user_id,item_id)
 
 	}catch(err){
 		err.statusCode=500
