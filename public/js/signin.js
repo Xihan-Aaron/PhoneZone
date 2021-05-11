@@ -35,14 +35,11 @@ $(document).ready(function(){
                     // var userid = result.user_id;
                     // var tab = result.tab;
                     // console.log(tab);
-                    alert(result)
+                    // alert(result)
                     history.back(-1);
 
                 },
-                error: function(result){
-                    // console.log(result.responseJSON);
-                    // Array
-                    for(var i = 0; i < result.responseJSON.errors.length; i++){
+                error: function(result){for(var i = 0; i < result.responseJSON.errors.length; i++){
                         $('#serversideError').append('<p class="error">- ' + result.responseJSON.errors[i] + '</p>');
                     }
                 }
