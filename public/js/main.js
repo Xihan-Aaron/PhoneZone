@@ -96,7 +96,7 @@ function viewItem(result) {
 
   div = '<div class="row"> <div class="col-md-6">' + image + '</div>'
   div += '<div class="col-md-6">'
-
+  div += '<p id="itemId" class="hide"> ' + result._id  + '</p>'
   div += '<p> brand: ' + result.brand  + '</p>'
   div += '<p> stock: ' + result.stock  + '</p>'
   div += '<p> seller: ' + result.seller  + '</p>'
@@ -180,6 +180,23 @@ function viewItem(result) {
       $('.showMoreComments').addClass('hide')
     }
   })
+
+  $('#addToCart').on('click', function(e){
+    var id = $('#itemId').text();
+    while (quantity = prompt("Input number: ")) {
+      if (isNaN(quantity) || quantity < 0) {
+        alert("Invalid input.");
+      } else {
+        quantity = parseInt(quantity)
+        break;
+      }
+    }
+    var info = {id:id,quantity:quantity};
+    $.post('/addToCart',info,function(result) {
+      viewItem(result.info);
+    })
+  })
+
 }
 
 function selectItem(result) {

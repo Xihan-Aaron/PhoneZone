@@ -79,3 +79,33 @@ module.exports.selectItem = async function(req,res,next){
 		next(err)
 	}
 }
+
+module.exports.addItemToCart = async function(req,res,next){
+	try{
+		item_id = req.body.id
+		item_quantity = parseInt(req.body.quantity)
+		user_id = req.session.user_id
+
+		userFromDb = await User.getUserById(user_id)
+		if(userFromDb == null) {
+			res.render('main.ejs')
+		}
+		var exists = false
+		var checkingExisting = await User.checkExisting(user_id,item_id)
+		if(checkingExisting != null) {
+			var exists = true
+		}
+
+		if(!exists) {
+			var itemToAdd = {id:item_id,quantity:item_quantity}
+			var item = await User.addToCart(user_id,itemToAdd)
+		} else {
+			var item = await User.editCart(user_id,item_id,item_quantity)
+		}
+		var checkingExisting2 = await User.checkExisting(user_id,item_id)
+
+	}catch(err){
+		err.statusCode=500
+		next(err)
+	}
+}

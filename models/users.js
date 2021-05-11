@@ -53,4 +53,31 @@ UserSchema.statics.updateUser = function(user_id,updateInfo){
 	.exec()
 }
 
+UserSchema.statics.checkExisting = function(user_id,item){
+	return this
+	.findOne({_id:user_id,"checkout.id":item})
+	// .elemMatch('checkout',{id:item})
+}
+
+UserSchema.statics.addToCart = function(user_id,item){
+	return this
+	.findByIdAndUpdate({_id:user_id},{$push: {checkout:item}}).exec();
+}
+
+UserSchema.statics.editCart = function(user_id,item,quantity){
+	return this
+	.updateOne(
+		{_id:user_id,"checkout.id":item},
+		{$inc: {"$checkout.quantity":quantity}}
+	)
+	.exec();
+}
+
+UserSchema.statics.removeFromCart = function(user_id,item){
+	return this
+	// .findByIdAndUpdate({_id:user_id},{$push: {checkout:item}}).exec();
+	.updateOne( {_id:user_id}, { $pullAll: {"checkout.id":item} } )
+
+}
+
 module.exports = mongoose.model('User', UserSchema)

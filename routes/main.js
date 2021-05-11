@@ -48,4 +48,7 @@ router.post('/item',function (req, res,next) {
 mainCheckout.selectItem
 )
 
+router.post('/addToCart', mainCheckout.addItemToCart);
+
+
 module.exports = router
