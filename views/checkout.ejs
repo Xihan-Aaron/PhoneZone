@@ -46,7 +46,7 @@
 					<input id="remove" class="btn btn-primary" type="button" value="Remove"/>
 					<div class="text-right" style="font-size: 16px;">
 						<span>Total items:</span>
-						<span id="total">QUANTITY</span>
+						<span id="total"><%= total %></span>
 					</div>
 				</div>
 
@@ -61,8 +61,9 @@
 						<th>Quantity</th>
 					</thead>
 					<tbody>
-						<!--  -->
+						<% for(var i = 0; i < info.length; i++) {%>
 						<tr class="cartItem">
+							<td class="id hide"><%=info[i]._id %></td>
 							<td>
 								<div class="checkbox">
 									<label>
@@ -70,12 +71,12 @@
 									</label>
 								</div>
 							</td>
-							<td><img src="" alt="" class="thumbnail"></td>
-							<td class="title"></td>
-							<td class="price"></td>
-							<td class="quantity"></td>
+							<td><img src=<%= info[i].image %> alt="" class="thumbnail"></td>
+							<td class="title"><%= info[i].title %></td>
+							<td class="price"><%= info[i].price %></td>
+							<td class="quantity"><%= info[i].quantity %></td>
 						</tr>
-						<!--  -->
+						<% } %>
 					</tbody>
 				</table>
 			</div>

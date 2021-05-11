@@ -182,7 +182,7 @@ function viewItem(result) {
   })
 
   $('#addToCart').on('click', function(e){
-    var id = $('#itemId').text();
+    var id = $('#itemId').text().trim();
     while (quantity = prompt("Input number: ")) {
       if (isNaN(quantity) || quantity < 0) {
         alert("Invalid input.");
