@@ -13,6 +13,11 @@ $(document).ready(function() {
                 // console.log(result);
                 if (result.searchResults.length < 1){
                     $('#searchError').append('<p class="error">- No search result found.</p>');
+                    if($('.searchItem').length > 0){
+                      $('.searchItem').each(function(){
+                        $(this).remove();
+                      });
+                    }
                     // alert("No result matches.");
                 } else {
                     viewSearch(result.searchResults);

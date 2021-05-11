@@ -37,6 +37,7 @@ $(document).ready(function(){
                     // console.log(tab);
                     // alert(result)
                     history.back(-1);
+                    // document.write(result);
 
                 },
                 error: function(result){for(var i = 0; i < result.responseJSON.errors.length; i++){
