@@ -70,7 +70,7 @@ module.exports.clearCart = async function(req,res,next){
     result2 = await User.updateUser(req.session.user_id,clearCart)
     console.log(result2);
 
-    res.redirect('../')
+    res.redirect('/')
 
 	}catch(err){
 		err.statusCode=500
@@ -84,12 +84,21 @@ module.exports.changeQuantity = async function(req,res,next){
     total = req.body.total;
     user_id = req.session.user_id;
 
+    outOfStock = []
     for(var i =0; i<selectedItems.length;i++) {
-      result = await User.editCart(user_id,selectedItems[i],quantity)
+      result1 = await PhoneListing.getItemById(selectedItems[i])
+      console.log("#####");
+      console.log(result1);
+      if(parseInt(result1.stock) >= quantity) {
+        result2 = await User.editCart(user_id,selectedItems[i],quantity)
+      } else {
+        outOfStock.push(selectedItems[i])
+      }
     }
     res.json({
   		user_id:req.session.user_id,
-  		total:total
+  		total:total,
+      outOfStock:outOfStock
   	});
 
 

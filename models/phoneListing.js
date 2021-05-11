@@ -40,6 +40,12 @@ const PhoneListingSchema = mongoose.Schema({
 , {collection:"phoneListing"})
 
 
+// PhoneListingSchema.statics.checkStock = function(item_id,quantity){
+// 	return this.find({
+// 		_id: item_id, stock: {$gte:quantity}
+// 	})
+// }
+
 PhoneListingSchema.statics.editStock = function(item_id,quantity){
 	return this
 	.updateOne(
