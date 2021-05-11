@@ -33,3 +33,68 @@ module.exports.checkoutPage = async function(req,res,next){
 		next(err)
 	}
 }
+module.exports.removeFromCart = async function(req,res,next){
+	try{
+    selectedItems = req.body.items;
+    total = req.body.total;
+    user_id = req.session.user_id;
+
+    for(var i =0; i<selectedItems.length;i++) {
+      result = await User.removeFromCart(user_id,selectedItems[i])
+    }
+
+    res.json({
+  		user_id:req.session.user_id,
+  		total:total
+  	});
+
+	}catch(err){
+		err.statusCode=500
+		next(err)
+	}
+}
+module.exports.clearCart = async function(req,res,next){
+	try{
+    selectedItems = req.body.items;
+    quantity = req.body.quantity;
+    console.log("here");
+    for(var i =0; i<selectedItems.length; i++) {
+      console.log(selectedItems[i]);
+      console.log("@@@@@@@@@");
+      console.log(quantity[i]);
+      result1 = await PhoneListing.editStock(selectedItems[i],-parseInt(quantity[i]))
+      console.log(result1);
+    }
+    clearCart = {checkout: []}
+    console.log("a");
+    result2 = await User.updateUser(req.session.user_id,clearCart)
+    console.log(result2);
+
+    res.redirect('../')
+
+	}catch(err){
+		err.statusCode=500
+		next(err)
+	}
+}
+module.exports.changeQuantity = async function(req,res,next){
+	try{
+    selectedItems = req.body.items;
+    quantity = req.body.quantity;
+    total = req.body.total;
+    user_id = req.session.user_id;
+
+    for(var i =0; i<selectedItems.length;i++) {
+      result = await User.editCart(user_id,selectedItems[i],quantity)
+    }
+    res.json({
+  		user_id:req.session.user_id,
+  		total:total
+  	});
+
+
+  	}catch(err){
+		err.statusCode=500
+		next(err)
+	}
+}

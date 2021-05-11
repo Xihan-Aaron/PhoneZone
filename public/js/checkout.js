@@ -39,11 +39,14 @@ $(document).ready(function() {
   $('#confirm').on('click', function(e){
       e.preventDefault();
       cartItem = $('.id');
+      quantities = $('.quantity');
       var selectedItems = [];
+      var quantity = [];
       for(var i =0; i<cartItem.length;i++) {
         selectedItems.push(cartItem[i].innerHTML)
+        quantity.push(quantities[i].innerHTML)
       }
-      results = {items: selectedItems}
+      results = {items: selectedItems, quantity:quantity}
         $.post('checkout/clearCart', results, function(result){
 
         });

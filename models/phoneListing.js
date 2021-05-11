@@ -40,11 +40,11 @@ const PhoneListingSchema = mongoose.Schema({
 , {collection:"phoneListing"})
 
 
-PhoneListingSchema.statics.editCart = function(item_id,quantity){
+PhoneListingSchema.statics.editStock = function(item_id,quantity){
 	return this
 	.updateOne(
-		{_id:user_id,"checkout.id":item},
-		{$set: {"checkout.$.quantity":quantity}}
+		{_id:item_id},
+		{$inc: {"stock":quantity}}
 	)
 	.exec();
 }
