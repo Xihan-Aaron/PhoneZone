@@ -31,10 +31,6 @@ $(document).ready(function() {
   $('#remove').on('click', function(e){
       e.preventDefault();
       results = getSelectedItems()
-      if(results.items.length == 0) {
-        alert("nothing in cart")
-        return;
-      }
         $.post('checkout/removeFromCart', results, function(result){
 
         });
@@ -43,18 +39,11 @@ $(document).ready(function() {
   $('#confirm').on('click', function(e){
       e.preventDefault();
       cartItem = $('.id');
-      quantities = $('.quantity');
       var selectedItems = [];
-      var quantity = [];
       for(var i =0; i<cartItem.length;i++) {
         selectedItems.push(cartItem[i].innerHTML)
-        quantity.push(quantities[i].innerHTML)
       }
-      if(selectedItems.length == 0) {
-        alert('nothing in cart')
-        return
-      }
-      results = {items: selectedItems, quantity:quantity}
+      results = {items: selectedItems}
         $.post('checkout/clearCart', results, function(result){
 
         });

@@ -84,9 +84,10 @@ UserSchema.statics.editCart = function(user_id,item,quantity){
 UserSchema.statics.removeFromCart = function(user_id,item){
 	return this
 	// .findByIdAndUpdate({_id:user_id},{$push: {checkout:item}}).exec();
-	.updateOne(
+	.update(
 		{_id:user_id},
-		{ $pullAll: {"$checkout.id":item} } )
+		{ $pull: {"$checkout.id":item, "$checkout.quantity":{$gte:0}} },
+	{ safe: true }  )
 	.exec()
 
 }
