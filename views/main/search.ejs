@@ -72,9 +72,14 @@
   function addRange(max){
     var section = $('#searchRange');
     section.empty();
-    var rangeComponent = '<label for="priceRange" class="form-label">Price range</label>';
-    rangeComponent += '<input type="range" class="form-range" id="priceRange" min="0" ' + 'max="' + max + '"' + '>';
+    var rangeComponent ='<div id="rangeSection">';
+    rangeComponent += '<input type="range" class="form-range" id="priceRange" min="0" ' + 'max="' + parseInt(max) + '"' + '></div>';
+    rangeComponent += '<div style="text-align: center;"><span style="float: left;">0</span><span style="float: none;">' + parseInt(max / 2) + '</span>' + '<span style="float: right;">' + parseInt(max) + '</span></div>';
     section.append(rangeComponent);
+    var rangeUlitily = '<div class="text-right"><span>Current price: </span>'
+    rangeUlitily += '<span id="rangeValue">' + parseInt($('#priceRange').val()); + '</span></div>'
+    
+    $("#rangeSection").prepend(rangeUlitily);
   }
 
   addFilter(collectBrand());
@@ -106,6 +111,7 @@
   });
   $('#priceRange').on('change', function(){
     var price = parseFloat($('#priceRange').val());
+    $('#rangeValue').text(price);
     var brandFilter = $('#filter').val();
     console.log("Current threshold: " + price.toString());
     console.log(brandFilter);
@@ -127,6 +133,5 @@
             }
         }
     });
-
   });
 </script>

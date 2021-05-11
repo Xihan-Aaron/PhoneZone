@@ -35,6 +35,7 @@ $(document).ready(function(){
                     // var userid = result.user_id;
                     // var tab = result.tab;
                     // console.log(tab);
+                    alert(result)
                     history.back(-1);
 
                 },
