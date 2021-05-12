@@ -1,5 +1,13 @@
 $(document).ready(function() {
 
+  
+  $('#goBack').on('click', function(){
+    // alert($.session.get('prev'));
+    history.go(-1);
+    // window.location.href = "/";
+    
+  });
+
   $('#changeQuantity').on('click', function(e){
       e.preventDefault();
       var quantity = $('input[name="quantity"]').val();

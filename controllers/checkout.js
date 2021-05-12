@@ -5,6 +5,7 @@ const PhoneListing = require('../models/phoneListing');
 
 
 module.exports.checkoutPage = async function(req,res,next){
+	console.log(req.session.prevUrl)
 	try{
 		userFromDb = await User.getUserById(req.session.user_id)
 		console.log("userinfo:",userFromDb);
