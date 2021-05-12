@@ -44,6 +44,7 @@ $(document).ready(function() {
                     $('#bestSellers').remove();
                     $('#filter').on('change', changeFilter);
                     $('#priceRange').on('change', changeRange);
+                    $('.searchItem').on('click', selectItem);
                 });
             } else {
                 alert("Please type in the search content.");
@@ -55,6 +56,10 @@ $(document).ready(function() {
     $('.soldOutItem').on('click', selectItem);
     $('.searchItem').on('click', selectItem);
     $('.topFiveItem').on('click', selectItem);
+
+    $('.reviews').on('click', showMoreReviews)
+    $('.showMoreComments').on('click', showMoreComments)
+    $('#addToCart').on('click', addToCartBtn)
 });
 
 function viewSearch(result){
@@ -151,14 +156,19 @@ function viewItem(result) {
 
   info.append(tableDiv)
 
-  $('.reviews').on('click', function(e){
-    e.preventDefault();
-    var comment = $(this).find('.partialComment');
-    var fullComment = $(this).find('.fullComment');
-    comment.toggleClass("hide")
-    fullComment.toggleClass("hide")
-  })
-  $('.showMoreComments').on('click', function(e){
+  $('.reviews').on('click', showMoreReviews)
+  $('.showMoreComments').on('click', showMoreComments)
+  $('#addToCart').on('click', addToCartBtn)
+}
+function showMoreReviews(e) {
+  e.preventDefault();
+  var comment = $(this).find('.partialComment');
+  var fullComment = $(this).find('.fullComment');
+  comment.toggleClass("hide")
+  fullComment.toggleClass("hide")
+}
+
+function showMoreComments(e) {
     e.preventDefault();
     reviews = $('.reviews');
     var added = 0;
@@ -179,24 +189,23 @@ function viewItem(result) {
     if(!more) {
       $('.showMoreComments').addClass('hide')
     }
-  })
+}
 
-  $('#addToCart').on('click', function(e){
-    var id = $('#itemId').text().trim();
-    while (quantity = prompt("Input number: ")) {
-      if (isNaN(quantity) || quantity < 0) {
-        alert("Invalid input.");
-      } else {
-        quantity = parseInt(quantity)
-        break;
-      }
+
+function addToCartBtn(e) {
+  var id = $('#itemId').text().trim();
+  while (quantity = prompt("Input number: ")) {
+    if (isNaN(quantity) || quantity < 0) {
+      alert("Invalid input.");
+    } else {
+      quantity = parseInt(quantity)
+      break;
     }
-    var info = {id:id,quantity:quantity};
-    $.post('/addToCart',info,function(result) {
-      viewItem(result.info);
-    })
+  }
+  var info = {id:id,quantity:quantity};
+  $.post('/addToCart',info,function(result) {
+    viewItem(result.info);
   })
-
 }
 
 function selectItem(result) {

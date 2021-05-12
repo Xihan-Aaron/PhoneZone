@@ -1,41 +1,52 @@
-<div id="searchDetails">
+<div id="itemDetails">
 
-  <p> title: <%=info.title %></p>
-  <p> brand: <%=info.brand %></p>
-  <p> image: <%=info.image %></p>
-  <p> stock: <%=info.stock %></p>
-  <p> seller: <%= info.seller %></p>
-  <p> price: <%=info.price %></p>
+  <h3> title: <%=info.title %></h3>
 
-  <img src=<%=info.image %> alt="" class="thumbnail">
+  <div class="row">
+    <div class="col-md-6">
+      <img src= <%=info.image %> alt="">
+    </div>
+    <div class="col-md-6">
+      <p id="itemId" class="hide"> <%=info.id %> </p>
+      <p> brand: <%=info.brand %></p>
+      <p> stock: <%=info.stock %></p>
+      <p> seller: <%= info.seller %></p>
+      <p> price: <%=info.price %></p>
+      <input id="addToCart" class="btn btn-primary" type="button" value="Add to Cart" role="button" />
+    </div>
+  </div>
 
-  <table class="table table-striped">
-
-
+  <div class="table-responsive">
+    <table class="table table-hover">
       <thead>
-        <th> Reviewer</th>
+        <th>Reviewer</th>
         <th>Rating</th>
-        <th>comment</th>
+        <th>Comment</th>
       </thead>
       <tbody>
         <% for(var i =0; i<info.reviews.length ;i++) {%>
-
-        <tr <% if(i >= 3) { %> class="hide" <% } %> >
-          <td> <%= info.reviews[i].reviewer %></td>
-          <td> <%= info.reviews[i].rating %></td>
-          <% if(info.reviews[i].comment.length > 200) { %>
-            <td> <%= info.reviews[i].comment.substring(0,200) %> "...show more" </td>
-            <td> show more </td>
+          <% if(i >= 3) { %>
+            <tr class="reviews hide" >
           <% } else {%>
-            <td> <%= info.reviews[i].comment %></td>
+            <tr class="reviews" >
+          <% } %>
+          <td class="id hide"><%= info.reviews[i].id %></td>
+          <td class="reviewer"> <%= info.reviews[i].reviewer %></td>
+          <td class="rating"> <%= info.reviews[i].rating %></td>
+          <% if(info.reviews[i].comment.length > 200) { %>
+            <td class="partialComment "> <%= info.reviews[i].comment.substring(0,200) %> <b> (Show More...) </b> </td>
+            <<td class="fullComment hide"> info.reviews[i].comment <b> (Show Less) </b> </td>
+          <% } else {%>
+            <td class="comment"> <%= info.reviews[i].comment %></td>
           <% } %>
         </tr>
+        <% } if(info.reviews.length > 3) {%>
+          <tr class="showMoreComments">
+            <td colspan=3>show more</td>
+          </tr>
         <% } %>
-        <tr>
-          <td>Show more comments</td>
-        </tr>
 
       </tbody>
-  </table>
-
+    </table>
+  </div>
 </div>
