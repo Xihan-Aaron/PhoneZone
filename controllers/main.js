@@ -23,7 +23,7 @@ module.exports.main = async function(req,res,next){
 			// 	info:prevInfo,
 			// 	tab:prevUrl
 			// })
-			res.render('main.ejs',{user_id:req.session.user_id,info:prevInfo,tab:prevUrl})
+			return res.render('main.ejs',{user_id:req.session.user_id,info:prevInfo,tab:prevUrl})
 		}else{
 			req.session.prevInfo = info
 			req.session.prevUrl = 'main'
@@ -32,7 +32,7 @@ module.exports.main = async function(req,res,next){
 			// 	info:info,
 			// 	tab:'main'
 			// })
-			res.render('main.ejs',{user_id:req.session.user_id,info:info,tab:'main'})
+			return res.render('main.ejs',{user_id:req.session.user_id,info:info,tab:'main'})
 		}
 
 
@@ -40,7 +40,6 @@ module.exports.main = async function(req,res,next){
 		err.statusCode=500
 		next(err)
 	}
-
 }
 
 module.exports.search = async function(req,res,next){
@@ -69,7 +68,7 @@ module.exports.selectItem = async function(req,res,next){
 		req.session.prevUrl = 'item'
 		// fullname = seller.firstname + seller.lastname
 		// res.render('main.ejs',{user_id:req.session.user_id, info:item, tab:'item'})
-		res.json({
+		return res.json({
 			user_id:req.session.user_id,
 			info:item
 		});

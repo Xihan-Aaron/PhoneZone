@@ -1,12 +1,12 @@
 const express= require('express')
 const router =express.Router();
-const mainCheckout = require('../controllers/main');
+const main = require('../controllers/main');
 
 router.get('/', (req,res,next)=>{
 	console.log(req.session.user_id,'Main')
 	next()
 },
-mainCheckout.main
+main.main
 )
 
 router.post('/',function (req, res,next) {
@@ -16,7 +16,7 @@ router.post('/',function (req, res,next) {
 	}
 	next()
 },
-mainCheckout.search
+main.search
 )
 
 router.post('/',function (req, res,next) {
@@ -27,28 +27,28 @@ router.post('/',function (req, res,next) {
 	}
 	next()
 },
-mainCheckout.selectItem
+main.selectItem
 )
 
 router.post('/',function (req, res,next) {
 	next()
 },
-mainCheckout.main
+main.main
 )
 
 router.post('/search',function (req, res,next) {
 	next()
 },
-mainCheckout.search
+main.search
 )
 
 router.post('/item',function (req, res,next) {
 	next()
 },
-mainCheckout.selectItem
+main.selectItem
 )
 
-router.post('/addToCart', mainCheckout.addItemToCart);
+router.post('/addToCart', main.addItemToCart);
 
 
 module.exports = router

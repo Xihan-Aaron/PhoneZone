@@ -9,12 +9,16 @@ $(document).ready(function(){
         $('#serversideError').empty();
     });
     
-    
+    $(document).keydown(function (event) {
+        if ( (event.keyCode || event.which) === 13) {
+            $("#signinBtn").click();
+        }
+    });
     $('#signinBtn').on('click', function(e){
         $('#emailError').empty();
         $('#passwordError').empty();
         $('#serversideError').empty();
-
+        console.log("hlle")
         e.preventDefault();
         var signinInfo = {
             email: $('input[name="email"]').val().trim(),
@@ -35,7 +39,8 @@ $(document).ready(function(){
                     // var userid = result.user_id;
                     // var tab = result.tab;
                     // console.log(tab);
-                    history.back(-1);
+                    //history.back(-1);  - DO NOT USE THIS
+                    window.location.href="/"
 
                 },
                 error: function(result){

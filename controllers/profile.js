@@ -24,7 +24,7 @@ module.exports.profilePage = async function(req,res,next){
 				if(items instanceof Error){
 					next(items)
 				}else{
-					res.render('profile/profile.ejs',{userInfo:userInfo,errors: req.session.errors, success:req.session.success,items:items})
+					return res.render('profile/profile.ejs',{userInfo:userInfo,errors: req.session.errors, success:req.session.success,items:items})
 				}
 			})
 		}
