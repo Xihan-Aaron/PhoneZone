@@ -83,12 +83,19 @@ UserSchema.statics.editCart = function(user_id,item,quantity){
 
 UserSchema.statics.removeFromCart = function(user_id,item){
 	return this
-	// .findByIdAndUpdate({_id:user_id},{$push: {checkout:item}}).exec();
-	.update(
-		{_id:user_id},
-		{ $pull: {"$checkout.id":item, "$checkout.quantity":{$gte:0}} },
-	{ safe: true }  )
-	.exec()
+	.findByIdAndUpdate(user_id,
+	{$pull: {checkout:{id:item}}},
+	{safe:true, upsert:true},
+	function(err, doc) {
+        if(err){
+        console.log(err);
+        }else{
+					console.log("user_id",user_id);
+					console.log("item: ",item);
+					// doc.checkout.pull(id:item)
+				}
+			}
+		).exec()
 
 }
 
