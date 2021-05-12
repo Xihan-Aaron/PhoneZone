@@ -48,20 +48,48 @@ UserSchema.statics.addUser = function(newUser){
 }
 
 UserSchema.statics.updateUser = function(user_id,updateInfo){
-	console.log(user_id,updateInfo)
 	return this
 	.findByIdAndUpdate ({_id:user_id},updateInfo,{new:true})
 	.exec()
 }
 
-UserSchema.statics.getUserNameById = function(user_id){
+UserSchema.statics.checkExisting = function(user_id,item){
 	return this
-		.findById(user_id)
-		.aggregate (
-			[
-				{$project: {fullName: { $concat: ["$firstname", " ", "$lastname"]}}}
-			]
-		)
+	.findOne({_id:user_id,"checkout.id":item})
+}
+
+UserSchema.statics.addToCart = function(user_id,item){
+	return this
+	.findByIdAndUpdate({_id:user_id},{$push: {checkout:item}}).exec();
+}
+
+UserSchema.statics.addExistingToCart = function(user_id,item,quantity){
+	return this
+	.updateOne(
+		{_id:user_id,"checkout.id":item},
+		{$inc: {"$checkout.quantity":quantity}}
+	)
+	.exec();
+}
+
+UserSchema.statics.editCart = function(user_id,item,quantity){
+	return this
+	.updateOne(
+		{_id:user_id,"checkout.id":item},
+		{$set: {"checkout.$.quantity":quantity}}
+	)
+	.exec();
+}
+
+UserSchema.statics.removeFromCart = function(user_id,item){
+	return this
+	// .findByIdAndUpdate({_id:user_id},{$push: {checkout:item}}).exec();
+	.update(
+		{_id:user_id},
+		{ $pull: {"$checkout.id":item, "$checkout.quantity":{$gte:0}} },
+	{ safe: true }  )
+	.exec()
+
 }
 
 module.exports = mongoose.model('User', UserSchema)

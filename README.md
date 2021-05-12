@@ -12,13 +12,13 @@
   - In the CMD
 
     - execute mongoimport --jsonArray --db assignment2Gp32 --collection users --file < location of userlist.json >
-  
+
     - execute mongoimport --jsonArray --db assignment2Gp32 --collection phoneListing --file < location of phoneListing.json >
-  
+
   - Execute for all brands.
-  
+
     - db.getCollection('phoneListing').updateMany({}, [{$set:{"image":{$concat: ["/images/phone_default_images/", "$brand", ".jpeg"]}}}]);
- 
+
 
 - npm install
 
@@ -32,10 +32,12 @@ For profile, checkout buttons, there is a middlewear that makes sure the session
 
 For sign in and sign up, there is a middlewear that makes sure that if the session has a user_id, it will be redirected to the main page.
 
-Signout will destroy the session. When the session is destroyed, then the client will be unable to access profile and checkout due to the middlewear. 
+Signout will destroy the session. When the session is destroyed, then the client will be unable to access profile and checkout due to the middlewear.
+
+If a user is searching something or have selected something in the main page but is not signed in, they will be reverted back to that page when they immediately sign in or sign up.
 
 ## Validation
-The validation that requires access to the database is in the controller. 
+The validation that requires access to the database is in the controller.
 
 The validation that checks the strings are correct (email string is an email, password has more than 8 letters and ect, names are not empty and have no numbers) are in the router. This is done because the router library has the capabilties to chain the validations.
 
@@ -64,10 +66,18 @@ Users can change any of these features. Validation rules still apply. All respon
 
 User can change their password. Validation of their current password applies and validation of the new password also applies. All responses will be in JSON format.(it will not re render the page)
 
-Backend to get the manage list has been completed
+User can now see their listing. The row of the listing has the _id of that item
 
-## Main Page
-- MongoDb Algorithms for the main page are completed
+User can add listings. It will check the listing for the combination of title and brand.
+
+If the User does not upload an image then it will lead to a default.jpeg image.
+
+If the User uploads the image, it will named: < branch name >_< user_id >_< timestamp >.jpeg
+
+To remove the listing use endpoint profile/removeListing with parameters req.body.removeId as the id of the listing.
+
+To edit the listing for disabled or not disabled use endpoint profile/editListing with parameters req.body.editId (the id of the listing) ,req.body.disabled (boolean: True - Disabled and False - Enable)
+
 
 # Further Steps
 ## Front end
@@ -77,15 +87,8 @@ Backend to get the manage list has been completed
 - The front end needs to us fetch or ajax to get those json responses and use either vanilla js or jquery to paint the DOM.
 Please ensure event.preventDefault() is applied to event listeners so that the page does not refresh.
 ### Validation rules
-- Include very simple validation rules in the front end. 
+- Include very simple validation rules in the front end.
 
 ## Back End
-### Consider the main page and think of steps to meeting the requirements. 
-
-### Consider the checkout page and think of steps to meeting the requirements. 
-### Add in disable and enable features on back end
-- I will complete this.
+### Consider the checkout page and think of steps to meeting the requirements.
 ### Consider further validation rules.
-
-
-

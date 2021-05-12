@@ -2,10 +2,12 @@
 <html>
 	<head>
 		<script type="text/javascript" src="/js/jquery-3.6.0.js"></script>
+		<script type="text/javascript" src="/bootstrap-3.4.1-dist/js/bootstrap.js"></script>
+		
 		<link rel="stylesheet" type="text/css" href="/bootstrap-3.4.1-dist/css/bootstrap.css" />
-		<link rel="stylesheet" type="text/css" href="/css/main.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="/css/register.css" media="screen" />
-		<script defer type="text/javascript" src="/js/main.js"></script> 
+		<link rel="stylesheet" type="text/css" href="/css/main.css" media="screen" />
+		<script type="text/javascript" src="/js/profile.js"></script>
 		<title>Profile</title>
 	</head>
 	<body>
@@ -28,22 +30,98 @@
 		</nav>
 
 		<div class="container">
-			<h2>Profile</h2>
-
-			<label for="firstname">First Name</label> 	
-			<input  type="text" name="firstname" class="form-control" disabled value="<%= userInfo["firstname"] %>"/>
-	
-			<label  for="lastname">Last Name</label> 
-			<input type="text" name="lastname" class="form-control" disabled value="<%= userInfo["lastname"] %>"/>
+			<div class="userInfo">
+				<h2>Profile</h2>
+				
+				<div>
+					<form id="basicInfo" class="form-form">
+						<fieldset disabled>
+							<label for="firstname">First Name</label> 	
+							<input type="text" name="firstname" class="form-control" value="<%= userInfo["firstname"] %>"/>
 			
-			<label for="email">Email</label> 
-			<input type="email" name="email" class="form-control" disabled value="<%= userInfo["email"] %>"/>
-	
-			<%- include('editProfile') %>
-	
-			<%- include('editPassword') %>
+							<label for="lastname">Last Name</label> 
+							<input type="text" name="lastname" class="form-control" value="<%= userInfo["lastname"] %>"/>
+					
+							<label for="email">Email</label> 
+							<input type="email" name="email" class="form-control" value="<%= userInfo["email"] %>"/>
+						</fieldset>
+					</form>
+				</div>
 
+				<div id="tabDiv">
+					<ul id="profileTab" class="nav nav-tabs" style="padding: 10px;">
+						<li class="active">
+							<a href="#editProfileTab" data-toggle="tab">Edit Profile</a>
+						</li>
+						<li>
+							<a href="#editPasswordTab" data-toggle="tab">Edit Password</a>
+						</li>
+						<li>
+							<a href="#addNewListingTab" data-toggle="tab">Add New Phone</a>
+						</li>
+					</ul>
+				</div>
+				<div id="tabContent" class="tab-content">
+					<%- include('editProfile') %>
+					<%- include('editPassword') %>
+					<%- include('addNewListing') %>
+				</div>
+			</div>
+
+			<div id="phoneList">
+				<legend style="margin-top: 15px;">My Phone List</legend>
+				<div id="modifyListError"></div>
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<th>Title</th>
+							<th>Brand</th>
+							<th>Image</th>
+							<th>Avaliable Stock</th>
+							<th>Seller</th>
+							<th>Price</th>
+							<th>Disabled</th>
+							<th></th>
+							<th></th>
+						</thead>
+						<tbody id="phoneListBody">
+							<% if (items.length > 0) { %>
+								<% for(var i=0;i<items.length;i++) {%>
+									<tr id=<%=items[i]._id %> class="phoneListItem">
+										<td class="title"><%= items[i].title %></td>
+										<td class="brand"><%= items[i].brand %></td>
+										<td><img src=<%=items[i].image %> alt="" class="thumbnail"></td>
+										<td class="stock"><%= items[i].stock %></td>
+										<td class="seller"><%= items[i].seller %></td>
+										<td class="price"><%= items[i].price %></td>
+										<td class="disabled">
+											<% if (items[i].disabled == 'Disabled') { %>
+												<del><%= items[i].disabled %></del>
+											<% } else { %>
+												<b><%= items[i].disabled %></b>
+											<% } %>
+										</td>
+										<td>
+											<div>
+												<input class="disableBtn btn btn-primary btn-xs" type="button" value="Toggle Status" role="button" />
+											</div>
+										</td>
+										<td>
+											<div>
+												<input class="removeBtn btn btn-primary btn-xs" type="button" value="Remove" role="button" />
+											</div>
+										</td>
+										<td></td>
+								  </tr>
+								<% } %>
+							 
+							<% } else {%>
+								<td colspan="9" style="text-align: center;">You do not have anything listed yet.</td>
+							<% } %>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
-		
 	</body>
 </html>

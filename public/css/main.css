@@ -1,3 +1,42 @@
 body {
     padding-bottom: 20px;
 }
+
+.form-control {
+    position: relative;
+    /* box-sizing: border-box; */
+    /* height: auto; */
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: -1px;
+}
+
+#searchBox {
+    width: auto;
+}
+
+#searchFilter {
+    padding-left: 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+#filter {
+    padding: 0px 2px 0px 2px;
+}
+
+.thumbnail {
+    width: 6em;
+    margin-bottom: -1px;
+}
+
+.hide {
+    display: none;
+}
+
+.phoneListItem td {
+    vertical-align: middle;
+}
+
+.error {
+    color: red;
+}

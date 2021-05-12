@@ -1,35 +1,70 @@
-<h3>Sold out soon</h3>
-<table>
-  <thead>
-    <th>image</th>
-    <th>price</th>
-    <th>stock</th>
-  </thead>
-  <tbody>
-    <% for(var i =0;i<soldOut.length;i++) {%>
-      <tr>
-        <td><img src=<%= soldOut[i].image %> alt=""> </td>
-        <td><%= soldOut[i].price %></td>
-        <td><%= soldOut[i].stock %></td>
-      </tr>
-      <% } %>
-    </tbody>
-</table>
-
-<h3>Best sellers</h3>
-<table>
-  <thead>
-    <th>image</th>
-    <th>price</th>
-    <th>average rating</th>
-  </thead>
-  <tbody>
-    <% for(var i =0;i<topFive.length;i++) {%>
-      <tr>
-        <td><img src=<%=topFive[i].image %> alt=""></td>
-        <td><%= topFive[i].price %></td>
-        <td><%= topFive[i].avgReviews %></td>
-      </tr>
-    <% } %>
-  </tbody>
-</table>
+<div id="soldOutSoon" class="panel panel-default" style="margin-top: 20px;">
+  <div class="panel-heading">
+    <h3 style="margin: -1px 0px -1px 0px;">Sold out soon</h3>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <th></th>
+        <th>Title</th>
+        <th>Brand</th>
+        <th>Price</th>
+        <th>Stock</th>
+      </thead>
+      <tbody>
+        <% for(var i = 0; i < info['soldOut'].length; i++) {%>
+          <tr class="soldOutItem">
+            <td class="id hide"><%= info['soldOut'][i]._id %></td>
+            <td><img src=<%= info['soldOut'][i].image %> alt="" class="thumbnail"></td>
+            <td class="title"><%= info['soldOut'][i].title %></td>
+            <td class="brand"><%= info['soldOut'][i].brand %></td>
+            <td class="price"><%= info['soldOut'][i].price %></td>
+            <td class="stock"><%= info['soldOut'][i].stock %></td>
+            <td class="seller hide"><%= info['soldOut'][i].seller %></td>
+            <td class="review hide">
+              <% for( var j = 0; j < info['soldOut'][i].reviews.length; j++ ) { %>
+                <div class="reviewDetails"><%= info['soldOut'][i].reviews[j] %> </div>
+              <% } %>
+            </td>
+          </tr>
+          <% } %>
+        </tbody>
+    </table>
+  </div>
+</div>
+<div id="bestSellers" class="panel panel-default" style="margin-top: 20px;">
+  <div class="panel-heading">
+    <h3 style="margin: -1px 0px -1px 0px;">Best sellers</h3>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <th></th>
+        <th>Title</th>
+        <th>Brand</th>
+        <th>Price</th>
+        <th>Average rating</th>
+      </thead>
+      <tbody>
+        <% for(var i = 0; i < info['topFive'].length; i++) {%>
+          <tr class="topFiveItem">
+            <td class="id hide"><%= info['topFive'][i]._id %></td>
+            <td><img src=<%=info['topFive'][i].image %> alt="" class="thumbnail"></td>
+            <td class="title"><%= info['topFive'][i].title %></td>
+            <td class="brand"><%= info['topFive'][i].brand %></td>
+            <td class="price"><%= info['topFive'][i].price %></td>
+            <td class="seller hide"><%= info['topFive'][i].seller %></td>
+            <td class="avgRating"><%= info['topFive'][i].avgReviews.toFixed(2) %></td>
+            <td class="review hide">
+              <% for( var j = 0; j < info['topFive'][i].reviews.length; j++ ) { %>
+                <div class="reviewDetails"><%= info['topFive'][i].reviews[j] %> </div>
+              <% } %>
+            </td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+  
+  
+</div>

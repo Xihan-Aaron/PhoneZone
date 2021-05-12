@@ -1,21 +1,29 @@
-<h3>Search results</h3>
-<table>
-  <thead>
-    <th>image</th>
-    <th>title</th>
-    <th>brand</th>
-    <th>price</th>
-    <th>stock</th>
-  </thead>
-  <tbody>
-    <% for(var i =0;i<searchResults.length;i++) {%>
-      <tr>
-        <td><img src=<%=searchResults[i].image %> alt=""></td>
-        <td><%= searchResults[i].title %></td>
-        <td><%= searchResults[i].brand %></td>
-        <td><%= searchResults[i].price %></td>
-        <td><%= searchResults[i].stock %></td>
-      </tr>
-    <% } %>
-  </tbody>
-</table>
+
+<div id="searchResults">
+  <h3>Search results</h3>
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <th></th>
+        <th>Title</th>
+        <th>Brand</th>
+        <th>Price</th>
+        <th>Stock</th>
+      </thead>
+      <tbody>
+        <% for(var i =0;i<info.length;i++) {%>
+          <tr class="searchItem <%= info[i].brand %>">
+            <td class="id hide"><%= info[i]._id %></td>
+            <td><img src=<%=info[i].image %> alt="" class="thumbnail"></td>
+            <td class="title"><%= info[i].title %></td>
+            <td class="brand"><%= info[i].brand %></td>
+            <td class="price"><%= info[i].price %></td>
+            <td class="stock"><%= info[i].stock %></td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<script type="text/javascript" src="/js/search.js"></script>
+<script type="text/javascript" src="js/jquerysession.js"></script>

@@ -35,7 +35,8 @@ module.exports.signup = async function (req,res,next){
 		return res.status(400).json({errors: req.session.errors, success:req.session.success})
 		//return res.render('signup.ejs',{errors: req.session.errors, success:req.session.success});
 	}else{
-		return res.redirect('/');
+		req.session.auth=true;
+		return res.status(200).json({success:req.session.success});
 	}
 }
 
@@ -47,12 +48,14 @@ module.exports.signin = async function(req,res,next){
 
 		if(userFromDb ==null){
 			errors.push("Email not Found")
+			req.session.success=false
 		}else{
 			const hashPasswordBrowser= await crypto.createHash('md5').update(req.body.password).digest("hex");
 			if (userFromDb.password===hashPasswordBrowser){
 				req.session.user_id=userFromDb._id
-				req.session.success=false
-				return res.redirect('/');
+				req.session.success=true
+				req.session.auth=true;
+				return res.status(200).json({success:req.session.success});
 			}else{
 				errors.push("Incorrect Combination of Password and Email")
 			}

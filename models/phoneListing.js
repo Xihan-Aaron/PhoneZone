@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const config = require('../config/database')
+var objectId = require('mongodb').ObjectID;
 
 //PhoneListing Schema
 const PhoneListingSchema = mongoose.Schema({
@@ -39,6 +40,21 @@ const PhoneListingSchema = mongoose.Schema({
 , {collection:"phoneListing"})
 
 
+// PhoneListingSchema.statics.checkStock = function(item_id,quantity){
+// 	return this.find({
+// 		_id: item_id, stock: {$gte:quantity}
+// 	})
+// }
+
+PhoneListingSchema.statics.editStock = function(item_id,quantity){
+	return this
+	.updateOne(
+		{_id:item_id},
+		{$inc: {"stock":quantity}}
+	)
+	.exec();
+}
+
 PhoneListingSchema.statics.getMatchingItems = function(search){
 	return this
 		.find({
@@ -47,6 +63,44 @@ PhoneListingSchema.statics.getMatchingItems = function(search){
 		})
 }
 
+PhoneListingSchema.statics.getItemsBySeller = function(user_id){
+	return this
+		.find({
+				seller: user_id
+		})
+}
+
+PhoneListingSchema.statics.updateDisabled = function(id,disabled){
+	if(disabled == 'true'){
+		return this.updateOne(
+		    {"_id" :  new objectId(id)},
+		    {$set: { "disabled" : ""}}
+		)
+	}else{
+		return this.updateOne(
+		    {"_id" :  new objectId(id)},
+		    {$unset: { "disabled" : ""}}
+		)
+	}
+}
+
+PhoneListingSchema.statics.addNewListing=function(newListing){
+	newListing.save()
+	return newListing;
+}
+
+PhoneListingSchema.statics.removeListingById=function(listingId){
+	return this.deleteOne({"_id": new objectId(listingId)})
+}
+
+PhoneListingSchema.statics.getItemByTitleBrand = function(titleName,brandName){
+	return this
+		.find({
+			title: titleName.trim(),
+			brand: brandName.trim()
+		})
+
+}
 
 PhoneListingSchema.statics.getItemById = function(item_id){
 	return this
@@ -58,15 +112,15 @@ PhoneListingSchema.statics.getTopFive = function(){
 	return this
 		.aggregate(
 		    [
-		    {$match:{
-		        "reviews":{$elemMatch:{"rating":{$exists:true}}},
-		        disabled:null
-		        }
-		    },
-		    {$project:{"_id":1,image:1,price:1,avgReviews:{$avg:"$reviews.rating"},numReviews:{$size:"$reviews"}}},
-		    {$match:{"numReviews":{$gte:2}}},
-		    {$limit:5},
-		    {$sort:{"avgReviews":-1,}}
+			    {$match:{
+			        "reviews":{$elemMatch:{"rating":{$exists:true}}},
+			        disabled:null
+			        }
+			    },
+			    {$project:{"_id":1,image:1,title:1,brand:1,price:1,seller:1,reviews:1,avgReviews:{$avg:"$reviews.rating"},numReviews:{$size:"$reviews"}}},
+			    {$match:{"numReviews":{$gte:2}}},
+			    {$limit:5},
+			    {$sort:{"avgReviews":-1,}}
 		    ]
 		)
 }

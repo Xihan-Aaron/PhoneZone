@@ -1,0 +1,31 @@
+<div id="addNewListingTab" class="tab-pane fade">
+	<form id="addNewListing" action="../profile/addNewListing" enctype="multipart/form-data" class="form-form">
+		<fieldset>
+			<!-- <legend style="margin-top: 15px;">Add New Listing</legend> -->
+	
+			<label for="title">Title</label> 
+			<input type="text" name="title" class="form-control" required/>
+			<div id="titleError"></div>
+			<label for="brand">Brand</label> 
+			<input type="text" name="brand" class="form-control" required/>
+			<div id="brandError"></div>
+			<label for="stock">Stock</label> 
+			<input type="number" name="stock" class="form-control" min=0 step=1 required/>
+			<div id="stockError"></div>
+			<label for="price">Price</label> 
+			<input type="text" name="price" class="form-control" required/>
+			<div id="priceError"></div>
+			<div class="checkbox">
+				<label>
+					<input id="disableCheck" type="checkbox" name="disabled">Disable
+				</label>
+			</div>
+			<!-- <input type="checkbox" name="disabled" class="form-control" /> -->
+	
+			<input type="file" name="productImage" accept="image/png, image/jpeg">
+			<div id="fileError"></div>
+			<div id="newList-serverError"></div>
+			<input id="addNewPhone" class="btn btn-primary" type="button" value="Add New Listing" style="margin-top: 10px;"/>
+		</fieldset>
+	</form>
+</div>

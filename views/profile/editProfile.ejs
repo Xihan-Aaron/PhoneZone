@@ -1,18 +1,48 @@
-<form method = "POST" action="../profile/editProfile">
-	<fieldset>
-		<legend>Edit Profile</legend>
+<div id="editProfileTab" class="tab-pane fade in active">
+	<form id="editProfile" action="../profile/editProfile" class="form-form">
+		<fieldset>
+			<!-- <legend style="margin-top: 15px;">Edit Profile</legend> -->
 
-		<label for="firstname">First Name</label> 
-		<input type="text" name="firstname" class="form-control" placeholder="<%= userInfo["firstname"] %>" />
+			<label for="firstname">First Name</label> 
+			<input type="text" name="firstname" class="form-control" placeholder="<%= userInfo["firstname"] %>" />
+			<div id="firstnameError"></div>
 
-		
-		<label  for="lastname">Last Name</label> 
-		<input type="text" name="lastname" class="form-control" placeholder="<%= userInfo["lastname"] %>"/>
+			<label for="lastname">Last Name</label> 
+			<input type="text" name="lastname" class="form-control" placeholder="<%= userInfo["lastname"] %>"/>
+			<div id="lastnameError"></div>
 
+			<label for="email">Email</label> 
+			<input type="email" name="email" class="form-control" placeholder="<%= userInfo["email"] %>"/>
+			<div id="emailError"></div>
+			<div id="profile-serverError"></div>
 
-		<label for="email">Email</label> 
-		<input type="email" name="email" class="form-control" placeholder="<%= userInfo["email"] %>"/>
-
-		<input class="btn btn-primary" type = "submit" value = "Update profile" />
-	</fieldset>
-</form>
+			<!-- <input id="editProfileBtn" class="btn btn-primary" type="button" value="Update profile" role="button" style="margin-top: 10px;"/> -->
+			<!-- <input id="editProfileBtn" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#passwordModal" value="Update profile" role="button" style="margin-top: 10px;"></input> -->
+			<button id="editProfileBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#passwordModal" style="margin-top: 10px;">Update profile</button>
+			<div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title" id="passwordModalLabel">Enter password to confirm</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="close"></button>
+						</div>
+						<div class="modal-body">
+							<form>
+								<div class="mb-3">
+									<label for="password" class="col-form-label">Enter password</label>
+									<input id="confirmPassword" type="password" name="password" class="form-control" style="margin-bottom: 10px;" />
+									<div id="confirmPasswordError"></div>
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<input id="confirmPasswordBtn" class="btn btn-primary" type="button" value="Confirm" role="button"/>
+							<!-- <button type="button" class="btn btn-primary">Confirm</button> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+	</form>
+</div>

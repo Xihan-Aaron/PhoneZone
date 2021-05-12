@@ -45,7 +45,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const userAlreadyAuthenticated =(req,res,next)=>{
 	if(req.session.user_id && req.url !=="/signout"){
-		res.redirect('/')
+		return res.redirect('/')
 	}else{
 		next()
 	}
@@ -54,7 +54,11 @@ const userAlreadyAuthenticated =(req,res,next)=>{
 
 const userAuthenticate =(req,res,next)=>{
 	if(!req.session.user_id){
-		res.redirect('/')
+		if(req.originalUrl==='/checkout'){
+			console.log("check")
+			return res.redirect('/users/signin')
+		}
+		return res.redirect('/')
 	}else{
 		next()
 	}
@@ -71,7 +75,6 @@ app.use(session({
 }));
 
 
-app.get('/',mainRoute)
 
 app.use('/',mainRoute)
 

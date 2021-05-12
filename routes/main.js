@@ -1,58 +1,54 @@
 const express= require('express')
 const router =express.Router();
-const mainCheckout = require('../controllers/main');
+const main = require('../controllers/main');
 
 router.get('/', (req,res,next)=>{
-	console.log(req.session.user_id)
+	console.log(req.session.user_id,'Main')
 	next()
 },
-mainCheckout.main
+main.main
 )
 
 router.post('/',function (req, res,next) {
 	searchtext = req.body.searchtext
-	console.log("search");
 	if(searchtext == undefined) {
 		return next('route')
 	}
+	next()
 },
-mainCheckout.search
-
+main.search
 )
 
 router.post('/',function (req, res,next) {
-	selectedItem = req.body.selectItem
+	selectItem = req.body.selectItem
 
-	console.log("selectedItem");
 	if(selectItem == undefined) {
 		next('route')
 	}
+	next()
 },
-mainCheckout.selectItem
-
+main.selectItem
 )
 
 router.post('/',function (req, res,next) {
-	console.log("main");
+	next()
 },
-mainCheckout.main
+main.main
 )
 
-// router.post('/',(req,res,next)=> {
-// 	console.log("main post")
-// 	searchtext = req.body.searchtext
-// 	if(searchtext == null) {
-// 		mainCheckout.main
-// 	}
-// 	selectedItem = req.body.selectItem
-// 	if(searchtext != null) {
-// 		mainCheckout.search
-// 	}
-// 	console.log(test)
-// 		next()
-// },
-// mainCheckout.search
-// )
+router.post('/search',function (req, res,next) {
+	next()
+},
+main.search
+)
+
+router.post('/item',function (req, res,next) {
+	next()
+},
+main.selectItem
+)
+
+router.post('/addToCart', main.addItemToCart);
 
 
 module.exports = router
