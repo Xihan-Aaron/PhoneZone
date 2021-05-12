@@ -10,11 +10,11 @@
 	<body>
 		<nav class="navbar navbar-default navbar-static-top">
 			<div class="container">
-				<div class="navbar-header">
+				<div class="navbar-header" style="top: 50%;">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"></button>
 					<a class="navbar-brand" href="/">PhoneZone</a>
 				</div>
-				<div id="navbar" class="navbar-collapse collapse">
+				<div id="navbar" class="navbar-collapse collapse" style="top: 50%;">
 					<!-- <form method="POST" name="search" class="navbar-form navbar-left" role="search"> -->
 					<form id="search" name="search" class="navbar-form navbar-left" role="search">
 						<div class="form-group">
@@ -40,15 +40,12 @@
 			</div>
 		</nav>
 		<div class="container">
-			<h2>Home Page</h2>
+			<div id="searchError"></div>
 
-			<div id="searchResult">
+			<div id="searchResult"></div>
 
-			</div>
+			<div id="itemInfo"></div>
 
-			<div id="itemInfo">
-
-			</div>
 			<% if(tab=='search') { %>
 				<%- include('main/search') %>
 			<% } else if(tab == 'item') { %>
@@ -57,7 +54,6 @@
 				<%- include('main/home') %>
 			<% } %>
 		</div>
-
 
 	</body>
 </html>

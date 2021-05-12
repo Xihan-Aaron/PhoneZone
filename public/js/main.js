@@ -1,6 +1,10 @@
 $(document).ready(function() {
     // var searchResultBackup;
 
+    $('input[name="searchtext"]').on('focus', function(e){
+        $('#searchError').empty();
+    });
+
     $('#searchBtn').on('click', function(e){
         e.preventDefault();
         var searchText = {searchtext: $('input[name="searchtext"]').val()};
@@ -8,21 +12,27 @@ $(document).ready(function() {
             $.post('/search', searchText, function(result){
                 // console.log(result);
                 if (result.searchResults.length < 1){
-                    alert("No result matches.");
+                    $('#searchError').append('<p class="error">- No search result found.</p>');
+                    if($('.searchItem').length > 0){
+                      $('.searchItem').each(function(){
+                        $(this).remove();
+                      });
+                    }
+                    // alert("No result matches.");
+                } else {
+                    viewSearch(result.searchResults);
+                    addDropDown(result.searchResults);
+                    addRange(result.searchResults);
+                    $('#soldOutSoon').remove();
+                    $('#bestSellers').remove();
+                    $('#itemInfo').empty();
+                    $('#filter').on('change', changeFilter);
+                    $('#priceRange').on('change', changeRange);
+                    $('.searchItem').on('click', selectItem);
                 }
-                // searchResultBackup = result.searchResults;
-                viewSearch(result.searchResults);
-                addDropDown(result.searchResults);
-                addRange(result.searchResults);
-                $('#soldOutSoon').remove();
-                $('#bestSellers').remove();
-                $('#itemInfo').empty();
-                $('#filter').on('change', changeFilter);
-                $('#priceRange').on('change', changeRange);
-                $('.searchItem').on('click', selectItem);
             });
         } else {
-            alert("Please type in the search content.");
+          $('#searchError').append('<p class="error">- No search result found.</p>');
         }
     });
 
@@ -34,7 +44,7 @@ $(document).ready(function() {
                 $.post('/', searchText, function(result){
                     // console.log(result);
                     if (result.searchResults.length < 1){
-                        alert("No result matches.");
+                      $('#searchError').append('<p class="error">- No search result found.</p>');
                     }
                     // searchResultBackup = result.searchResults;
                     viewSearch(result.searchResults);
@@ -249,9 +259,15 @@ function addRange(result){
         max = Math.max(...priceList) + 1;
     }
     console.log(max);
-    var rangeComponent = '<label for="priceRange" class="form-label">Price range</label>';
-    rangeComponent += '<input type="range" class="form-range" id="priceRange" min="0" ' + 'max="' + max + '"' + '>';
+    var rangeComponent ='<div id="rangeSection">';
+    rangeComponent += '<input type="range" class="form-range" id="priceRange" min="0" ' + 'max="' + parseInt(max) + '"' + '></div>';
+    rangeComponent += '<div style="text-align: center;"><span style="float: left;">0</span><span>' + parseInt(max / 2) + '</span>' + '<span style="float: right;">' + parseInt(max) + '</span></div>';
     section.append(rangeComponent);
+    var rangeUlitily = '<div class="text-right"><span>Current price: </span>'
+    rangeUlitily += '<span id="rangeValue">' + parseInt($('#priceRange').val()); + '</span></div>'
+    
+    $("#rangeSection").prepend(rangeUlitily);
+
 }
 
 function changeFilter(){
@@ -281,6 +297,7 @@ function changeFilter(){
 
 function changeRange(){
     var price = parseFloat($('#priceRange').val());
+    $('#rangeValue').text(price);
     var brandFilter = $('#filter').val();
     console.log("Current threshold: " + price.toString());
     console.log(brandFilter);

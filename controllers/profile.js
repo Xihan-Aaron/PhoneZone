@@ -5,6 +5,7 @@ const PhoneListing = require('../models/phoneListing');
 const helper = require('./helper');
 const path = require('path');
 var fs = require('fs');
+const { type } = require('os');
 
 module.exports.profilePage = async function(req,res,next){
 	try{
@@ -234,6 +235,7 @@ module.exports.removeListing = async function(req,res,next){
 
 module.exports.editListing = async function(req,res,next){
 	try{
+		console.log(typeof req.body.disabled)
 		const editNow = await PhoneListing.updateDisabled(req.body.editId,req.body.disabled)
 		if(editNow['nModified']==1){
 			return res.status(200).json({errors:req.session.errors, success:req.session.success})

@@ -71,7 +71,7 @@ PhoneListingSchema.statics.getItemsBySeller = function(user_id){
 }
 
 PhoneListingSchema.statics.updateDisabled = function(id,disabled){
-	if(disabled){
+	if(disabled == 'true'){
 		return this.updateOne(
 		    {"_id" :  new objectId(id)},
 		    {$set: { "disabled" : ""}}
