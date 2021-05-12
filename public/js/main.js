@@ -63,9 +63,11 @@ $(document).ready(function() {
 });
 
 function viewSearch(result){
+    $('#heading').empty();
+    $('#heading').append("Search results");
     var searchSection = $('#searchResult');
     searchSection.empty();
-    searchSection.append("<h3>Search results</h3>");
+    // searchSection.append("<h3>Search results</h3>");
     var table = '<table class="table table-hover">';
     var tableTitle = '<thead><th></th><th>Title</th><th>Brand</th><th>Price</th><th>Stock</th></thead>';
     var tableBody = '<tbody>';
@@ -94,8 +96,9 @@ function viewSearch(result){
 }
 
 function viewItem(result) {
+  $('#heading').append(result.title);
   var info = $('#itemInfo');
-  info.append('<h3>' + result.title + '</h3>');
+  // info.append('<h3 id="heading">' + result.title + '</h3>');
 
   var image = '<img src=' + result.image + ' alt="">'
 
@@ -136,8 +139,8 @@ function viewItem(result) {
         tableRow += '<td class="rating">' + reviews[i].rating + '</td>';
 
         if(reviews[i].comment.length > 200) {
-          tableRow += '<td class="partialComment ">' + reviews[i].comment.substring(0,200) + "<b>...Show More...</b>" + '</td>';
-          tableRow += '<td class="fullComment hide">' + reviews[i].comment + '</td>';
+          tableRow += '<td class="partialComment ">' + reviews[i].comment.substring(0,200) + '<b> (Show More) </b>' + '</td>';
+          tableRow += '<td class="fullComment hide">' + reviews[i].comment + '<b> (Show Less) </b>' + '</td>';
         } else {
           tableRow += '<td class="comment">' + reviews[i].comment + '</td>';
         }
@@ -214,11 +217,11 @@ function selectItem(result) {
       console.log(id);
 
       $.post('/item',id,function(result) {
-        viewItem(result.info);
         $('#soldOutSoon').remove();
         $('#bestSellers').remove();
         $('#searchResult').empty();
-
+        $('#heading').empty();
+        viewItem(result.info);
       })
 }
 

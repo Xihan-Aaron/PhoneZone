@@ -96,7 +96,6 @@ UserSchema.statics.removeFromCart = function(user_id,item){
 				}
 			}
 		).exec()
-
 }
 
 module.exports = mongoose.model('User', UserSchema)

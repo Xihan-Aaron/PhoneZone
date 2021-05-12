@@ -1,6 +1,6 @@
-<div id="itemDetails">
+<div id="itemInfo">
 
-  <h3> title: <%=info.title %></h3>
+  <h3 id="heading"> <%=info.title %></h3>
 
   <div class="row">
     <div class="col-md-6">
@@ -34,8 +34,8 @@
           <td class="reviewer"> <%= info.reviews[i].reviewer %></td>
           <td class="rating"> <%= info.reviews[i].rating %></td>
           <% if(info.reviews[i].comment.length > 200) { %>
-            <td class="partialComment "> <%= info.reviews[i].comment.substring(0,200) %> <b> (Show More...) </b> </td>
-            <<td class="fullComment hide"> info.reviews[i].comment <b> (Show Less) </b> </td>
+            <td class="partialComment "> <%= info.reviews[i].comment.substring(0,200) %> <b> (Show More) </b> </td>
+            <<td class="fullComment hide"> <%= info.reviews[i].comment %> <b> (Show Less) </b> </td>
           <% } else {%>
             <td class="comment"> <%= info.reviews[i].comment %></td>
           <% } %>
