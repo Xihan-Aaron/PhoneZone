@@ -48,24 +48,6 @@ $(document).ready(function(){
         $('#modifyListError').empty();
     })
 
-    // $('#editProfileBtn').on('click', function(e){
-    //     $('#firstnameError').empty();
-    //     $('#lastnameError').empty();
-    //     $('#emailError').empty();
-    //     e.preventDefault();
-    //     // var editInfo = {
-    //     //     firstname: $('#editProfile').find('input[name="firstname"]').val().trim(),
-    //     //     lastname: $('#editProfile').find('input[name="lastname"]').val().trim(),
-    //     //     email: $('#editProfile').find('input[name="email"]').val().trim()
-    //     // }
-
-    //     // if(editInfo.firstname == ""){
-    //     //     $('#firstnameError').append('<p class="error">- Please enter a name.</p>');
-    //     // }
-    // })
-
-
-
     $('#confirmPasswordBtn').on('click', function(e){
         $('#firstnameError').empty();
         $('#lastnameError').empty();
@@ -77,7 +59,6 @@ $(document).ready(function(){
             lastname: $('#editProfile').find('input[name="lastname"]').val().trim(),
             email: $('#editProfile').find('input[name="email"]').val().trim()
         }
-
         
         // Check password
         var password = $('#confirmPassword').val().trim();
@@ -102,7 +83,7 @@ $(document).ready(function(){
                                     $('#profile-serverError').append('<p class="error">- ' + updateResult.errors[error] + '</p>');
                                 }
                             } else {
-                                alert("Update success");
+                                // alert("Update success");
                                 $('#editProfile').find('input[name="firstname"]').val("");
                                 $('#editProfile').find('input[name="lastname"]').val("");
                                 $('#editProfile').find('input[name="email"]').val("");
@@ -164,7 +145,8 @@ $(document).ready(function(){
                 success: function(passwordResult){
                     $('#editPassword').find('input[name="currentPassword"]').val("");
                     $('#editPassword').find('input[name="newPassword"]').val("");
-                    alert("Password update success.");
+                    history.go(0)
+                    // alert("Password update success.");
                     // console.log(passwordResult);
                 },
                 error: function(passwordResult){
@@ -215,8 +197,8 @@ $(document).ready(function(){
         if(brand == ""){
             $('#brandError').append('<p class="error">- Please type in a brand.</p>');
         }
-        if(isNaN(stock)){
-            $('#stockError').append('<p class="error">- Please type in the available stock.</p>');
+        if(isNaN(stock) || stock < 0){
+            $('#stockError').append('<p class="error">- Please type in a valid stock number.</p>');
         }
         
         var floatNum = parseFloat(price);
@@ -245,7 +227,7 @@ $(document).ready(function(){
         console.log(phoneInfo.stock);
         // console.log(phoneInfo.price);
         // if(phoneInfo.title != "" && phoneInfo.brand != "" && phoneInfo.stock != "" )
-        if(title != "" && brand != "" && !isNaN(stock) && !isNaN(floatNum) && floatNum >= 0 && files.length > 0){
+        if(title != "" && brand != "" && !isNaN(stock) && !(stock < 0) && !isNaN(floatNum) && floatNum >= 0 && files.length > 0){
             $.ajax({
                 data: formData,
                 type: "post",
@@ -255,7 +237,8 @@ $(document).ready(function(){
                 success: function(result){
                     // console.log("success");
                     console.log(result);
-                    window.location.href = '/profile';
+                    history.go(0);
+                    // window.location.href = '/profile';
                 },
                 error: function(result){
                     // console.log("error");
@@ -283,9 +266,15 @@ $(document).ready(function(){
         e.preventDefault();
 
         var id = $(this).parent().parent().parent().prop('id');
-        var disableDiv = $(this).parent().parent().parent().find('.disabled');
-        console.log(disableDiv);
-        var disable = 'on';
+        var disableDivHTML = $(this).parent().parent().parent().find('.disabled').html();
+        console.log(disableDivHTML);
+        
+        var disable;
+        if(disableDivHTML.indexOf('Disable') > -1){
+            disable = false;
+        } else {
+            disable = true;
+        }
         var disableInfo = {
             editId: id,
             disabled: disable
@@ -296,8 +285,9 @@ $(document).ready(function(){
             url: "/profile/editListing",
             success: function(result){
                 console.log(result);
-                alert("Disabled successfully.");
-                disableDiv.html('<del>Disabled</del>');
+                // alert("Disabled successfully.");
+                history.go(0);
+                // disableDiv.html('<del>Disabled</del>');
             },
             error: function(result){
                 for(error in result.responseJSON.errors){

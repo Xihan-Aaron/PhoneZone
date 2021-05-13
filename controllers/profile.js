@@ -5,6 +5,7 @@ const PhoneListing = require('../models/phoneListing');
 const helper = require('./helper');
 const path = require('path');
 var fs = require('fs');
+const { type } = require('os');
 
 module.exports.profilePage = async function(req,res,next){
 	try{
@@ -13,6 +14,7 @@ module.exports.profilePage = async function(req,res,next){
 		if(userFromDb ==null){
 			redirect('/')
 		}else{
+
 			userInfo = 
 			{
 				firstname:userFromDb.firstname,
@@ -24,7 +26,7 @@ module.exports.profilePage = async function(req,res,next){
 				if(items instanceof Error){
 					next(items)
 				}else{
-					res.render('profile/profile.ejs',{userInfo:userInfo,errors: req.session.errors, success:req.session.success,items:items})
+					return res.render('profile/profile.ejs',{userInfo:userInfo,errors: req.session.errors, success:req.session.success,items:items})
 				}
 			})
 		}
@@ -234,6 +236,7 @@ module.exports.removeListing = async function(req,res,next){
 
 module.exports.editListing = async function(req,res,next){
 	try{
+		console.log(typeof req.body.disabled)
 		const editNow = await PhoneListing.updateDisabled(req.body.editId,req.body.disabled)
 		if(editNow['nModified']==1){
 			return res.status(200).json({errors:req.session.errors, success:req.session.success})

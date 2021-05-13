@@ -45,7 +45,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const userAlreadyAuthenticated =(req,res,next)=>{
 	if(req.session.user_id && req.url !=="/signout"){
-		res.redirect('/')
+		return res.redirect('/')
 	}else{
 		next()
 	}
@@ -55,13 +55,20 @@ const userAlreadyAuthenticated =(req,res,next)=>{
 const userAuthenticate =(req,res,next)=>{
 	if(!req.session.user_id){
 		if(req.originalUrl==='/checkout'){
-			res.redirect('/users/signin')
+			return res.redirect('/users/signin')
 		}
-		res.redirect('/')
+		return res.redirect('/')
 	}else{
 		next()
 	}
 	
+}
+
+const removeHistroy=(req,res,next)=>{
+	delete req.session.prevUrl
+	delete req.session.prevInfo
+	delete req.session.auth
+	next()
 }
 
 app.use(session({
@@ -74,13 +81,12 @@ app.use(session({
 }));
 
 
-app.get('/',mainRoute)
 
 app.use('/',mainRoute)
 
 app.use('/users', userAlreadyAuthenticated,usersRoute)
 
-app.use('/profile', userAuthenticate,profileRoute)
+app.use('/profile', userAuthenticate,removeHistroy,profileRoute)
 
 app.use('/checkout', userAuthenticate,checkoutRoute)
 

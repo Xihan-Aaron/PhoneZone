@@ -20,7 +20,11 @@ $(document).ready(function(){
         $('#confirm_passwordError').empty();
         $('#serversideError').empty();
     });
-    
+    $(document).keydown(function (event) {
+        if ( (event.keyCode || event.which) === 13) {
+            $("#signupBtn").click();
+        }
+    });
     $('#signupBtn').on('click', function(e){
         $('#firstnameError').empty();
         $('#lastnameError').empty();
@@ -58,7 +62,8 @@ $(document).ready(function(){
                 type: "post",
                 url: "/users/signup",
                 success: function(result){
-                    history.back(-1);
+                    window.location.href="/"
+                    //history.back(-1); - DO NOT USE
                 },
                 error: function(result){
                     // console.log(result.responseJSON);

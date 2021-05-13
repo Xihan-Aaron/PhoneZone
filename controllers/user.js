@@ -2,10 +2,6 @@ var express = require('express');
 var crypto = require('crypto');
 const User = require('../models/users');
 
-redirectToPrev = function(req,res){
-	req.session.auth=true;
-	res.redirect('/')
-}
 
 module.exports.signup = async function (req,res,next){
 	if(req.session.success==false){
@@ -39,7 +35,8 @@ module.exports.signup = async function (req,res,next){
 		return res.status(400).json({errors: req.session.errors, success:req.session.success})
 		//return res.render('signup.ejs',{errors: req.session.errors, success:req.session.success});
 	}else{
-		return redirectToPrev(req,res);
+		req.session.auth=true;
+		return res.status(200).json({success:req.session.success});
 	}
 }
 
@@ -57,7 +54,8 @@ module.exports.signin = async function(req,res,next){
 			if (userFromDb.password===hashPasswordBrowser){
 				req.session.user_id=userFromDb._id
 				req.session.success=true
-				return redirectToPrev(req,res);
+				req.session.auth=true;
+				return res.status(200).json({success:req.session.success});
 			}else{
 				errors.push("Incorrect Combination of Password and Email")
 			}

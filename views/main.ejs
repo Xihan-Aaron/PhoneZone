@@ -5,16 +5,17 @@
 		<link rel="stylesheet" type="text/css" href="/bootstrap-3.4.1-dist/css/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="/css/main.css" media="screen" />
 		<script defer type="text/javascript" src="/js/main.js"></script>
+		<script defer type="text/javascript" src="/js/jquerysession.js"></script>
 		<title>PhoneZone</title>
 	</head>
 	<body>
 		<nav class="navbar navbar-default navbar-static-top">
 			<div class="container">
-				<div class="navbar-header">
+				<div class="navbar-header" style="top: 50%;">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"></button>
 					<a class="navbar-brand" href="/">PhoneZone</a>
 				</div>
-				<div id="navbar" class="navbar-collapse collapse">
+				<div id="navbar" class="navbar-collapse collapse" style="top: 50%;">
 					<!-- <form method="POST" name="search" class="navbar-form navbar-left" role="search"> -->
 					<form id="search" name="search" class="navbar-form navbar-left" role="search">
 						<div class="form-group">
@@ -41,13 +42,13 @@
 		</nav>
 		<div class="container">
 			<h3 id="heading">Home Page</h3>
-			<div id="searchResult">
 
-			</div>
+			<div id="searchError"></div>
 
-			<div id="itemInfo">
+			<div id="searchResult"></div>
 
-			</div>
+			<div id="itemInfo"></div>
+
 			<% if(tab=='search') { %>
 				<%- include('main/search') %>
 			<% } else if(tab == 'item') { %>
@@ -56,7 +57,6 @@
 				<%- include('main/home') %>
 			<% } %>
 		</div>
-
 
 	</body>
 </html>

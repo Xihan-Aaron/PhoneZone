@@ -5,13 +5,14 @@ const PhoneListing = require('../models/phoneListing');
 
 
 module.exports.checkoutPage = async function(req,res,next){
+	console.log(req.session.prevUrl)
 	try{
 		userFromDb = await User.getUserById(req.session.user_id)
 		if(userFromDb == null){
 			console.log("redirect");
 			redirect('/')
 		}else{
-			console.log(userFromDb);
+
 			// result = await helper.getCartInfo(userFromDb.checkout)
 			cart = userFromDb.checkout
 			totalPrice = 0;

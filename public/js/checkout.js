@@ -1,7 +1,12 @@
 $(document).ready(function() {
+  $('#goBack').on('click', function(){
+    if(document.referrer.split('/').pop()==""){
+      window.location.href="/"
+    }
+    history.back(-1);
+  });
 
   $('.cartItem').on('click', selectItem);
-
 
   $('#changeQuantity').on('click', function(e){
       // e.preventDefault();

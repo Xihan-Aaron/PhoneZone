@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript" src="/js/jquery-3.6.0.js"></script>
+		<link rel="stylesheet" type="text/css" href="/bootstrap-3.4.1-dist/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="/css/main.css" media="screen" />
+		<script defer type="text/javascript" src="/js/main.js"></script>
+		<title>PhoneZone</title>
+	</head>
+	<body>
+		<nav class="navbar navbar-default navbar-static-top">
+			<div class="container">
+				<div class="navbar-header" style="top: 50%;">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"></button>
+					<a class="navbar-brand" href="/">PhoneZone</a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse" style="top: 50%;">
+					<!-- <form method="POST" name="search" class="navbar-form navbar-left" role="search"> -->
+					<form id="search" name="search" class="navbar-form navbar-left" role="search">
+						<div class="form-group">
+							<input type="text" placeholder="Search..." name="searchtext" class="form-control">
+						</div>
+						<!-- <input id="searchBtn" class="btn btn-primary" type="submit" value="Search" /> -->
+						<input id="searchBtn" class="btn btn-primary" type="button" value="Search" role="button" />
+					</form>
+					<ul id="searchFilter" class="navbar-form navbar-left"></ul>
+					<ul id="searchRange" class="navbar-form navbar-left"></ul>
+
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="/checkout">Check out</a></li>
+						<% if(typeof user_id == 'undefined') { %>
+							<li><a href="/users/signup">Sign up</a></li>
+							<li><a href="/users/signin">Sign in</a></li>
+						<% } else { %>
+							<li><a href="/profile">Profile</a></li>
+							<li><a href="/users/signout">Sign out</a></li>
+						<% } %>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<div class="container">
+			<h1>Error</h1>
+			<p>Message: <%= errors %></p>
+		</div>	
+
+	</body>
+</html>

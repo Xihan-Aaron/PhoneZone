@@ -9,12 +9,15 @@ $(document).ready(function(){
         $('#serversideError').empty();
     });
     
-    
+    $(document).keydown(function (event) {
+        if ( (event.keyCode || event.which) === 13) {
+            $("#signinBtn").click();
+        }
+    });
     $('#signinBtn').on('click', function(e){
         $('#emailError').empty();
         $('#passwordError').empty();
         $('#serversideError').empty();
-
         e.preventDefault();
         var signinInfo = {
             email: $('input[name="email"]').val().trim(),
@@ -32,16 +35,9 @@ $(document).ready(function(){
                 type: "post",
                 url: "/users/signin",
                 success: function(result){
-                    // var userid = result.user_id;
-                    // var tab = result.tab;
-                    // console.log(tab);
-                    history.back(-1);
-
+                    window.location.href="/"
                 },
-                error: function(result){
-                    // console.log(result.responseJSON);
-                    // Array
-                    for(var i = 0; i < result.responseJSON.errors.length; i++){
+                error: function(result){for(var i = 0; i < result.responseJSON.errors.length; i++){
                         $('#serversideError').append('<p class="error">- ' + result.responseJSON.errors[i] + '</p>');
                     }
                 }
