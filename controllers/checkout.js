@@ -8,26 +8,21 @@ module.exports.checkoutPage = async function(req,res,next){
 	console.log(req.session.prevUrl)
 	try{
 		userFromDb = await User.getUserById(req.session.user_id)
-		//console.log("userinfo:",userFromDb);
 		if(userFromDb == null){
+			console.log("redirect");
 			redirect('/')
 		}else{
-			//console.log("checkout: ",userFromDb.checkout);
 
 			// result = await helper.getCartInfo(userFromDb.checkout)
 			cart = userFromDb.checkout
-			totalPrice = 0;
 			for(var i = 0;i<cart.length;i++) {
-				console.log(i,":",cart[i]);
 				item = cart[i]
 				itemInfo = await PhoneListing.getItemById(item.id);
 				item['title'] = itemInfo['title']
 				item['price'] = itemInfo['price']
 				item['image'] = itemInfo['image']
-				totalPrice += (parseFloat(itemInfo['price'])*item['quantity'])
 			}
-			//console.log("cart",cart);
-			res.render('checkout.ejs',{user_id:req.session.user_id,info:cart,total:totalPrice})
+			res.render('checkout.ejs',{user_id:req.session.user_id,info:cart})
 		}
 	}catch(err){
 		err.statusCode=500
@@ -37,17 +32,20 @@ module.exports.checkoutPage = async function(req,res,next){
 module.exports.removeFromCart = async function(req,res,next){
 	try{
     selectedItems = req.body.items;
-    total = req.body.total;
+		console.log("items",selectedItems);
     user_id = req.session.user_id;
 
     for(var i =0; i<selectedItems.length;i++) {
+			console.log("i",i,user_id,selectedItems[i]);
       result = await User.removeFromCart(user_id,selectedItems[i])
+			console.log("result",result);
     }
+		return res.redirect('back');
 
-    res.json({
-  		user_id:req.session.user_id,
-  		total:total
-  	});
+    // res.json({
+  	// 	user_id:req.session.user_id,
+  	// 	total:total
+  	// });
 
 	}catch(err){
 		err.statusCode=500
@@ -58,6 +56,7 @@ module.exports.clearCart = async function(req,res,next){
 	try{
     selectedItems = req.body.items;
     quantity = req.body.quantity;
+		console.log(quantity);
     console.log("here");
     for(var i =0; i<selectedItems.length; i++) {
       console.log(selectedItems[i]);
@@ -82,7 +81,6 @@ module.exports.changeQuantity = async function(req,res,next){
 	try{
     selectedItems = req.body.items;
     quantity = req.body.quantity;
-    total = req.body.total;
     user_id = req.session.user_id;
 
     outOfStock = []
@@ -90,7 +88,7 @@ module.exports.changeQuantity = async function(req,res,next){
       result1 = await PhoneListing.getItemById(selectedItems[i])
       console.log("#####");
       console.log(result1);
-      if(parseInt(result1.stock) >= quantity) {
+      if(parseInt(result1.stock) >= parseFloat(quantity)) {
         result2 = await User.editCart(user_id,selectedItems[i],quantity)
       } else {
         outOfStock.push(selectedItems[i])
@@ -98,7 +96,6 @@ module.exports.changeQuantity = async function(req,res,next){
     }
     res.json({
   		user_id:req.session.user_id,
-  		total:total,
       outOfStock:outOfStock
   	});
 

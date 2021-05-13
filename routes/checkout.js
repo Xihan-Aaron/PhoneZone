@@ -18,5 +18,7 @@ router.post('/changeQuantity'
 	}
 	,checkoutController.changeQuantity)
 
+// router.post('/addToCart', checkoutController.addItemToCart);
+
 
 module.exports = router

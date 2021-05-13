@@ -81,24 +81,53 @@ module.exports.addItemToCart = async function(req,res,next){
 	try{
 		item_id = req.body.id
 		item_quantity = parseInt(req.body.quantity)
-		user_id = req.session.user_id
+		console.log(req.body.price);
+		item_price = parseFloat(req.body.price)
+		console.log("price:",item_price);
 
+		user_id = req.session.user_id
+		console.log("UID: ",user_id);
 		userFromDb = await User.getUserById(user_id)
+		console.log("userFromDb: ",userFromDb);
 		if(userFromDb == null) {
-			res.render('main.ejs')
+			console.log("redirect");
+			return res.redirect('/users/signin')
 		}
+		console.log("pass");
 		var exists = false
 		var checkingExisting = await User.checkExisting(user_id,item_id)
 		if(checkingExisting != null) {
 			var exists = true
 		}
-
 		if(!exists) {
-			var itemToAdd = {id:item_id,quantity:item_quantity}
+			var itemToAdd = {id:item_id,quantity:item_quantity,price:item_price}
+			console.log(itemToAdd);
 			var item = await User.addToCart(user_id,itemToAdd)
 		} else {
 			var item = await User.addExistingToCart(user_id,item_id,item_quantity)
 		}
+		return
+	}catch(err){
+		err.statusCode=500
+		next(err)
+	}
+}
+
+module.exports.getCartInfo = async function(req,res,next){
+	try{
+		user_id = req.session.user_id
+		userFromDb = await User.getUserById(user_id)
+		if(userFromDb == null) {
+			return
+		}
+
+		cartInfo = await User.getCartInfo(userFromDb._id)
+		console.log("cartInfo:",cartInfo[0].cartQuantity);
+
+		return res.json({
+			cartQuantity:cartInfo[0].cartQuantity,
+			cartPrice:cartInfo[0].cartPrice
+		});
 
 	}catch(err){
 		err.statusCode=500
