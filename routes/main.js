@@ -48,7 +48,16 @@ router.post('/item',function (req, res,next) {
 mainCheckout.selectItem
 )
 
-router.post('/addToCart', mainCheckout.addItemToCart);
+router.post('/addToCart',
+// function (req, res,next) {
+// 	if(req.session.user_id == undefined) {
+// 		res.redirect('/users/signin')
+// 	}
+// 	next()
+// },
+mainCheckout.addItemToCart);
 
+router.post('/getCartInfo',
+mainCheckout.getCartInfo);
 
 module.exports = router

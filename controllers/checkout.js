@@ -8,9 +8,10 @@ module.exports.checkoutPage = async function(req,res,next){
 	try{
 		userFromDb = await User.getUserById(req.session.user_id)
 		if(userFromDb == null){
+			console.log("redirect");
 			redirect('/')
 		}else{
-
+			console.log(userFromDb);
 			// result = await helper.getCartInfo(userFromDb.checkout)
 			cart = userFromDb.checkout
 			totalPrice = 0;
@@ -32,17 +33,21 @@ module.exports.checkoutPage = async function(req,res,next){
 module.exports.removeFromCart = async function(req,res,next){
 	try{
     selectedItems = req.body.items;
+		console.log("items",selectedItems);
     total = req.body.total;
     user_id = req.session.user_id;
 
     for(var i =0; i<selectedItems.length;i++) {
+			console.log("i",i,user_id,selectedItems[i]);
       result = await User.removeFromCart(user_id,selectedItems[i])
+			console.log("result",result);
     }
+		return res.redirect('back');
 
-    res.json({
-  		user_id:req.session.user_id,
-  		total:total
-  	});
+    // res.json({
+  	// 	user_id:req.session.user_id,
+  	// 	total:total
+  	// });
 
 	}catch(err){
 		err.statusCode=500
@@ -53,6 +58,7 @@ module.exports.clearCart = async function(req,res,next){
 	try{
     selectedItems = req.body.items;
     quantity = req.body.quantity;
+		console.log(quantity);
     console.log("here");
     for(var i =0; i<selectedItems.length; i++) {
       console.log(selectedItems[i]);

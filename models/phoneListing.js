@@ -48,8 +48,8 @@ const PhoneListingSchema = mongoose.Schema({
 
 PhoneListingSchema.statics.editStock = function(item_id,quantity){
 	return this
-	.updateOne(
-		{_id:item_id},
+	.findByIdAndUpdate(
+		item_id,
 		{$inc: {"stock":quantity}}
 	)
 	.exec();

@@ -57,9 +57,10 @@ $(document).ready(function() {
     $('.searchItem').on('click', selectItem);
     $('.topFiveItem').on('click', selectItem);
 
-    $('.reviews').on('click', showMoreReviews)
-    $('.showMoreComments').on('click', showMoreComments)
-    $('#addToCart').on('click', addToCartBtn)
+    $('.reviews').on('click', showMoreReviews);
+    $('.showMoreComments').on('click', showMoreComments);
+    $('#addToCart').on('click', addToCartBtn);
+    updateCartQuantity();
 });
 
 function viewSearch(result){
@@ -108,7 +109,7 @@ function viewItem(result) {
   div += '<p> brand: ' + result.brand  + '</p>'
   div += '<p> stock: ' + result.stock  + '</p>'
   div += '<p> seller: ' + result.seller  + '</p>'
-  div += '<p> price: ' + result.price  + '</p>'
+  div += '<p> price: <span id="itemPrice">' + result.price  + '</p>'
   div += '<input id="addToCart" class="btn btn-primary" type="button" value="Add to Cart" role="button" />'
   div += '</div> </div> '
 
@@ -197,6 +198,7 @@ function showMoreComments(e) {
 
 function addToCartBtn(e) {
   var id = $('#itemId').text().trim();
+  var price = $('#itemPrice').text().trim();
   while (quantity = prompt("Input number: ")) {
     if (isNaN(quantity) || quantity < 0) {
       alert("Invalid input.");
@@ -205,9 +207,22 @@ function addToCartBtn(e) {
       break;
     }
   }
-  var info = {id:id,quantity:quantity};
+  var info = {id:id,quantity:quantity,price:price};
+  console.log(id);
+
   $.post('/addToCart',info,function(result) {
-    viewItem(result.info);
+    if(result) {
+      alert("sign in required to add to cart")
+      updateCartQuantity()
+    }
+  })
+}
+
+function updateCartQuantity() {
+  $.post('/getCartInfo',function(result) {
+    console.log("post getCartInfo",result);
+    $('#cartQuantity').empty()
+    $('#cartQuantity').append(result.cartQuantity)
   })
 }
 

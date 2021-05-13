@@ -27,7 +27,7 @@
 					<ul id="searchRange" class="navbar-form navbar-left"></ul>
 
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="/checkout">Check out</a></li>
+						<li><a href="/checkout">Check out <span id="cartQuantity" class="badge badge-primary badge-pill"></span></a></li>
 						<% if(typeof user_id == 'undefined') { %>
 							<li><a href="/users/signup">Sign up</a></li>
 							<li><a href="/users/signin">Sign in</a></li>

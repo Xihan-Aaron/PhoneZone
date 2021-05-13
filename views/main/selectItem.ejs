@@ -7,11 +7,11 @@
       <img src= <%=info.image %> alt="">
     </div>
     <div class="col-md-6">
-      <p id="itemId" class="hide"> <%=info.id %> </p>
+      <p id="itemId" class="hide"> <%=info._id %> </p>
       <p> brand: <%=info.brand %></p>
       <p> stock: <%=info.stock %></p>
       <p> seller: <%= info.seller %></p>
-      <p> price: <%=info.price %></p>
+      <p> price:<span id="itemPrice"> <%=info.price %></span></p>
       <input id="addToCart" class="btn btn-primary" type="button" value="Add to Cart" role="button" />
     </div>
   </div>
@@ -35,7 +35,7 @@
           <td class="rating"> <%= info.reviews[i].rating %></td>
           <% if(info.reviews[i].comment.length > 200) { %>
             <td class="partialComment "> <%= info.reviews[i].comment.substring(0,200) %> <b> (Show More) </b> </td>
-            <<td class="fullComment hide"> <%= info.reviews[i].comment %> <b> (Show Less) </b> </td>
+            <td class="fullComment hide"> <%= info.reviews[i].comment %> <b> (Show Less) </b> </td>
           <% } else {%>
             <td class="comment"> <%= info.reviews[i].comment %></td>
           <% } %>
