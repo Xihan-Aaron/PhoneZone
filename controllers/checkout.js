@@ -15,16 +15,14 @@ module.exports.checkoutPage = async function(req,res,next){
 
 			// result = await helper.getCartInfo(userFromDb.checkout)
 			cart = userFromDb.checkout
-			totalPrice = 0;
 			for(var i = 0;i<cart.length;i++) {
 				item = cart[i]
 				itemInfo = await PhoneListing.getItemById(item.id);
 				item['title'] = itemInfo['title']
 				item['price'] = itemInfo['price']
 				item['image'] = itemInfo['image']
-				totalPrice += (parseFloat(itemInfo['price'])*item['quantity'])
 			}
-			res.render('checkout.ejs',{user_id:req.session.user_id,info:cart,total:totalPrice})
+			res.render('checkout.ejs',{user_id:req.session.user_id,info:cart})
 		}
 	}catch(err){
 		err.statusCode=500
@@ -100,7 +98,6 @@ module.exports.changeQuantity = async function(req,res,next){
     }
     res.json({
   		user_id:req.session.user_id,
-  		total:total,
       outOfStock:outOfStock
   	});
 

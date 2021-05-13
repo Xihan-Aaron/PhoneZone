@@ -1,4 +1,6 @@
 $(document).ready(function() {
+
+
   $('#goBack').on('click', function(){
     if(document.referrer.split('/').pop()==""){
       window.location.href="/"
@@ -34,7 +36,7 @@ $(document).ready(function() {
           // history.back(-1)
 
         });
-
+        updateCartQuantity();
       }
   });
 
@@ -45,6 +47,7 @@ $(document).ready(function() {
           // history.back(0)
 
         });
+        updateCartQuantity();
   });
 
   $('#confirm').on('click', function(e){
@@ -67,7 +70,12 @@ $(document).ready(function() {
           history.back(-1)
 
         });
+        updateCartQuantity();
+
   });
+
+  updateCartQuantity();
+
 })
 
 function getSelectedItems(quantity){
@@ -107,5 +115,7 @@ function updateCartQuantity() {
     console.log("post getCartInfo",result);
     $('#cartQuantity').empty()
     $('#cartQuantity').append(result.cartQuantity)
+    $('#cartPrice').empty()
+    $('#cartPrice').append(result.cartPrice)
   })
 }
