@@ -1,13 +1,10 @@
 $(document).ready(function() {
-
-  
   $('#goBack').on('click', function(){
-    // alert($.session.get('prev'));
-    history.go(-1);
-    // window.location.href = "/";
-    
+    if(document.referrer.split('/').pop()==""){
+      window.location.href="/"
+    }
+    history.back(-1);
   });
-
   $('#changeQuantity').on('click', function(e){
       e.preventDefault();
       var quantity = $('input[name="quantity"]').val();

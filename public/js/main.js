@@ -68,11 +68,7 @@ $(document).ready(function() {
                     $('.searchItem').on('click', selectItem);
                 }
             });
-            $.session.set('prev', 'search');
-            $.session.set('searchText', $('input[name="searchtext"]').val());
-        } else {
-          $('#searchError').append('<p class="error">- No search result found.</p>');
-        }
+        } 
     });
 
     $('#search').find('input[name="searchtext"]').bind('keypress', function(e){

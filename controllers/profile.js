@@ -14,6 +14,7 @@ module.exports.profilePage = async function(req,res,next){
 		if(userFromDb ==null){
 			redirect('/')
 		}else{
+
 			userInfo = 
 			{
 				firstname:userFromDb.firstname,

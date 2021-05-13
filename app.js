@@ -55,7 +55,6 @@ const userAlreadyAuthenticated =(req,res,next)=>{
 const userAuthenticate =(req,res,next)=>{
 	if(!req.session.user_id){
 		if(req.originalUrl==='/checkout'){
-			console.log("check")
 			return res.redirect('/users/signin')
 		}
 		return res.redirect('/')
@@ -63,6 +62,13 @@ const userAuthenticate =(req,res,next)=>{
 		next()
 	}
 	
+}
+
+const removeHistroy=(req,res,next)=>{
+	delete req.session.prevUrl
+	delete req.session.prevInfo
+	delete req.session.auth
+	next()
 }
 
 app.use(session({
@@ -80,7 +86,7 @@ app.use('/',mainRoute)
 
 app.use('/users', userAlreadyAuthenticated,usersRoute)
 
-app.use('/profile', userAuthenticate,profileRoute)
+app.use('/profile', userAuthenticate,removeHistroy,profileRoute)
 
 app.use('/checkout', userAuthenticate,checkoutRoute)
 
