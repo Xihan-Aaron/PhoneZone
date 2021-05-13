@@ -1,30 +1,15 @@
 $(document).ready(function() {
-<<<<<<< HEAD
-<<<<<<< HEAD
   $('#goBack').on('click', function(){
+    console.log(document.referrer.split('/').pop()=="")
     if(document.referrer.split('/').pop()==""){
       window.location.href="/"
     }
     history.back(-1);
   });
-=======
-=======
->>>>>>> 53d01a385cc55772f851dcc7595b68b66879b40a
 
-
-<<<<<<< HEAD
->>>>>>> 0627f97243c5f14b9dd4ee6f13b163a993abda72
-=======
-  $('#goBack').on('click', function(){
-    if(document.referrer.split('/').pop()==""){
-      window.location.href="/"
-    }
-    history.back(-1);
-  });
 
   $('.title').on('click', selectItem);
 
->>>>>>> 53d01a385cc55772f851dcc7595b68b66879b40a
   $('#changeQuantity').on('click', function(e){
       // e.preventDefault();
       var quantity = $('input[name="quantity"]').val();

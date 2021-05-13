@@ -35,20 +35,12 @@ $(document).ready(function(){
                 type: "post",
                 url: "/users/signin",
                 success: function(result){
-<<<<<<< HEAD
-<<<<<<< HEAD
                     window.location.href="/"
-=======
                     // var userid = result.user_id;
                     // var tab = result.tab;
                     // console.log(tab);
                     //history.back(-1);  - DO NOT USE THIS
-                    window.location.href="/"
 
->>>>>>> 0627f97243c5f14b9dd4ee6f13b163a993abda72
-=======
-                    window.location.href="/"
->>>>>>> 53d01a385cc55772f851dcc7595b68b66879b40a
                 },
                 error: function(result){for(var i = 0; i < result.responseJSON.errors.length; i++){
                         $('#serversideError').append('<p class="error">- ' + result.responseJSON.errors[i] + '</p>');

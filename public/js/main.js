@@ -68,19 +68,9 @@ $(document).ready(function() {
                     $('.searchItem').on('click', selectItem);
                 }
             });
-<<<<<<< HEAD
-<<<<<<< HEAD
-        } 
-=======
             $.session.set('prev', 'search');
             $.session.set('searchText', $('input[name="searchtext"]').val());
-        } else {
-          $('#searchError').append('<p class="error">- No search result found.</p>');
-        }
->>>>>>> 0627f97243c5f14b9dd4ee6f13b163a993abda72
-=======
-        }
->>>>>>> 53d01a385cc55772f851dcc7595b68b66879b40a
+        } 
     });
 
     $('#search').find('input[name="searchtext"]').bind('keypress', function(e){
@@ -199,8 +189,8 @@ function viewItem(result) {
         tableRow += '<td class="rating">' + reviews[i].rating + '</td>';
 
         if(reviews[i].comment.length > 200) {
-          tableRow += '<td class="partialComment ">' + reviews[i].comment.substring(0,200) + '<b> (Show More) </b>' + '</td>';
-          tableRow += '<td class="fullComment hide">' + reviews[i].comment + '<b> (Show Less) </b>' + '</td>';
+          tableRow += '<td class="partialComment ">' + reviews[i].comment.substring(0,200) + '<p class="textComment"> (Show More) </p>' + '</td>';
+          tableRow += '<td class="fullComment hide">' + reviews[i].comment + '<p class="textComment"> (Show Less) </p>' + '</td>';
         } else {
           tableRow += '<td class="comment">' + reviews[i].comment + '</td>';
         }

@@ -34,8 +34,8 @@
           <td class="reviewer"> <%= info.reviews[i].reviewer %></td>
           <td class="rating"> <%= info.reviews[i].rating %></td>
           <% if(info.reviews[i].comment.length > 200) { %>
-            <td class="partialComment "> <%= info.reviews[i].comment.substring(0,200) %> <b> (Show More) </b> </td>
-            <td class="fullComment hide"> <%= info.reviews[i].comment %> <b> (Show Less) </b> </td>
+            <td class="partialComment "> <%= info.reviews[i].comment.substring(0,200) %> <p class="textComment"> (Show More) </p> </td>
+            <td class="fullComment hide"> <%= info.reviews[i].comment %> <p class="textComment"> (Show Less) </p> </td>
           <% } else {%>
             <td class="comment"> <%= info.reviews[i].comment %></td>
           <% } %>
