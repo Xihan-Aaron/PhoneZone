@@ -11,12 +11,10 @@ module.exports.main = async function(req,res,next){
 		soldOut = await PhoneListing.soldOut();
 		info={}
 		info['topFive']=topFive
-		info['soldOut']=soldOut
-		if(req.session.auth==true){
+		info['soldOut']=soldOut	
+		if(req.session.prevUrl != undefined){
 			prevUrl = req.session.prevUrl
 			prevInfo = req.session.prevInfo
-			delete req.session.prevUrl
-			delete req.session.prevInfo
 			delete req.session.auth
 			// res.json({
 			// 	user_id:req.session.user_id,

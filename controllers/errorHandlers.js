@@ -6,6 +6,7 @@ exports.pageNotFound = (req, res, next) => {
 
 exports.OtherErrors = (error, req, res, next) => {
   res.status(error.statusCode || 500);
+  return res.render('error.ejs',{errors:error.message})
   res.json({
     error: {
       message: error.message,

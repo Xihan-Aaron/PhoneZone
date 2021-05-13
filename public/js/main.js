@@ -31,9 +31,7 @@ $(document).ready(function() {
                     $('.searchItem').on('click', selectItem);
                 }
             });
-        } else {
-          $('#searchError').append('<p class="error">- No search result found.</p>');
-        }
+        } 
     });
 
     $('#search').find('input[name="searchtext"]').bind('keypress', function(e){

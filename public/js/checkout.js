@@ -1,5 +1,10 @@
 $(document).ready(function() {
-
+  $('#goBack').on('click', function(){
+    if(document.referrer.split('/').pop()==""){
+      window.location.href="/"
+    }
+    history.back(-1);
+  });
   $('#changeQuantity').on('click', function(e){
       e.preventDefault();
       var quantity = $('input[name="quantity"]').val();

@@ -18,7 +18,6 @@ $(document).ready(function(){
         $('#emailError').empty();
         $('#passwordError').empty();
         $('#serversideError').empty();
-        console.log("hlle")
         e.preventDefault();
         var signinInfo = {
             email: $('input[name="email"]').val().trim(),
@@ -36,18 +35,7 @@ $(document).ready(function(){
                 type: "post",
                 url: "/users/signin",
                 success: function(result){
-                    // var userid = result.user_id;
-                    // var tab = result.tab;
-                    // console.log(tab);
-<<<<<<< HEAD
-                    //history.back(-1);  - DO NOT USE THIS
                     window.location.href="/"
-=======
-                    // alert(result)
-                    history.back(-1);
-                    // document.write(result);
->>>>>>> 75c05efc4e0aff4125ca69c2814850ddbe71b951
-
                 },
                 error: function(result){for(var i = 0; i < result.responseJSON.errors.length; i++){
                         $('#serversideError').append('<p class="error">- ' + result.responseJSON.errors[i] + '</p>');
