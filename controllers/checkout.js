@@ -33,7 +33,6 @@ module.exports.removeFromCart = async function(req,res,next){
 	try{
     selectedItems = req.body.items;
 		console.log("items",selectedItems);
-    total = req.body.total;
     user_id = req.session.user_id;
 
     for(var i =0; i<selectedItems.length;i++) {
@@ -82,7 +81,6 @@ module.exports.changeQuantity = async function(req,res,next){
 	try{
     selectedItems = req.body.items;
     quantity = req.body.quantity;
-    total = req.body.total;
     user_id = req.session.user_id;
 
     outOfStock = []
@@ -90,7 +88,7 @@ module.exports.changeQuantity = async function(req,res,next){
       result1 = await PhoneListing.getItemById(selectedItems[i])
       console.log("#####");
       console.log(result1);
-      if(parseInt(result1.stock) >= quantity) {
+      if(parseInt(result1.stock) >= parseFloat(quantity)) {
         result2 = await User.editCart(user_id,selectedItems[i],quantity)
       } else {
         outOfStock.push(selectedItems[i])
