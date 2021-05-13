@@ -1,10 +1,22 @@
 $(document).ready(function() {
+<<<<<<< HEAD
   $('#goBack').on('click', function(){
     if(document.referrer.split('/').pop()==""){
       window.location.href="/"
     }
     history.back(-1);
   });
+=======
+
+  
+  $('#goBack').on('click', function(){
+    // alert($.session.get('prev'));
+    history.go(-1);
+    // window.location.href = "/";
+    
+  });
+
+>>>>>>> 0627f97243c5f14b9dd4ee6f13b163a993abda72
   $('#changeQuantity').on('click', function(e){
       e.preventDefault();
       var quantity = $('input[name="quantity"]').val();
