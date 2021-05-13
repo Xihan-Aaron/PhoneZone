@@ -6,7 +6,7 @@ $(document).ready(function() {
     history.back(-1);
   });
 
-  $('.cartItem').on('click', selectItem);
+  $('.title').on('click', selectItem);
 
   $('#changeQuantity').on('click', function(e){
       // e.preventDefault();
@@ -25,13 +25,13 @@ $(document).ready(function() {
 
       if(quantity == 0) {
         $.post('checkout/removeFromCart',results, function(result){
-            history.back(-1)
+            // history.back(-1)
         });
 
       } else {
         console.log(results)
         $.post('checkout/changeQuantity', results, function(result){
-          history.back(-1)
+          // history.back(-1)
 
         });
 
