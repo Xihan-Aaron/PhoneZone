@@ -50,5 +50,6 @@ main.selectItem
 
 router.post('/addToCart', main.addItemToCart);
 
+router.post('/getCartInfo', main.getCartInfo);
 
 module.exports = router

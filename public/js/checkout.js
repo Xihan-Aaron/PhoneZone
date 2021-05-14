@@ -1,15 +1,17 @@
 $(document).ready(function() {
 
-  
+
   $('#goBack').on('click', function(){
-    // alert($.session.get('prev'));
-    history.go(-1);
-    // window.location.href = "/";
-    
+    if(document.referrer.split('/').pop()==""){
+      window.location.href="/"
+    }
+    history.back(-1);
   });
 
+  $('.title').on('click', selectItem);
+
   $('#changeQuantity').on('click', function(e){
-      e.preventDefault();
+      // e.preventDefault();
       var quantity = $('input[name="quantity"]').val();
       if ($('input[name="quantity"]').val() == "" ||
           isNaN(quantity) || quantity < 0) {
@@ -25,47 +27,63 @@ $(document).ready(function() {
 
       if(quantity == 0) {
         $.post('checkout/removeFromCart',results, function(result){
+            // history.back(-1)
         });
 
       } else {
         console.log(results)
         $.post('checkout/changeQuantity', results, function(result){
+          // history.back(-1)
 
         });
-
+        updateCartQuantity();
       }
   });
 
   $('#remove').on('click', function(e){
-      e.preventDefault();
+      // e.preventDefault();
       results = getSelectedItems()
         $.post('checkout/removeFromCart', results, function(result){
+          // history.back(0)
 
         });
+        updateCartQuantity();
   });
 
   $('#confirm').on('click', function(e){
-      e.preventDefault();
+      // e.preventDefault();
+      if(!confirm("are you sure?")) {
+        return
+      }
       cartItem = $('.id');
+      quantities = $('.quantity');
       var selectedItems = [];
+      var quantity = [];
+
       for(var i =0; i<cartItem.length;i++) {
         selectedItems.push(cartItem[i].innerHTML)
+        quantity.push(quantities[i].innerHTML)
       }
-      results = {items: selectedItems}
+      results = {items: selectedItems,quantity:quantity}
         $.post('checkout/clearCart', results, function(result){
+          alert("added to cart")
+          history.back(-1)
 
         });
+        updateCartQuantity();
+
   });
+
+  updateCartQuantity();
+
 })
 
 function getSelectedItems(quantity){
-  console.log("helllooooo");
   cartItem = $('.id');
   checkboxes = $('.cartCheck');
   prices = $('.price');
   quantities = $('.quantity');
   total = 0;
-  console.log("cartItem",cartItem);
   var selectedItems = [];
   for(var i =0; i<cartItem.length;i++) {
     if(checkboxes[i].checked) {
@@ -76,4 +94,28 @@ function getSelectedItems(quantity){
     }
   }
   return {items: selectedItems,quantity: quantity,total:total}
+}
+
+function selectItem(result) {
+      result.preventDefault();
+      var id = {id: $(this).find('.id').text() };
+      console.log(id);
+
+      $.post('/item',id,function(result) {
+        // $('#soldOutSoon').remove();
+        // $('#bestSellers').remove();
+        // $('#searchResult').empty();
+        // $('#heading').empty();
+        // viewItem(result.info);
+      })
+}
+
+function updateCartQuantity() {
+  $.post('/getCartInfo',function(result) {
+    console.log("post getCartInfo",result);
+    $('#cartQuantity').empty()
+    $('#cartQuantity').append(result.cartQuantity)
+    $('#cartPrice').empty()
+    $('#cartPrice').append(result.cartPrice)
+  })
 }

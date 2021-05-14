@@ -33,7 +33,7 @@ $(document).ready(function() {
   //   $.session.set('prev', 'home');
   // }
 
-    
+
     // $.session.set('prev', 'home');
     // var searchResultBackup;
 
@@ -42,7 +42,7 @@ $(document).ready(function() {
     });
 
     $('#searchBtn').on('click', function(e){
-      
+
         $('#searchError').empty();
         e.preventDefault();
         var searchText = {searchtext: $('input[name="searchtext"]').val()};
@@ -68,10 +68,6 @@ $(document).ready(function() {
                     $('.searchItem').on('click', selectItem);
                 }
             });
-            $.session.set('prev', 'search');
-            $.session.set('searchText', $('input[name="searchtext"]').val());
-        } else {
-          $('#searchError').append('<p class="error">- No search result found.</p>');
         }
     });
 
@@ -94,6 +90,7 @@ $(document).ready(function() {
                     $('#bestSellers').remove();
                     $('#filter').on('change', changeFilter);
                     $('#priceRange').on('change', changeRange);
+                    $('.searchItem').on('click', selectItem);
                 });
                 $.session.set('prev', 'search');
                 $.session.set('searchText', $('input[name="searchtext"]').val());
@@ -106,12 +103,19 @@ $(document).ready(function() {
     $('.soldOutItem').on('click', selectItem);
     $('.searchItem').on('click', selectItem);
     $('.topFiveItem').on('click', selectItem);
+
+    $('.reviews').on('click', showMoreReviews);
+    $('.showMoreComments').on('click', showMoreComments);
+    $('#addToCart').on('click', addToCartBtn);
+    updateCartQuantity();
 });
 
 function viewSearch(result){
+    $('#heading').empty();
+    $('#heading').append("Search results");
     var searchSection = $('#searchResult');
     searchSection.empty();
-    searchSection.append("<h3>Search results</h3>");
+    // searchSection.append("<h3>Search results</h3>");
     var table = '<table class="table table-hover">';
     var tableTitle = '<thead><th></th><th>Title</th><th>Brand</th><th>Price</th><th>Stock</th></thead>';
     var tableBody = '<tbody>';
@@ -140,8 +144,9 @@ function viewSearch(result){
 }
 
 function viewItem(result) {
+  $('#heading').append(result.title);
   var info = $('#itemInfo');
-  info.append('<h3>' + result.title + '</h3>');
+  // info.append('<h3 id="heading">' + result.title + '</h3>');
 
   var image = '<img src=' + result.image + ' alt="">'
 
@@ -151,7 +156,7 @@ function viewItem(result) {
   div += '<p> brand: ' + result.brand  + '</p>'
   div += '<p> stock: ' + result.stock  + '</p>'
   div += '<p> seller: ' + result.seller  + '</p>'
-  div += '<p> price: ' + result.price  + '</p>'
+  div += '<p> price: <span id="itemPrice">' + result.price  + '</p>'
   div += '<input id="addToCart" class="btn btn-primary" type="button" value="Add to Cart" role="button" />'
   div += '</div> </div> '
 
@@ -182,8 +187,8 @@ function viewItem(result) {
         tableRow += '<td class="rating">' + reviews[i].rating + '</td>';
 
         if(reviews[i].comment.length > 200) {
-          tableRow += '<td class="partialComment ">' + reviews[i].comment.substring(0,200) + "<b>...Show More...</b>" + '</td>';
-          tableRow += '<td class="fullComment hide">' + reviews[i].comment + '</td>';
+          tableRow += '<td class="partialComment ">' + reviews[i].comment.substring(0,200) + '<b> (Show More) </b>' + '</td>';
+          tableRow += '<td class="fullComment hide">' + reviews[i].comment + '<b> (Show Less) </b>' + '</td>';
         } else {
           tableRow += '<td class="comment">' + reviews[i].comment + '</td>';
         }
@@ -202,14 +207,19 @@ function viewItem(result) {
 
   info.append(tableDiv)
 
-  $('.reviews').on('click', function(e){
-    e.preventDefault();
-    var comment = $(this).find('.partialComment');
-    var fullComment = $(this).find('.fullComment');
-    comment.toggleClass("hide")
-    fullComment.toggleClass("hide")
-  })
-  $('.showMoreComments').on('click', function(e){
+  $('.reviews').on('click', showMoreReviews)
+  $('.showMoreComments').on('click', showMoreComments)
+  $('#addToCart').on('click', addToCartBtn)
+}
+function showMoreReviews(e) {
+  e.preventDefault();
+  var comment = $(this).find('.partialComment');
+  var fullComment = $(this).find('.fullComment');
+  comment.toggleClass("hide")
+  fullComment.toggleClass("hide")
+}
+
+function showMoreComments(e) {
     e.preventDefault();
     reviews = $('.reviews');
     var added = 0;
@@ -230,24 +240,37 @@ function viewItem(result) {
     if(!more) {
       $('.showMoreComments').addClass('hide')
     }
-  })
+}
 
-  $('#addToCart').on('click', function(e){
-    var id = $('#itemId').text().trim();
-    while (quantity = prompt("Input number: ")) {
-      if (isNaN(quantity) || quantity < 0) {
-        alert("Invalid input.");
-      } else {
-        quantity = parseInt(quantity)
-        break;
-      }
+
+function addToCartBtn(e) {
+  var id = $('#itemId').text().trim();
+  var price = $('#itemPrice').text().trim();
+  while (quantity = prompt("Input number: ")) {
+    if (isNaN(quantity) || quantity < 0) {
+      alert("Invalid input.");
+    } else {
+      quantity = parseInt(quantity)
+      break;
     }
-    var info = {id:id,quantity:quantity};
-    $.post('/addToCart',info,function(result) {
-      viewItem(result.info);
-    })
-  })
+  }
+  var info = {id:id,quantity:quantity,price:price};
+  console.log(id);
 
+  $.post('/addToCart',info,function(result) {
+    if(result) {
+      alert("sign in required to add to cart")
+      updateCartQuantity()
+    }
+  })
+}
+
+function updateCartQuantity() {
+  $.post('/getCartInfo',function(result) {
+    console.log("post getCartInfo",result);
+    $('#cartQuantity').empty()
+    $('#cartQuantity').append(result.cartQuantity)
+  })
 }
 
 function selectItem(result) {
@@ -256,10 +279,11 @@ function selectItem(result) {
       console.log(id);
 
       $.post('/item',id,function(result) {
-        viewItem(result.info);
         $('#soldOutSoon').remove();
         $('#bestSellers').remove();
         $('#searchResult').empty();
+        $('#heading').empty();
+        viewItem(result.info);
         $.session.set('prev', 'item');
         $.session.set('itemId', id);
 
@@ -308,7 +332,7 @@ function addRange(result){
     section.append(rangeComponent);
     var rangeUlitily = '<div class="text-right"><span>Current price: </span>'
     rangeUlitily += '<span id="rangeValue">' + parseInt($('#priceRange').val()); + '</span></div>'
-    
+
     $("#rangeSection").prepend(rangeUlitily);
 
 }

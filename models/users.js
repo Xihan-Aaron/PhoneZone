@@ -67,7 +67,7 @@ UserSchema.statics.addExistingToCart = function(user_id,item,quantity){
 	return this
 	.updateOne(
 		{_id:user_id,"checkout.id":item},
-		{$inc: {"$checkout.quantity":quantity}}
+		{$inc: {"checkout.$.quantity":quantity}}
 	)
 	.exec();
 }
@@ -83,13 +83,47 @@ UserSchema.statics.editCart = function(user_id,item,quantity){
 
 UserSchema.statics.removeFromCart = function(user_id,item){
 	return this
-	// .findByIdAndUpdate({_id:user_id},{$push: {checkout:item}}).exec();
-	.update(
-		{_id:user_id},
-		{ $pull: {"$checkout.id":item, "$checkout.quantity":{$gte:0}} },
-	{ safe: true }  )
-	.exec()
+	.findByIdAndUpdate(user_id,
+	{$pull: {checkout:{id:item}}},
+	{safe:true, upsert:true},
+	function(err, doc) {
+        if(err){
+        console.log(err);
+        }else{
+					console.log("user_id",user_id);
+					console.log("item: ",item);
+				}
+			}
+		).exec()
+}
 
+UserSchema.statics.getCartInfo = function(user_id){
+	return this.aggregate(
+		[
+			{$match:{_id:user_id}},
+			{$project:{"_id":0,cartQuantity:{"$sum": {
+              "$map": {
+                  "input": "$checkout",
+                  "as": "checkout",
+                  "in": { "$sum": [ "$$checkout.quantity"
+                    ]
+									}
+                }
+            }},
+			cartPrice: {
+				"$sum": {
+					"$map": {
+						"input": "$checkout",
+						"as": "checkout",
+						"in": { "$multiply": [
+							{ "$ifNull": [ "$$checkout.quantity", 0 ] },
+							{ "$ifNull": [ "$$checkout.price", 0 ] }
+						]}
+					}
+				}
+			}}}
+		]
+	)
 }
 
 module.exports = mongoose.model('User', UserSchema)
