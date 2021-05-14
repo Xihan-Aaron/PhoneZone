@@ -19,10 +19,10 @@
 					<button id="goBack" class="btn btn-info" type="button">Go back</button>
 					<button id="confirm" class="btn btn-primary pull-right" type="button">Confirm</button>
 				</div>
-				<div style="margin-bottom: 10px;">
+				<!-- <div style="margin-bottom: 10px;">
 					<input type="text" placeholder="Quantity" name="quantity" style="width:6em; display:inline;" class="form-control">
 					<input id="changeQuantity" class="btn btn-primary" type="button" value="Change quantity"/>
-				</div>
+				</div> -->
 				<div>
 					<input id="remove" class="btn btn-primary" type="button" value="Remove"/>
 				</div>
@@ -51,7 +51,8 @@
 							<td><img src=<%= info[i].image %> alt="" class="thumbnail"></td>
 							<td class="title"><%= info[i].title %></td>
 							<td class="price"><%= info[i].price %></td>
-							<td class="quantity"><%= info[i].quantity %></td>
+							<td class="quantity"><input type="text" value="<%= info[i].quantity %>" name="quantity" style="width:6em; display:inline;" class="newQuantity form-control">
+							<input id="changeQuantity" class="changeQuantity btn btn-primary" type="button" value=">"/></td>
 						</tr>
 						<% } %>
 					</tbody>

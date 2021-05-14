@@ -1,81 +1,77 @@
 $(document).ready(function() {
-
-
   $('#goBack').on('click', function(){
+    console.log(document.referrer.split('/').pop()=="")
     if(document.referrer.split('/').pop()==""){
       window.location.href="/"
     }
     history.back(-1);
   });
 
+
   $('.title').on('click', selectItem);
 
-  $('#changeQuantity').on('click', function(e){
-      // e.preventDefault();
-      var quantity = $('input[name="quantity"]').val();
-      if ($('input[name="quantity"]').val() == "" ||
-          isNaN(quantity) || quantity < 0) {
-        console.log(quantity);
-        alert("Please type in a valid quantity.");
-        return;
-      }
-      results = getSelectedItems(quantity);
-      if(results.items.length == 0) {
-        alert('no items selected')
-        return;
-      }
+  // $('#changeQuantity').on('click', function(e){
+  //     // e.preventDefault();
+  //     var quantity = $('input[name="quantity"]').val();
+  //     if ($('input[name="quantity"]').val() == "" ||
+  //         isNaN(quantity) || quantity < 0) {
+  //       console.log(quantity);
+  //       alert("Please type in a valid quantity.");
+  //       return;
+  //     }
+  //     results = getSelectedItems(quantity);
+  //     if(results.items.length == 0) {
+  //       alert('no items selected')
+  //       return;
+  //     }
+  //
+  //     if(quantity == 0) {
+  //       $.post('checkout/removeFromCart',results, function(result){
+  //           // history.back(-1)
+  //       });
+  //
+  //     } else {
+  //       console.log(results)
+  //       $.post('checkout/changeQuantity', results, function(result){
+  //         // history.back(-1)
+  //
+  //       });
+  //       updateCartQuantity();
+  //     }
+  // });
 
-      if(quantity == 0) {
-        $.post('checkout/removeFromCart',results, function(result){
-            // history.back(-1)
-        });
+  $('.changeQuantity').on('click', function(e){
+      e.preventDefault();
+      var quantity = $(this).find('.newQuantity')
+      console.log(this.parent);
 
-      } else {
-        console.log(results)
-        $.post('checkout/changeQuantity', results, function(result){
-          // history.back(-1)
-
-        });
-        updateCartQuantity();
-      }
-  });
+      updateCartTotals()
+    })
 
   $('#remove').on('click', function(e){
-      // e.preventDefault();
+      e.preventDefault();
       results = getSelectedItems()
         $.post('checkout/removeFromCart', results, function(result){
-          // history.back(0)
-
+          history.back(0)
         });
-        updateCartQuantity();
+        updateCartTotals()
+
   });
 
   $('#confirm').on('click', function(e){
-      // e.preventDefault();
-      if(!confirm("are you sure?")) {
-        return
-      }
+      e.preventDefault();
       cartItem = $('.id');
-      quantities = $('.quantity');
       var selectedItems = [];
-      var quantity = [];
-
       for(var i =0; i<cartItem.length;i++) {
         selectedItems.push(cartItem[i].innerHTML)
-        quantity.push(quantities[i].innerHTML)
       }
-      results = {items: selectedItems,quantity:quantity}
+      results = {items: selectedItems}
         $.post('checkout/clearCart', results, function(result){
-          alert("added to cart")
-          history.back(-1)
 
         });
-        updateCartQuantity();
-
   });
 
-  updateCartQuantity();
-
+  updateCartTotals()
 })
 
 function getSelectedItems(quantity){
@@ -83,17 +79,13 @@ function getSelectedItems(quantity){
   checkboxes = $('.cartCheck');
   prices = $('.price');
   quantities = $('.quantity');
-  total = 0;
   var selectedItems = [];
   for(var i =0; i<cartItem.length;i++) {
     if(checkboxes[i].checked) {
       selectedItems.push(cartItem[i].innerHTML)
-      total += parseFloat(prices[i])*parseInt(quantity)
-    } else {
-      total += parseFloat(prices[i])*parseInt(quantities[i])
     }
   }
-  return {items: selectedItems,quantity: quantity,total:total}
+  return {items: selectedItems,quantity: quantity}
 }
 
 function selectItem(result) {
@@ -110,7 +102,7 @@ function selectItem(result) {
       })
 }
 
-function updateCartQuantity() {
+function updateCartTotals() {
   $.post('/getCartInfo',function(result) {
     console.log("post getCartInfo",result);
     $('#cartQuantity').empty()
