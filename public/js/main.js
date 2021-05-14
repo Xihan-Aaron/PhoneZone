@@ -216,17 +216,24 @@ function showMoreComments(e) {
 
 function addToCartBtn(e) {
   if($('#signout').length < 1){
-    alert("You have to sign in first.");
+    // alert("You have to sign in first.");
+    showmodal("alert",{msg:"You have to sign in first."})
+    return;
   } else {
-    console.log(window)
+    quantity = prompt("Input number: ")
+//     info = {msg: "Input number: ",funct:addToCart}
+//     showmodal("prompt",info)
+// }
+//
+// function addToCart(quantity) {
     var id = $('#itemId').text().trim();
     var price = $('#itemPrice').text().trim();
-    quantity = prompt("Input number: ")
     console.log(quantity);
     if(quantity == null) {
       return;
     }else if (isNaN(quantity) || quantity < 0 ) {
-      alert("Invalid input.");
+      // alert("Invalid input.");
+      showmodal("alert",{msg:"Invalid input."})
       return;
     } else {
       quantity = parseInt(quantity)
@@ -238,7 +245,9 @@ function addToCartBtn(e) {
     $.post('/addToCart',info,function(result) {
       console.log(result);
       if(result) {
-        alert(result.error)
+        // alert(result.error)
+        showmodal("alert",{msg:result.error})
+
         // if(result.error == "invalid inputs") {
         //   alert("failed to add to cart")
         // } else if(result.error == "signin") {

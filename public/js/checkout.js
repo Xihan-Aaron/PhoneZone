@@ -47,7 +47,8 @@ $(document).ready(function() {
       var id = cartItem.find('.id')[0].innerHTML
       if (quantity == "" ||
           isNaN(quantity) || quantity < 0) {
-        alert("Please type in a valid quantity.");
+        // alert("Please type in a valid quantity.");
+        showmodal("alert",{msg:"Please type in a valid quantity."})
         return;
       }
       item = {id:id ,quantity:parseInt(quantity)}
@@ -70,14 +71,17 @@ $(document).ready(function() {
         $.post('checkout/changeQuantity', item, function(result){
           // history.back(-1)
           if(result.msg == "added") {
-            alert("success")
+            // alert("success")
+            showmodal("alert",{msg:"added"})
             updateCartTotals()
           } else if(result.msg == "removed") {
-            alert("removed")
+            // alert("removed")
+            showmodal("alert",{msg:"removed"})
             cartItem.remove()
             updateCartTotals()
           } else {
-            alert(result.error)
+            // alert(result.error)
+            showmodal("alert",{msg:result.error})
           }
         });
 
