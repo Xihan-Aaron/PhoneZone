@@ -11,7 +11,7 @@ module.exports.main = async function(req,res,next){
 		soldOut = await PhoneListing.soldOut();
 		info={}
 		info['topFive']=topFive
-		info['soldOut']=soldOut	
+		info['soldOut']=soldOut
 		if(req.session.prevUrl != undefined){
 			prevUrl = req.session.prevUrl
 			prevInfo = req.session.prevInfo
@@ -81,19 +81,16 @@ module.exports.addItemToCart = async function(req,res,next){
 	try{
 		item_id = req.body.id
 		item_quantity = parseInt(req.body.quantity)
-		console.log(req.body.price);
+		if(req.body.id == undefined || isNaN(req.body.quantity)) {
+			return res.json({error:"Invalid inputs"})
+		}
 		item_price = parseFloat(req.body.price)
-		console.log("price:",item_price);
 
 		user_id = req.session.user_id
-		console.log("UID: ",user_id);
 		userFromDb = await User.getUserById(user_id)
-		console.log("userFromDb: ",userFromDb);
 		if(userFromDb == null) {
-			console.log("redirect");
-			return res.redirect('/users/signin')
+			return res.json({error:"signin"})
 		}
-		console.log("pass");
 		var exists = false
 		var checkingExisting = await User.checkExisting(user_id,item_id)
 		if(checkingExisting != null) {

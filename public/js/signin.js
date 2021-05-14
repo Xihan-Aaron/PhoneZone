@@ -36,6 +36,11 @@ $(document).ready(function(){
                 url: "/users/signin",
                 success: function(result){
                     window.location.href="/"
+                    // var userid = result.user_id;
+                    // var tab = result.tab;
+                    // console.log(tab);
+                    //history.back(-1);  - DO NOT USE THIS
+
                 },
                 error: function(result){for(var i = 0; i < result.responseJSON.errors.length; i++){
                         $('#serversideError').append('<p class="error">- ' + result.responseJSON.errors[i] + '</p>');

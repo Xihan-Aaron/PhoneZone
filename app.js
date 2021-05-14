@@ -65,6 +65,7 @@ const userAuthenticate =(req,res,next)=>{
 }
 
 const removeHistroy=(req,res,next)=>{
+	console.log(req.session.prevUrl,"hello")
 	delete req.session.prevUrl
 	delete req.session.prevInfo
 	delete req.session.auth

@@ -52,7 +52,7 @@ $(document).ready(function() {
       e.preventDefault();
       results = getSelectedItems()
         $.post('checkout/removeFromCart', results, function(result){
-          history.back(0)
+
         });
         updateCartTotals()
 
@@ -75,14 +75,16 @@ $(document).ready(function() {
 })
 
 function getSelectedItems(quantity){
-  cartItem = $('.id');
+  cartItem = $('.cartItem');
+  itemId = $('.id');
   checkboxes = $('.cartCheck');
   prices = $('.price');
   quantities = $('.quantity');
   var selectedItems = [];
-  for(var i =0; i<cartItem.length;i++) {
+  for(var i =0; i<itemId.length;i++) {
     if(checkboxes[i].checked) {
-      selectedItems.push(cartItem[i].innerHTML)
+      selectedItems.push(itemId[i].innerHTML)
+      cartItem[i].remove()
     }
   }
   return {items: selectedItems,quantity: quantity}
