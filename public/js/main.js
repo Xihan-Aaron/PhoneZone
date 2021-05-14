@@ -70,7 +70,7 @@ $(document).ready(function() {
             });
             $.session.set('prev', 'search');
             $.session.set('searchText', $('input[name="searchtext"]').val());
-        } 
+        }
     });
 
     $('#search').find('input[name="searchtext"]').bind('keypress', function(e){
@@ -246,25 +246,35 @@ function showMoreComments(e) {
 
 
 function addToCartBtn(e) {
+  console.log(window)
   var id = $('#itemId').text().trim();
   var price = $('#itemPrice').text().trim();
-  while (quantity = prompt("Input number: ")) {
-    if (isNaN(quantity) || quantity < 0) {
+  quantity = prompt("Input number: ")
+  console.log(quantity);
+  if(quantity == null) {
+    return;
+  }else if (isNaN(quantity) || quantity < 0) {
       alert("Invalid input.");
-    } else {
-      quantity = parseInt(quantity)
-      break;
-    }
+      return;
+  } else {
+    quantity = parseInt(quantity)
   }
+
   var info = {id:id,quantity:quantity,price:price};
   console.log(id);
 
   $.post('/addToCart',info,function(result) {
+    console.log(result);
     if(result) {
-      alert("sign in required to add to cart")
-      updateCartQuantity()
+      if(result.error == "invalid inputs") {
+        alert("failed to add to cart")
+      } else {
+        alert("sign in required to add to cart")
+      }
     }
   })
+    updateCartQuantity()
+    history.back(0)
 }
 
 function updateCartQuantity() {

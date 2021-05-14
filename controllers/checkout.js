@@ -56,19 +56,11 @@ module.exports.clearCart = async function(req,res,next){
 	try{
     selectedItems = req.body.items;
     quantity = req.body.quantity;
-		console.log(quantity);
-    console.log("here");
     for(var i =0; i<selectedItems.length; i++) {
-      console.log(selectedItems[i]);
-      console.log("@@@@@@@@@");
-      console.log(quantity[i]);
       result1 = await PhoneListing.editStock(selectedItems[i],-parseInt(quantity[i]))
-      console.log(result1);
     }
     clearCart = {checkout: []}
-    console.log("a");
     result2 = await User.updateUser(req.session.user_id,clearCart)
-    console.log(result2);
 
     res.redirect('/')
 
