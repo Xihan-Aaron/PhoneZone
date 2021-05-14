@@ -101,7 +101,16 @@ UserSchema.statics.getCartInfo = function(user_id){
 	return this.aggregate(
 		[
 			{$match:{_id:user_id}},
-			{$project:{"_id":0,cartQuantity:{$size:"$checkout"},cartPrice: {
+			{$project:{"_id":0,cartQuantity:{"$sum": {
+              "$map": {
+                  "input": "$checkout",
+                  "as": "checkout",
+                  "in": { "$sum": [ "$$checkout.quantity"
+                    ]
+									}
+                }
+            }},
+			cartPrice: {
 				"$sum": {
 					"$map": {
 						"input": "$checkout",
