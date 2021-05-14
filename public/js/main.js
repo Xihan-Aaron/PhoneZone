@@ -1,41 +1,4 @@
 $(document).ready(function() {
-  // console.log($.session.get('prev'));
-
-  // if($.session.get('prev') == 'search'){
-  //   // window.location.href = "/";
-  //   var searchText = $.session.get('searchText');
-  //   $.post('/search', searchText, function(result){
-  //     viewSearch(result.searchResults);
-  //     addDropDown(result.searchResults);
-  //     addRange(result.searchResults);
-  //     $('#soldOutSoon').remove();
-  //     $('#bestSellers').remove();
-  //     $('#itemInfo').empty();
-  //     $('#filter').on('change', changeFilter);
-  //     $('#priceRange').on('change', changeRange);
-  //     $('.searchItem').on('click', selectItem);
-  //   });
-  // } else if($.session.get('prev') == 'item'){
-  //   var id = $.session.get('itemId');
-  //   console.log(id);
-  //   // window.location.href = "/";
-  //   $.post('/item',id,function(result) {
-  //     alert(result.info)
-  //     viewItem(result.info);
-  //     $('#soldOutSoon').remove();
-  //     $('#bestSellers').remove();
-  //     $('#searchResult').empty();
-  //     console.log("he")
-  //     $.session.set('prev', 'item');
-  //     $.session.set('itemId', id);
-  //   });
-  // } else {
-  //   $.session.set('prev', 'home');
-  // }
-
-
-    // $.session.set('prev', 'home');
-    // var searchResultBackup;
 
     $('input[name="searchtext"]').on('focus', function(e){
         $('#searchError').empty();
@@ -105,6 +68,12 @@ $(document).ready(function() {
     $('.soldOutItem').on('click', selectItem);
     $('.searchItem').on('click', selectItem);
     $('.topFiveItem').on('click', selectItem);
+    $('#confirmsignoutBtn').on('click', function(e){
+      console.log('here')
+      e.preventDefault();
+      $('#signoutModal').modal('hide');
+      window.location.href = '/users/signout';
+    });
 
     $('.reviews').on('click', showMoreReviews);
     $('.showMoreComments').on('click', showMoreComments);
