@@ -215,35 +215,40 @@ function showMoreComments(e) {
 
 
 function addToCartBtn(e) {
-  console.log(window)
-  var id = $('#itemId').text().trim();
-  var price = $('#itemPrice').text().trim();
-  quantity = prompt("Input number: ")
-  console.log(quantity);
-  if(quantity == null) {
-    return;
-  }else if (isNaN(quantity) || quantity < 0) {
+  if($('#signout').length < 1){
+    alert("You have to sign in first.");
+  } else {
+    console.log(window)
+    var id = $('#itemId').text().trim();
+    var price = $('#itemPrice').text().trim();
+    quantity = prompt("Input number: ")
+    console.log(quantity);
+    if(quantity == null) {
+      return;
+    }else if (isNaN(quantity) || quantity < 0 || quantity > $('#stock').text()) {
       alert("Invalid input.");
       return;
-  } else {
-    quantity = parseInt(quantity)
-  }
-
-  var info = {id:id,quantity:quantity,price:price};
-  console.log(id);
-
-  $.post('/addToCart',info,function(result) {
-    console.log(result);
-    if(result) {
-      if(result.error == "invalid inputs") {
-        alert("failed to add to cart")
-      } else {
-        alert("sign in required to add to cart")
-      }
+    } else {
+      quantity = parseInt(quantity)
+  
+      var info = {id:id,quantity:quantity,price:price};
+      console.log(id);
+    
+      $.post('/addToCart',info,function(result) {
+        console.log(result);
+        if(result) {
+          if(result.error == "invalid inputs") {
+            alert("failed to add to cart")
+          } else {
+            alert("sign in required to add to cart")
+          }
+        }
+      })
+      updateCartQuantity()
+      history.back(0)
     }
-  })
-    updateCartQuantity()
-    history.back(0)
+
+  }
 }
 
 function updateCartQuantity() {
