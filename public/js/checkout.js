@@ -1,12 +1,12 @@
 $(document).ready(function() {
-
-
   $('#goBack').on('click', function(){
+    console.log(document.referrer.split('/').pop()=="")
     if(document.referrer.split('/').pop()==""){
       window.location.href="/"
     }
     history.back(-1);
   });
+
 
   $('.title').on('click', selectItem);
 

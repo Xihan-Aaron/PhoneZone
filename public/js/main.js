@@ -68,7 +68,9 @@ $(document).ready(function() {
                     $('.searchItem').on('click', selectItem);
                 }
             });
-        }
+            $.session.set('prev', 'search');
+            $.session.set('searchText', $('input[name="searchtext"]').val());
+        } 
     });
 
     $('#search').find('input[name="searchtext"]').bind('keypress', function(e){
@@ -187,8 +189,8 @@ function viewItem(result) {
         tableRow += '<td class="rating">' + reviews[i].rating + '</td>';
 
         if(reviews[i].comment.length > 200) {
-          tableRow += '<td class="partialComment ">' + reviews[i].comment.substring(0,200) + '<b> (Show More) </b>' + '</td>';
-          tableRow += '<td class="fullComment hide">' + reviews[i].comment + '<b> (Show Less) </b>' + '</td>';
+          tableRow += '<td class="partialComment ">' + reviews[i].comment.substring(0,200) + '<p class="textComment"> (Show More) </p>' + '</td>';
+          tableRow += '<td class="fullComment hide">' + reviews[i].comment + '<p class="textComment"> (Show Less) </p>' + '</td>';
         } else {
           tableRow += '<td class="comment">' + reviews[i].comment + '</td>';
         }
