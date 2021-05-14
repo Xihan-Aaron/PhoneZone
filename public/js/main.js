@@ -119,15 +119,15 @@ function viewItem(result) {
   var info = $('#itemInfo');
   // info.append('<h3 id="heading">' + result.title + '</h3>');
 
-  var image = '<img src=' + result.image + ' alt="">'
+  var image = '<img src=' + result.image + ' alt="" style="width: 12em;">'
 
   div = '<div class="row"> <div class="col-md-6">' + image + '</div>'
   div += '<div class="col-md-6">'
   div += '<p id="itemId" class="hide"> ' + result._id  + '</p>'
-  div += '<p> brand: ' + result.brand  + '</p>'
-  div += '<p> stock: ' + result.stock  + '</p>'
-  div += '<p> seller: ' + result.seller  + '</p>'
-  div += '<p> price: <span id="itemPrice">' + result.price  + '</p>'
+  div += '<p> Brand: ' + result.brand  + '</p>'
+  div += '<p> Stock: <span id="stock">' + result.stock  + '</span></p>'
+  div += '<p> Seller: ' + result.seller  + '</p>'
+  div += '<p> Price: <span id="itemPrice">' + result.price  + '</span></p>'
   div += '<input id="addToCart" class="btn btn-primary" type="button" value="Add to Cart" role="button" />'
   div += '</div> </div> '
 
