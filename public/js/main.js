@@ -1,41 +1,4 @@
 $(document).ready(function() {
-  // console.log($.session.get('prev'));
-
-  // if($.session.get('prev') == 'search'){
-  //   // window.location.href = "/";
-  //   var searchText = $.session.get('searchText');
-  //   $.post('/search', searchText, function(result){
-  //     viewSearch(result.searchResults);
-  //     addDropDown(result.searchResults);
-  //     addRange(result.searchResults);
-  //     $('#soldOutSoon').remove();
-  //     $('#bestSellers').remove();
-  //     $('#itemInfo').empty();
-  //     $('#filter').on('change', changeFilter);
-  //     $('#priceRange').on('change', changeRange);
-  //     $('.searchItem').on('click', selectItem);
-  //   });
-  // } else if($.session.get('prev') == 'item'){
-  //   var id = $.session.get('itemId');
-  //   console.log(id);
-  //   // window.location.href = "/";
-  //   $.post('/item',id,function(result) {
-  //     alert(result.info)
-  //     viewItem(result.info);
-  //     $('#soldOutSoon').remove();
-  //     $('#bestSellers').remove();
-  //     $('#searchResult').empty();
-  //     console.log("he")
-  //     $.session.set('prev', 'item');
-  //     $.session.set('itemId', id);
-  //   });
-  // } else {
-  //   $.session.set('prev', 'home');
-  // }
-
-
-    // $.session.set('prev', 'home');
-    // var searchResultBackup;
 
     $('input[name="searchtext"]').on('focus', function(e){
         $('#searchError').empty();
@@ -105,6 +68,12 @@ $(document).ready(function() {
     $('.soldOutItem').on('click', selectItem);
     $('.searchItem').on('click', selectItem);
     $('.topFiveItem').on('click', selectItem);
+    $('#confirmsignoutBtn').on('click', function(e){
+      console.log('here')
+      e.preventDefault();
+      $('#signoutModal').modal('hide');
+      window.location.href = '/users/signout';
+    });
 
     $('.reviews').on('click', showMoreReviews);
     $('.showMoreComments').on('click', showMoreComments);
@@ -150,15 +119,15 @@ function viewItem(result) {
   var info = $('#itemInfo');
   // info.append('<h3 id="heading">' + result.title + '</h3>');
 
-  var image = '<img src=' + result.image + ' alt="">'
+  var image = '<img src=' + result.image + ' alt="" style="width: 12em;">'
 
   div = '<div class="row"> <div class="col-md-6">' + image + '</div>'
   div += '<div class="col-md-6">'
   div += '<p id="itemId" class="hide"> ' + result._id  + '</p>'
-  div += '<p> brand: ' + result.brand  + '</p>'
-  div += '<p> stock: ' + result.stock  + '</p>'
-  div += '<p> seller: ' + result.seller  + '</p>'
-  div += '<p> price: <span id="itemPrice">' + result.price  + '</p>'
+  div += '<p> Brand: ' + result.brand  + '</p>'
+  div += '<p> Stock: <span id="stock">' + result.stock  + '</span></p>'
+  div += '<p> Seller: ' + result.seller  + '</p>'
+  div += '<p> Price: <span id="itemPrice">' + result.price  + '</span></p>'
   div += '<input id="addToCart" class="btn btn-primary" type="button" value="Add to Cart" role="button" />'
   div += '</div> </div> '
 
@@ -246,14 +215,17 @@ function showMoreComments(e) {
 
 
 function addToCartBtn(e) {
-  console.log(window)
-  var id = $('#itemId').text().trim();
-  var price = $('#itemPrice').text().trim();
-  quantity = prompt("Input number: ")
-  console.log(quantity);
-  if(quantity == null) {
-    return;
-  }else if (isNaN(quantity) || quantity < 0) {
+  if($('#signout').length < 1){
+    alert("You have to sign in first.");
+  } else {
+    console.log(window)
+    var id = $('#itemId').text().trim();
+    var price = $('#itemPrice').text().trim();
+    quantity = prompt("Input number: ")
+    console.log(quantity);
+    if(quantity == null) {
+      return;
+    }else if (isNaN(quantity) || quantity < 0 || quantity > $('#stock').text()) {
       alert("Invalid input.");
       return;
   } else {

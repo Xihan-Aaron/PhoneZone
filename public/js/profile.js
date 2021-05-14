@@ -339,4 +339,11 @@ $(document).ready(function(){
             }
         })
     });
+
+    $('#confirmsignoutBtn').on('click', function(e){
+        console.log('here')
+        e.preventDefault();
+        $('#signoutModal').modal('hide');
+        window.location.href = '/users/signout';
+      });
 });
