@@ -41,14 +41,6 @@
 			</div>
 		</nav>
 		<div class="container">
-			<h3 id="heading">Home Page</h3>
-
-			<div id="searchError"></div>
-
-			<div id="searchResult"></div>
-
-			<div id="itemInfo"></div>
-
 			<% if(tab=='search') { %>
 				<%- include('main/search') %>
 			<% } else if(tab == 'item') { %>
@@ -56,6 +48,13 @@
 			<% } else { %>
 				<%- include('main/home') %>
 			<% } %>
+
+			<div id="searchError"></div>
+
+			<div id="searchResult"></div>
+
+			<div id="itemInfo"></div>
+
 		</div>
 
 	</body>

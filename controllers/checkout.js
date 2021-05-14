@@ -75,20 +75,18 @@ module.exports.changeQuantity = async function(req,res,next){
     quantity = req.body.quantity;
     user_id = req.session.user_id;
 
-    outOfStock = []
+    error = ""
     for(var i =0; i<selectedItems.length;i++) {
       result1 = await PhoneListing.getItemById(selectedItems[i])
-      console.log("#####");
-      console.log(result1);
-      if(parseInt(result1.stock) >= parseFloat(quantity)) {
+      if(parseInt(result1.stock) > parseFloat(quantity)) {
         result2 = await User.editCart(user_id,selectedItems[i],quantity)
       } else {
-        outOfStock.push(selectedItems[i])
+        error = "too many, current stock: " + result1.stock
       }
     }
     res.json({
   		user_id:req.session.user_id,
-      outOfStock:outOfStock
+			error:error
   	});
 
 

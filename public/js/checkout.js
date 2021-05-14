@@ -107,9 +107,9 @@ function selectItem(result) {
 function updateCartTotals() {
   $.post('/getCartInfo',function(result) {
     console.log("post getCartInfo",result);
-    $('#cartQuantity').empty()
-    $('#cartQuantity').append(result.cartQuantity)
-    $('#cartPrice').empty()
-    $('#cartPrice').append(result.cartPrice)
+    // $('#cartQuantity').empty()
+    $('#cartQuantity').text(result.cartQuantity)
+    // $('#cartPrice').empty()
+    $('#cartPrice').text(result.cartPrice)
   })
 }

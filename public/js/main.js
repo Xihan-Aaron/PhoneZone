@@ -266,22 +266,22 @@ function addToCartBtn(e) {
   $.post('/addToCart',info,function(result) {
     console.log(result);
     if(result) {
-      if(result.error == "invalid inputs") {
-        alert("failed to add to cart")
-      } else {
-        alert("sign in required to add to cart")
-      }
+      alert(result.error)
+      // if(result.error == "invalid inputs") {
+      //   alert("failed to add to cart")
+      // } else if(result.error == "signin") {
+      //   alert("sign in required to add to cart")
+      // }
     }
   })
     updateCartQuantity()
-    history.back(0)
 }
 
 function updateCartQuantity() {
   $.post('/getCartInfo',function(result) {
     console.log("post getCartInfo",result);
-    $('#cartQuantity').empty()
-    $('#cartQuantity').append(result.cartQuantity)
+    // $('#cartQuantity').empty()
+    $('#cartQuantity').text(result.cartQuantity)
   })
 }
 

@@ -96,14 +96,28 @@ module.exports.addItemToCart = async function(req,res,next){
 		if(checkingExisting != null) {
 			var exists = true
 		}
-		if(!exists) {
-			var itemToAdd = {id:item_id,quantity:item_quantity,price:item_price}
-			console.log(itemToAdd);
-			var item = await User.addToCart(user_id,itemToAdd)
+		console.log("pre-getitem");
+		item = await PhoneListing.getItemById(item_id)
+		console.log("post-getitem",parseInt(item.stock),item_quantity);
+		if(parseInt(item.stock) >= item_quantity) {
+			if(!exists) {
+				var itemToAdd = {id:item_id,quantity:item_quantity,price:item_price}
+				console.log(itemToAdd);
+				var item = await User.addToCart(user_id,itemToAdd)
+			} else {
+				var item = await User.addExistingToCart(user_id,item_id,item_quantity)
+			}
+
 		} else {
-			var item = await User.addExistingToCart(user_id,item_id,item_quantity)
+			error = "too many, current stock: " + item.stock
+			return res.json({error:error})
+
 		}
+
+
 		return
+
+
 	}catch(err){
 		err.statusCode=500
 		next(err)
