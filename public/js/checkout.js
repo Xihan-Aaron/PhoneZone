@@ -42,11 +42,48 @@ $(document).ready(function() {
 
   $('.changeQuantity').on('click', function(e){
       e.preventDefault();
-      var quantity = $(this).find('.newQuantity')
-      console.log(this.parent);
+      cartItem = $(this).closest('tr')
+      var quantity = cartItem.find('input[name="quantity"]').val()
+      var id = cartItem.find('.id')[0].innerHTML
+      if (quantity == "" ||
+          isNaN(quantity) || quantity < 0) {
+        alert("Please type in a valid quantity.");
+        return;
+      }
+      item = {id:id ,quantity:parseInt(quantity)}
 
-      updateCartTotals()
-    })
+      // // if(quantity == 0) {
+      //   $.post('checkout/removeFromCart',item, function(result){
+      //     if(result.msg == "added") {
+      //       alert("success")
+      //       updateCartTotals()
+      //     } else if(result.msg == "removed") {
+      //       alert("removed")
+      //       cartItem.remove()
+      //       updateCartTotals()
+      //     } else {
+      //       alert(result.error)
+      //     }
+      //   });
+      //
+      // } else {
+        $.post('checkout/changeQuantity', item, function(result){
+          // history.back(-1)
+          if(result.msg == "added") {
+            alert("success")
+            updateCartTotals()
+          } else if(result.msg == "removed") {
+            alert("removed")
+            cartItem.remove()
+            updateCartTotals()
+          } else {
+            alert(result.error)
+          }
+        });
+
+      // }
+      // updateCartTotals()
+})
 
   $('#remove').on('click', function(e){
       e.preventDefault();

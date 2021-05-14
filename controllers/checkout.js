@@ -71,22 +71,31 @@ module.exports.clearCart = async function(req,res,next){
 }
 module.exports.changeQuantity = async function(req,res,next){
 	try{
-    selectedItems = req.body.items;
+    selectedItem = req.body.id;
     quantity = req.body.quantity;
     user_id = req.session.user_id;
 
+		quantity = parseInt(quantity)
     error = ""
-    for(var i =0; i<selectedItems.length;i++) {
-      result1 = await PhoneListing.getItemById(selectedItems[i])
-      if(parseInt(result1.stock) > parseFloat(quantity)) {
-        result2 = await User.editCart(user_id,selectedItems[i],quantity)
-      } else {
-        error = "too many, current stock: " + result1.stock
+		msg = ""
+    // for(var i =0; i<selectedItems.length;i++) {
+      result1 = await PhoneListing.getItemById(selectedItem)
+			console.log(parseInt(result1.stock),quantity);
+      if(quantity > parseInt(result1.stock)) {
+				error = "too many, current stock: " + result1.stock
+      } else if(quantity == 0) {
+				msg = "removed"
+				result2 = await User.removeFromCart(user_id,selectedItem)
+			} else {
+				msg = "added"
+				result2 = await User.editCart(user_id,selectedItem,quantity)
       }
-    }
+    // }
     res.json({
   		user_id:req.session.user_id,
-			error:error
+			error:error,
+			msg:msg,
+			quantity:quantity
   	});
 
 

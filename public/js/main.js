@@ -225,28 +225,29 @@ function addToCartBtn(e) {
     console.log(quantity);
     if(quantity == null) {
       return;
-    }else if (isNaN(quantity) || quantity < 0 || quantity > $('#stock').text()) {
+    }else if (isNaN(quantity) || quantity < 0 ) {
       alert("Invalid input.");
       return;
-  } else {
-    quantity = parseInt(quantity)
-  }
-
-  var info = {id:id,quantity:quantity,price:price};
-  console.log(id);
-
-  $.post('/addToCart',info,function(result) {
-    console.log(result);
-    if(result) {
-      alert(result.error)
-      // if(result.error == "invalid inputs") {
-      //   alert("failed to add to cart")
-      // } else if(result.error == "signin") {
-      //   alert("sign in required to add to cart")
-      // }
+    } else {
+      quantity = parseInt(quantity)
     }
-  })
-    updateCartQuantity()
+
+    var info = {id:id,quantity:quantity,price:price};
+    console.log(id);
+
+    $.post('/addToCart',info,function(result) {
+      console.log(result);
+      if(result) {
+        alert(result.error)
+        // if(result.error == "invalid inputs") {
+        //   alert("failed to add to cart")
+        // } else if(result.error == "signin") {
+        //   alert("sign in required to add to cart")
+        // }
+      }
+    })
+      updateCartQuantity()
+  }
 }
 
 function updateCartQuantity() {
@@ -368,4 +369,4 @@ function changeRange(){
             }
         }
     });
-}
+};
