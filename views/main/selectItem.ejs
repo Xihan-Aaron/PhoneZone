@@ -4,14 +4,14 @@
 
   <div class="row">
     <div class="col-md-6">
-      <img src= <%=info.image %> alt="">
+      <img src= <%=info.image %> alt="" class="thumbnail" style="width: 12em;">
     </div>
     <div class="col-md-6">
       <p id="itemId" class="hide"> <%=info._id %> </p>
-      <p> brand: <%=info.brand %></p>
-      <p> stock: <%=info.stock %></p>
-      <p> seller: <%= info.seller %></p>
-      <p> price:<span id="itemPrice"> <%=info.price %></span></p>
+      <p> Brand: <%=info.brand %></p>
+      <p> Stock: <span id="stock"><%=info.stock %></span></p>
+      <p> Seller: <%= info.seller %></p>
+      <p> Price:<span id="itemPrice"> <%=info.price %></span></p>
       <input id="addToCart" class="btn btn-primary" type="button" value="Add to Cart" role="button" />
     </div>
   </div>

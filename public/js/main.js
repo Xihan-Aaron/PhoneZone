@@ -119,15 +119,15 @@ function viewItem(result) {
   var info = $('#itemInfo');
   // info.append('<h3 id="heading">' + result.title + '</h3>');
 
-  var image = '<img src=' + result.image + ' alt="">'
+  var image = '<img src=' + result.image + ' alt="" style="width: 12em;">'
 
   div = '<div class="row"> <div class="col-md-6">' + image + '</div>'
   div += '<div class="col-md-6">'
   div += '<p id="itemId" class="hide"> ' + result._id  + '</p>'
-  div += '<p> brand: ' + result.brand  + '</p>'
-  div += '<p> stock: ' + result.stock  + '</p>'
-  div += '<p> seller: ' + result.seller  + '</p>'
-  div += '<p> price: <span id="itemPrice">' + result.price  + '</p>'
+  div += '<p> Brand: ' + result.brand  + '</p>'
+  div += '<p> Stock: <span id="stock">' + result.stock  + '</span></p>'
+  div += '<p> Seller: ' + result.seller  + '</p>'
+  div += '<p> Price: <span id="itemPrice">' + result.price  + '</span></p>'
   div += '<input id="addToCart" class="btn btn-primary" type="button" value="Add to Cart" role="button" />'
   div += '</div> </div> '
 
@@ -215,25 +215,33 @@ function showMoreComments(e) {
 
 
 function addToCartBtn(e) {
-  var id = $('#itemId').text().trim();
-  var price = $('#itemPrice').text().trim();
-  while (quantity = prompt("Input number: ")) {
-    if (isNaN(quantity) || quantity < 0) {
-      alert("Invalid input.");
-    } else {
-      quantity = parseInt(quantity)
-      break;
+  if($('#signout').length < 1){
+    alert("You have to sign in first.");
+  } else {
+    var id = $('#itemId').text().trim();
+    var price = $('#itemPrice').text().trim();
+    var stock = parseInt($('#stock').text())
+    while (quantity = prompt("Input number: ")) {
+      console.log(quantity);
+      if (isNaN(quantity) || quantity < 0 || quantity > stock) {
+        alert("Invalid input.");
+      } else {
+        quantity = parseInt(quantity)
+        break;
+      }
     }
-  }
-  var info = {id:id,quantity:quantity,price:price};
-  console.log(id);
+    var info = {id:id,quantity:quantity,price:price};
+    console.log(id);
+  
+    // There are bugs in controller need to fix
+    $.post('/addToCart',info,function(result) {
+      if(result) {
+        alert("sign in required to add to cart")
+        updateCartQuantity()
+      }
+    });
 
-  $.post('/addToCart',info,function(result) {
-    if(result) {
-      alert("sign in required to add to cart")
-      updateCartQuantity()
-    }
-  })
+  }
 }
 
 function updateCartQuantity() {
