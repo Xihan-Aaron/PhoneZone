@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
   // console.log($.session.get('prev'));
 
@@ -41,65 +42,74 @@ $(document).ready(function() {
         $('#searchError').empty();
     });
 
-    $('#searchBtn').on('click', function(e){
+    $('#signout').on('click',function(e){
+      e.preventDefault();
+      var modalBox = $('#modalCommon')
+      var modalTitle = $('#modalCommonTitle')
+      var modalBody = $('#modalCommonBody')
 
-        $('#searchError').empty();
-        e.preventDefault();
-        var searchText = {searchtext: $('input[name="searchtext"]').val()};
-        if ($('input[name="searchtext"]').val() != ""){
-            $.post('/search', searchText, function(result){
-                // console.log(result);
-                if (result.searchResults.length < 1){
-                    $('#searchError').append('<p class="error">- No search result found.</p>');
-                    if($('.searchItem').length > 0){
-                      $('.searchItem').each(function(){
-                        $(this).remove();
-                      });
-                    }
-                } else {
-                    viewSearch(result.searchResults);
-                    addDropDown(result.searchResults);
-                    addRange(result.searchResults);
-                    $('#soldOutSoon').remove();
-                    $('#bestSellers').remove();
-                    $('#itemInfo').empty();
-                    $('#filter').on('change', changeFilter);
-                    $('#priceRange').on('change', changeRange);
-                    $('.searchItem').on('click', selectItem);
-                }
-            });
-            $.session.set('prev', 'search');
-            $.session.set('searchText', $('input[name="searchtext"]').val());
-        } 
-    });
+      modalBox.css("display", "block")
+      modalTitle.text("Are you sure you want to sign out!")
+      var htmlBody = `
+      <div>
+        <button class="btn btn-primary" id="signoutButton" type="button">Sign Out</button>
+        <button class="btn btn-danger" id="closing" type="button">Cancel</button>
+      </div>
+      `
+      modalBody.html(htmlBody)
 
+      $('#closing,#closeModal').on('click',function(e){
+         modalTitle.text()
+        modalBody.html('')
+        modalBox.css("display", "none")
+      })
+      $('#signoutButton').on('click',function(e){
+        $.get("users/signout",function(result){
+          window.location="/home"
+        })
+      })
+
+
+    })
+
+    function searchButton(e){
+      $('#searchError').empty();
+      e.preventDefault();
+      var searchText = {searchtext: $('input[name="searchtext"]').val()};
+      if ($('input[name="searchtext"]').val() != ""){
+          $.post('/search', searchText, function(result){
+              // console.log(result);
+              if (result.searchResults.length < 1){
+                  $('#searchError').append('<p class="error">- No search result found.</p>');
+                  if($('.searchItem').length > 0){
+                    $('.searchItem').each(function(){
+                      $(this).remove();
+                    });
+                  }
+              } else {
+                  $('#searchRange').css("display","block")//Reinstate the range finder
+                  $('#searchFilter').css("display","block") // Reinstate the search filter
+                  viewSearch(result.searchResults);
+                  addDropDown(result.searchResults);
+                  addRange(result.searchResults);
+                  $('#soldOutSoon').remove();
+                  $('#bestSellers').remove();
+                  $('#itemInfo').empty();
+                  $('#filter').on('change', changeFilter);
+                  $('#priceRange').on('change', changeRange);
+                  $('.searchItem').on('click', selectItem);
+              }
+          });
+          $.session.set('prev', 'search');
+          $.session.set('searchText', $('input[name="searchtext"]').val());
+      }
+    }
+
+    $('#searchBtn').on('click', function(e){searchButton(e)});
     $('#search').find('input[name="searchtext"]').bind('keypress', function(e){
-        if(e.keyCode == 13){
-            $('#searchError').empty();
-            e.preventDefault();
-            var searchText = {searchtext: $('input[name="searchtext"]').val()};
-            if ($('input[name="searchtext"]').val() != ""){
-                $.post('/', searchText, function(result){
-                    // console.log(result);
-                    if (result.searchResults.length < 1){
-                      $('#searchError').append('<p class="error">- No search result found.</p>');
-                    }
-                    // searchResultBackup = result.searchResults;
-                    viewSearch(result.searchResults);
-                    addDropDown(result.searchResults);
-                    addRange(result.searchResults);
-                    $('#soldOutSoon').remove();
-                    $('#bestSellers').remove();
-                    $('#filter').on('change', changeFilter);
-                    $('#priceRange').on('change', changeRange);
-                    $('.searchItem').on('click', selectItem);
-                });
-                $.session.set('prev', 'search');
-                $.session.set('searchText', $('input[name="searchtext"]').val());
-            } else {
-              $('#searchError').append('<p class="error">- No search result found.</p>');
-            }
-        }
+      if(e.keyCode == 13){
+        searchButton(e)
+      }
     });
 
     $('.soldOutItem').on('click', selectItem);
@@ -108,7 +118,7 @@ $(document).ready(function() {
 
     $('.reviews').on('click', showMoreReviews);
     $('.showMoreComments').on('click', showMoreComments);
-    $('#addToCart').on('click', addToCartBtn);
+    $('#addToCart').on('click', modalPopUpAddCart);
     updateCartQuantity();
 });
 
@@ -146,19 +156,22 @@ function viewSearch(result){
 }
 
 function viewItem(result) {
+  $('#searchRange').css("display","none") //Hide the range finder
+  $('#searchFilter').css("display","none") //Hide the search filter
   $('#heading').append(result.title);
   var info = $('#itemInfo');
-  // info.append('<h3 id="heading">' + result.title + '</h3>');
+  info.append('<h3 id="heading">' + result.title + '</h3>');
 
-  var image = '<img src=' + result.image + ' alt="">'
+  var image = '<img src=' + result.image + ' class="phoneImage" alt="">'
 
   div = '<div class="row"> <div class="col-md-6">' + image + '</div>'
   div += '<div class="col-md-6">'
   div += '<p id="itemId" class="hide"> ' + result._id  + '</p>'
   div += '<p> brand: ' + result.brand  + '</p>'
-  div += '<p> stock: ' + result.stock  + '</p>'
+  div 
+  div += '<p> stock: <span id="itemStock">' + result.stock  + '</span></p>'
   div += '<p> seller: ' + result.seller  + '</p>'
-  div += '<p> price: <span id="itemPrice">' + result.price  + '</p>'
+  div += '<p> price: <span id="itemPrice">' + result.price  + '</span></p>'
   div += '<input id="addToCart" class="btn btn-primary" type="button" value="Add to Cart" role="button" />'
   div += '</div> </div> '
 
@@ -183,23 +196,23 @@ function viewItem(result) {
       } else {
         var tableRow = '<tr class="reviews ' + '">';
       }
-        // console.log(tableRow);
-        tableRow += '<td class="id hide">' + reviews[i].id + '</td>';
-        tableRow += '<td class="reviewer">' + reviews[i].reviewer + '</td>';
-        tableRow += '<td class="rating">' + reviews[i].rating + '</td>';
+      // console.log(tableRow);
+      tableRow += '<td class="id hide">' + reviews[i].id + '</td>';
+      tableRow += '<td class="reviewer">' + reviews[i].reviewer + '</td>';
+      tableRow += '<td class="rating">' + reviews[i].rating + '</td>';
 
-        if(reviews[i].comment.length > 200) {
-          tableRow += '<td class="partialComment ">' + reviews[i].comment.substring(0,200) + '<p class="textComment"> (Show More) </p>' + '</td>';
-          tableRow += '<td class="fullComment hide">' + reviews[i].comment + '<p class="textComment"> (Show Less) </p>' + '</td>';
-        } else {
-          tableRow += '<td class="comment">' + reviews[i].comment + '</td>';
-        }
+      if(reviews[i].comment.length > 200) {
+        tableRow += '<td class="partialComment ">' + reviews[i].comment.substring(0,200) + '<p class="textComment"> (Show More) </p>' + '</td>';
+        tableRow += '<td class="fullComment hide">' + reviews[i].comment + '<p class="textComment"> (Show Less) </p>' + '</td>';
+      } else {
+        tableRow += '<td class="comment">' + reviews[i].comment + '</td>';
+      }
 
-        tableRow += '</tr>';
-        tableBody += tableRow;
+      tableRow += '</tr>';
+      tableBody += tableRow;
     }
     if(reviews.length > 3) {
-      tableBody += '<tr class="showMoreComments"> <td colspan=3>show more</td> </tr>'
+      tableBody += '<tr class="showMoreComments"> <td colspan=3><p class="textComment">show more comments</p></td> </tr>'
     }
   }
 
@@ -211,8 +224,9 @@ function viewItem(result) {
 
   $('.reviews').on('click', showMoreReviews)
   $('.showMoreComments').on('click', showMoreComments)
-  $('#addToCart').on('click', addToCartBtn)
+  $('#addToCart').on('click', modalPopUpAddCart)
 }
+
 function showMoreReviews(e) {
   e.preventDefault();
   var comment = $(this).find('.partialComment');
@@ -244,28 +258,81 @@ function showMoreComments(e) {
     }
 }
 
-
-function addToCartBtn(e) {
+function modalPopUpAddCart(e){
   var id = $('#itemId').text().trim();
   var price = $('#itemPrice').text().trim();
-  while (quantity = prompt("Input number: ")) {
-    if (isNaN(quantity) || quantity < 0) {
-      alert("Invalid input.");
-    } else {
-      quantity = parseInt(quantity)
-      break;
+  var maxQuantity =parseInt($('#itemStock').text().trim())
+
+  var modalBox = $('#modalCommon')
+  var modalTitle = $('#modalCommonTitle')
+  var modalBody = $('#modalCommonBody')
+  
+
+
+  modalBox.css("display", "block")
+  modalTitle.text("Please enter how many you would like to Purchase")
+  var htmlBody = `
+
+  <div class="form-group">
+    <input type="number" class="form-control" step=1 id="quantityInput" min=0  placeholder="Enter quanity Purchase">
+  </div>
+  <div class="error" id="modalError">
+  </div>
+  <div>
+    <button class="btn btn-primary" id="submitAddtoCart" type="button">Add to Cart</button>
+    <button class="btn btn-danger" id="closing" type="button">Cancel</button>
+  </div>
+  `
+  modalBody.html(htmlBody)
+
+  $('#closing,#closeModal').on('click',function(e){
+     modalTitle.text()
+    modalBody.html('')
+    modalBox.css("display", "none")
+  })
+  
+  function submitCart(){
+    var quantityPurchase =$('#quantityInput').val();
+    validate = validateInteger(quantityPurchase)
+    if(validate["status"]=="fail"){
+      $('#modalError').text(validateInteger(quantityPurchase)["message"])
+    }else if (validate["status"]=="success" && validate["value"]>maxQuantity){
+      $('#modalError').text("There is not enough stock. Please wait for restock")
+    }else{
+      var info = {id:id,quantity:quantityPurchase,price:price,maxQuantity:maxQuantity};
+      $.ajax({
+        data:info,
+        type:"post",
+        url:"/addToCart",
+        success:function(result){
+          updateCartQuantity()
+          modalTitle.text()
+          modalBody.html('')
+          modalBox.css("display", "none")
+        },
+        error:function(result){
+          response =result["responseJSON"]
+          if(response["type"]=="signin"){
+            var responsehtml=`<p> ${response["message"]}. Please click here to <a href="/users/signin"> Sign In</a></p>`
+            $('#modalError').html(responsehtml )
+          }else{
+            $('#modalError').text(response["message"] )
+          } 
+        }
+      })
     }
   }
-  var info = {id:id,quantity:quantity,price:price};
-  console.log(id);
-
-  $.post('/addToCart',info,function(result) {
-    if(result) {
-      alert("sign in required to add to cart")
-      updateCartQuantity()
+  $(document).keydown(function (event) {
+    if ( (event.keyCode || event.which) === 13) {
+        $("#submitAddtoCart").click();
     }
+  });
+
+  $('#submitAddtoCart').on('click',function(event){
+    submitCart()
   })
 }
+
 
 function updateCartQuantity() {
   $.post('/getCartInfo',function(result) {

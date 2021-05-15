@@ -4,12 +4,12 @@
 
   <div class="row">
     <div class="col-md-6">
-      <img src= <%=info.image %> alt="">
+      <img class="phoneImage" src= <%=info.image %> alt="">
     </div>
     <div class="col-md-6">
       <p id="itemId" class="hide"> <%=info._id %> </p>
       <p> brand: <%=info.brand %></p>
-      <p> stock: <%=info.stock %></p>
+      <p> stock:  <span id="itemStock"> <%=info.stock %></span></p>
       <p> seller: <%= info.seller %></p>
       <p> price:<span id="itemPrice"> <%=info.price %></span></p>
       <input id="addToCart" class="btn btn-primary" type="button" value="Add to Cart" role="button" />
