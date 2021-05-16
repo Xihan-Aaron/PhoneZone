@@ -20,8 +20,9 @@ $(document).ready(function() {
     console.log(document.referrer.split('/home').pop()=="")
     if(document.referrer.split('/').pop()==""){
       window.location.href="/"
+    }else{
+      history.back(-1);
     }
-    // history.back(-1);
   });
 
 
