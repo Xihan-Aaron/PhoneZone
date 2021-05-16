@@ -21,7 +21,7 @@ $(document).ready(function() {
     if(document.referrer.split('/').pop()==""){
       window.location.href="/"
     }
-    history.back(-1);
+    // history.back(-1);
   });
 
 
