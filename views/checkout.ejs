@@ -61,9 +61,9 @@
 						<% for(var i = 0; i < info.length; i++) {%>
 						
 						<% if (info[i]["flag"]==1) { %>
-							<tr  class="cartItem row flag" id=<%=info[i].id %>>
+							<tr class="cartItem flag" id=<%=info[i].id %>>
 						<% } else { %>
-							<tr  class="cartItem row" id=<%=info[i].id %>>
+							<tr class="cartItem" id=<%=info[i].id %>>
 						<% } %>
 						 
 							<td>
@@ -74,11 +74,11 @@
 								</div>
 							</td>
 							<td><img src=<%= info[i].image %> alt="" class="thumbnail"></td>
-							<td class="title col-md-4" id="<%=info[i].id %>_title"><%= info[i].title %></td>
+							<td class="title" id="<%=info[i].id %>_title"><%= info[i].title %></td>
 							<td class="price" id="<%=info[i].id %>_price"><%= info[i].price %></td>
 							<td class="quantity" id="<%=info[i].id %>_quantityCart"><%= info[i].quantity %></td>
 							<td class="quantity"><%=(info[i].quantity*info[i].price).toFixed(2) %></td>
-							<td class="chageQuantity col-md-6">
+							<td class="chageQuantity">
 								<!-- <div class="row"> -->
 									<div class="quantityDiv">
 										<input type="text" id="<%=info[i].id %>_quantity" placeholder="Quantity" name="quantity" style="width:6em; display:inline;" class="form-control">
