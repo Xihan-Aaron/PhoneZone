@@ -17,12 +17,9 @@
 					<a class="navbar-brand" href="/">PhoneZone</a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
-					<ul class="nav navbar-nav">
-						<li><a href="/">Main</a></li>
-					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="/checkout">Check out</a></li>
-						<li><a id="signout" class="btn btn-default" role="button" data-toggle="modal" data-target="#signoutModal" style="border: 0em; background-color: transparent;">Sign out</a></li>
+						<li><a href="/users/signout" id="signout">Sign out</a></li>
 					</ul>
 				</div>
 			</div>
@@ -32,21 +29,6 @@
 			<div class="userInfo">
 				<h2>Profile</h2>
 				
-				<div>
-					<form id="basicInfo" class="form-form">
-						<fieldset disabled>
-							<label for="firstname">First Name</label> 	
-							<input type="text" name="firstname" class="form-control" value="<%= userInfo["firstname"] %>"/>
-			
-							<label for="lastname">Last Name</label> 
-							<input type="text" name="lastname" class="form-control" value="<%= userInfo["lastname"] %>"/>
-					
-							<label for="email">Email</label> 
-							<input type="email" name="email" class="form-control" value="<%= userInfo["email"] %>"/>
-						</fieldset>
-					</form>
-				</div>
-
 				<div id="tabDiv">
 					<ul id="profileTab" class="nav nav-tabs" style="padding: 10px;">
 						<li class="active">
@@ -79,9 +61,9 @@
 							<th>Avaliable Stock</th>
 							<th>Seller</th>
 							<th>Price</th>
-							<th>Disabled</th>
-							<th></th>
-							<th></th>
+							<th>Status</th>
+							<th>Update Status</th>
+							<th>Remove</th>
 						</thead>
 						<tbody id="phoneListBody">
 							<% if (items.length > 0) { %>
@@ -94,15 +76,17 @@
 										<td class="seller"><%= items[i].seller %></td>
 										<td class="price"><%= items[i].price %></td>
 										<td class="disabled">
-											<% if (items[i].disabled == 'Disabled') { %>
-												<del><%= items[i].disabled %></del>
-											<% } else { %>
-												<b><%= items[i].disabled %></b>
-											<% } %>
+											<b><%= items[i].disabled %></b>
+											
 										</td>
 										<td>
 											<div>
-												<input class="disableBtn btn btn-primary btn-xs" type="button" value="Toggle Status" role="button" />
+												<% if (items[i].disabled == 'Disabled') { %>
+													<input class="disableBtn btn btn-success btn-xs" type="button" value="Enable" role="button" />
+												<% } else { %>
+													<input class="disableBtn btn btn-danger btn-xs" type="button" value="Disable" role="button" />
+												<% } %>
+												
 											</div>
 										</td>
 										<td>
@@ -136,5 +120,6 @@
 				</div>
 			</div>
 		</div>
+		<%- include('../modalCommon') %>
 	</body>
 </html>

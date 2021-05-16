@@ -18,7 +18,6 @@ router.post('/changeQuantity'
 	}
 	,checkoutController.changeQuantity)
 
-// router.post('/addToCart', checkoutController.addItemToCart);
-
+router.post('/verifyQuantiy', checkoutController.verifyQuantiy);
 
 module.exports = router

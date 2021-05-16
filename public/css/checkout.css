@@ -1,0 +1,32 @@
+.divCheckout{
+	margin-top: 32px
+
+}
+.title{
+	width: 30%
+	
+}
+.quantityDiv{
+	display: inline-block;
+
+}
+
+.flag{
+	background-color: antiquewhite
+}
+
+.status span{
+	background-color: antiquewhite
+}
+
+#info span{
+	background-color: antiquewhite
+}
+
+
+.success {
+	color: #115611;
+    font-weight: 600;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}

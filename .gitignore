@@ -1,4 +1,6 @@
 node_modules/
 dataset_dev/
+public/images
 Note.txt
 *.jpeg
+*.png

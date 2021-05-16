@@ -5,8 +5,10 @@
 		<script type="text/javascript" src="/bootstrap-3.4.1-dist/js/bootstrap.js"></script>
 		<link rel="stylesheet" type="text/css" href="/bootstrap-3.4.1-dist/css/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="/css/main.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="/css/checkout.css" media="screen" />
 		<script defer type="text/javascript" src="/js/checkout.js"></script>
 		<script defer type="text/javascript" src="/js/utility.js"></script>
+		<script defer type="text/javascript" src="/js/validate.js"></script>
 		<script type="text/javascript" src="/js/jquerysession.js"></script>
 		<title>Check out</title>
 	</head>
@@ -16,61 +18,93 @@
 			<div>
 				<h2>Checkout</h2>
 			</div>
-			<div>
-				<div class="nav" style="margin-bottom: 20px;">
-					<button id="goBack" class="btn btn-info" type="button">Go back</button>
-					<button id="confirm" class="btn btn-primary pull-right" type="button">Confirm</button>
-				</div>
-				<!-- <div style="margin-bottom: 10px;">
-					<input type="text" placeholder="Quantity" name="quantity" style="width:6em; display:inline;" class="form-control">
-					<input id="changeQuantity" class="btn btn-primary" type="button" value="Change quantity"/>
-				</div> -->
-				<div>
-					<input id="remove" class="btn btn-primary" type="button" value="Remove"/>
-				</div>
-
+			<div class="nav" style="margin-bottom: 20px;">
+				<button id="goBack" class="btn btn-info" type="button">Go back</button>
+				<input id="remove" class="btn btn-danger  pull-right" type="button" value="Remove"/>
 			</div>
+			<div id="info">
+				<% if(countInvalid>0) { %>
+					<div>
+						<% if (countInvalid>1) { %>
+							<p>Status: There has been <%= countInvalid %> items that were removed from the cart because it has been removed or sold out!</p>
+						<% } else { %>
+							<p>Status: There has been <%= countInvalid %> item that was removed from the cart because it has been removed or sold out!</p>
+						<% } %>
+						
+					</div>
+				<% } %>
+
+				<% if(countQuantityChage>0) { %>
+					<div class="status">
+						<% if (countQuantityChage>1) { %>
+							<p><span>Status: There has been <%= countQuantityChage %> items that were changed from the cart because people have been buying. Purchase NOW!<span></p>
+						<% } else { %>
+							<p><span>Status: There has been <%= countQuantityChage %> item that was changed from the cart because people have been buying. Purchase NOW!<span></p>
+						<% } %>
+						
+					</div>
+				<% } %>
+			</div>
+			
 			<div class="table-responsive">
 				<table class="table table-hover">
 					<thead>
 						<th></th>
 						<th></th>
-						<th>Title</th>
+						<th class="title">Title</th>
 						<th>Price</th>
 						<th>Quantity</th>
+						<th>SubTotal</th>
+						<th>Update Quantity</th>
 					</thead>
 					<tbody>
 						<% for(var i = 0; i < info.length; i++) {%>
-						<tr class="cartItem">
-							<td class="id hide"><%=info[i].id %></td>
+						
+						<% if (info[i]["flag"]==1) { %>
+							<tr  class="cartItem row flag" id=<%=info[i].id %>>
+						<% } else { %>
+							<tr  class="cartItem row" id=<%=info[i].id %>>
+						<% } %>
+						 
 							<td>
 								<div class="checkbox">
 									<label>
-										<input class="cartCheck" type="checkbox">
+										<input name="removalTick" class="cartCheck" type="checkbox">
 									</label>
 								</div>
 							</td>
 							<td><img src=<%= info[i].image %> alt="" class="thumbnail"></td>
-							<td class="title"><%= info[i].title %></td>
-							<td class="price"><%= info[i].price %></td>
-							<td class="quantity"><input type="text" value="<%= info[i].quantity %>" name="quantity" style="width:6em; display:inline;" class="newQuantity form-control">
-							<input id="changeQuantity" class="changeQuantity btn btn-primary" type="button" value=">"/></td>
+							<td class="title col-md-4" id="<%=info[i].id %>_title"><%= info[i].title %></td>
+							<td class="price" id="<%=info[i].id %>_price"><%= info[i].price %></td>
+							<td class="quantity" id="<%=info[i].id %>_quantityCart"><%= info[i].quantity %></td>
+							<td class="quantity"><%=(info[i].quantity*info[i].price).toFixed(2) %></td>
+							<td class="chageQuantity col-md-6">
+								<!-- <div class="row"> -->
+									<div class="quantityDiv">
+										<input type="text" id="<%=info[i].id %>_quantity" placeholder="Quantity" name="quantity" style="width:6em; display:inline;" class="form-control">
+										<input class="btn btn-primary" name= "changeQuantityButton" type="button" value="Change quantity"/>	
+									</div>
+									<div class="error" id="<%=info[i].id %>_error"></div>
+									<div class="success" id="<%=info[i].id %>_success"></div>
+								<!-- </div> -->
+							</td>
 						</tr>
 						<% } %>
 					</tbody>
 				</table>
 			</div>
 			<div class="text-right" style="font-size: 16px;">
-				<span>Total items:</span>
-				<span id="cartQuantity"></span>
-				<span>Total price:</span>
-				<span id="cartPrice"></span>
+				<span id="cartQuantity">Total items:<%= totalQuantity %></span>
+				<br>
+				<span id="cartPrice">Total price: $<%= totalPrice %></span>
 			</div>
 
+			<div class="divCheckout">
+				<button id="confirm" class="btn btn-primary pull-right" type="button">Confirm</button>
+			</div>
 
 		</div>
-
-		<%- include('modal')%>
+		<%- include('modalCommon') %>
 
 
 

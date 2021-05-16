@@ -46,15 +46,16 @@ module.exports.search = async function(req,res,next){
 		searchResults = await PhoneListing.getMatchingItems(searchtext);
 		req.session.prevInfo = searchResults
 		req.session.prevUrl = 'search'
+		console.log(req.session)
+		res.status(200).json({
+			user_id:req.session.user_id,
+			searchResults:searchResults
+		});
 	}catch(err){
 		err.statusCode=500
 		next(err)
 	}
-	// res.render('main.ejs',{user_id:req.session.user_id,searchResults:searchResults,tab:'search'})
-	res.json({
-		user_id:req.session.user_id,
-		searchResults:searchResults
-	});
+
 }
 
 module.exports.selectItem = async function(req,res,next){
@@ -81,46 +82,39 @@ module.exports.addItemToCart = async function(req,res,next){
 	try{
 		item_id = req.body.id
 		item_quantity = parseInt(req.body.quantity)
-		if(req.body.id == undefined || isNaN(req.body.quantity)) {
-			return res.json({error:"Invalid inputs"})
-		}
+		item_max_quantity = parseInt(req.body.maxQuantity)
+		console.log(req.body.price);
 		item_price = parseFloat(req.body.price)
 
 		user_id = req.session.user_id
 		userFromDb = await User.getUserById(user_id)
+		console.log("userFromDb: ",userFromDb);
 		if(userFromDb == null) {
-			return res.json({error:"signin"})
+			return res.status(400).json({"status":"fail","message":"Please sign in before adding to Cart","type":"signin"})
 		}
-		var exists = false
-		var checkingExisting = await User.checkExisting(user_id,item_id)
-		if(checkingExisting != null) {
-			var exists = true
-		}
-		console.log("pre-getitem");
-		item = await PhoneListing.getItemById(item_id)
-		console.log("post-getitem",parseInt(item.stock),item_quantity);
-		if(parseInt(item.stock) >= item_quantity) {
-			if(!exists) {
-				var itemToAdd = {id:item_id,quantity:item_quantity,price:item_price}
-				console.log(itemToAdd);
-				var item = await User.addToCart(user_id,itemToAdd)
-			} else {
-				var item = await User.addExistingToCart(user_id,item_id,item_quantity)
+		itemInfo =userFromDb["checkout"].filter(function(item){
+			return item['id']==item_id
+		})
+		console.log(itemInfo,"info")
+		if(itemInfo.length>0) {
+			currentQuantity =parseInt(itemInfo[0]["quantity"])
+			if(currentQuantity+item_quantity>item_max_quantity){
+				return res.status(400).json(
+					{"status":"fail"
+					,"message":`You already have ${currentQuantity} of this product in your cart. With the addition purchase, 
+				there will not be enough stock. Please wait for restock`
+					,"type":"stock"})
 			}
-
-		} else {
-			error = "too many, current stock: " + item.stock
-			return res.json({error:error})
-
+			var item = await User.addExistingToCart(user_id,item_id,item_quantity)
 		}
-
-
-		return
-
-
+		else{
+			var itemToAdd = {id:item_id,quantity:item_quantity,price:item_price}
+			console.log(itemToAdd);
+			var item = await User.addToCart(user_id,itemToAdd)
+		} 
+		return res.status(200).json({"status":"success"})
 	}catch(err){
-		err.statusCode=500
-		next(err)
+		return res.status(500).json({"status":"fail","message":`Server Side Error`})
 	}
 }
 
@@ -129,19 +123,22 @@ module.exports.getCartInfo = async function(req,res,next){
 		user_id = req.session.user_id
 		userFromDb = await User.getUserById(user_id)
 		if(userFromDb == null) {
-			return
+			return res.status(500).json({"status":"fail","message":`Unable to find user`})
+		}else{
+			checkout = userFromDb["checkout"]
+			cartQuantity =0
+			cartPrice= 0
+			for(i=0;i<checkout.length;i++){
+				cartQuantity+=parseInt(checkout[i]['quantity'])
+				cartPrice+=parseFloat(checkout[i]['quantity']*checkout[i]['price'])
+			}
+			return res.status(200).json({
+				"status":"success",
+				"cartQuantity":parseInt(cartQuantity),
+				"cartPrice":parseFloat(cartPrice).toFixed(2)
+			})
 		}
-
-		cartInfo = await User.getCartInfo(userFromDb._id)
-		console.log("cartInfo:",cartInfo[0].cartQuantity);
-
-		return res.json({
-			cartQuantity:cartInfo[0].cartQuantity,
-			cartPrice:cartInfo[0].cartPrice
-		});
-
 	}catch(err){
-		err.statusCode=500
-		next(err)
+		return res.status(500).json({"status":"fail","message":`Server Side Error`})
 	}
 }

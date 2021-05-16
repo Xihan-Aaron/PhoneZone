@@ -7,6 +7,7 @@
 		<link rel="stylesheet" type="text/css" href="/css/main.css" media="screen" />
 		<script defer type="text/javascript" src="/js/main.js"></script>
 		<script defer type="text/javascript" src="/js/utility.js"></script>
+		<script defer type="text/javascript" src="/js/validate.js"></script>
 		<script defer type="text/javascript" src="/js/jquerysession.js"></script>
 		<title>PhoneZone</title>
 	</head>
@@ -36,13 +37,15 @@
 							<li><a href="/users/signin">Sign in</a></li>
 						<% } else { %>
 							<li><a href="/profile">Profile</a></li>
-							<li><a id="signout" class="btn btn-default" role="button" data-toggle="modal" data-target="#signoutModal" style="border: 0em; background-color: transparent;">Sign out</a></li>
+							<li><a href="/users/signout" id="signout">Sign out</a></li>
 						<% } %>
 					</ul>
 				</div>
 			</div>
 		</nav>
 		<div class="container">
+			<div id="searchError"></div>
+
 			<% if(tab=='search') { %>
 				<%- include('main/search') %>
 			<% } else if(tab == 'item') { %>
@@ -50,15 +53,13 @@
 			<% } else { %>
 				<%- include('main/home') %>
 			<% } %>
-			
-			<div id="searchError"></div>
 
 			<div id="searchResult"></div>
 
 			<div id="itemInfo"></div>
 
 			<%- include('modal')%>
-			<div class="modal fade" id="signoutModal" tabindex="-1" role="dialog" aria-labelledby="signoutModalLabel" aria-hidden="true">
+			<!-- <div class="modal fade" id="signoutModal" tabindex="-1" role="dialog" aria-labelledby="signoutModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -71,8 +72,9 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
+		<%- include('modalCommon') %>
 
 	</body>
 </html>
