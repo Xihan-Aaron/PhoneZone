@@ -107,9 +107,9 @@ $(document).ready(function() {
 
       modalBox.css("display", "block")
       if(results["quantity"]==1){
-        modalTitle.text(`Are you want to remove the ${results["quantity"]} item`)
+        modalTitle.text(`Do you want to remove the ${results["quantity"]} item?`)
       }else{
-        modalTitle.text(`Are you want to remove all ${results["quantity"]} items`)
+        modalTitle.text(`Do you want to remove all ${results["quantity"]} items?`)
       }
       var htmlBody = "<div>"
       for (title in results["titles"]){
@@ -130,7 +130,7 @@ $(document).ready(function() {
           for(i=0;i<results["items"].length;i++){
             $(`#${results["items"][i]}`).css("display","none")
           }
-          $('#info').html("<p><span>Items Removed from Cart Successfully</span></p>")
+          $('#info').html("<p><span>Items removed from cart successfully</span></p>")
         });
         closeModal()
         updateCartQuantity();     
@@ -190,7 +190,7 @@ $(document).ready(function() {
       if(results["quantity"]==1){
         modalTitle.text(`Are you sure you want to buy this?`)
       }else{
-        modalTitle.text(`Are you sure you want to buy these ${results["quantity"]} items`)
+        modalTitle.text(`Are you sure you want to buy these ${results["quantity"]} items?`)
       }
       var htmlBody = 
       `<div>
@@ -220,7 +220,8 @@ $(document).ready(function() {
               $(`#${results["items"][i]}`).css("display","none")
             }
             $('#info').html("<p><span>Purchase Success</span></p>")
-            updateCartQuantity(); 
+            updateCartQuantity();
+            window.location.href = "/"
           },
           error:function(result){
        

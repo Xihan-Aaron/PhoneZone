@@ -32,7 +32,7 @@ const checkoutRoute = require('./routes/checkout')
 
 const errorHandlerControllers = require('./controllers/errorHandlers')
 
-const port= process.env.PORT || 3001;
+const port= process.env.PORT || 3000;
 
 app.use(cors())
 

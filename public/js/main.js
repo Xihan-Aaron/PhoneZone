@@ -13,8 +13,8 @@ $(document).ready(function() {
       var modalFooter = $('#modalCommonFooter')
 
       modalBox.css("display", "block")
-      modalTitle.text("Are you sure you want to sign out!")
-      // var htmlBody = ``
+      modalTitle.text("Do you want to sign out?")
+
       var htmlFooter = `<button class="btn btn-danger" id="closing" type="button">Cancel</button>
                         <button class="btn btn-primary" id="signoutButton" type="button">Sign Out</button>`
       modalBody.empty()
@@ -238,7 +238,7 @@ function modalPopUpAddCart(e){
 
 
   modalBox.css("display", "block")
-  modalTitle.text("Please enter how many you would like to purchase")
+  modalTitle.text("Please enter the quantity you would like to purchase")
   var htmlBody = `
   <div class="form-group">
     <input type="number" class="form-control" step=1 id="quantityInput" min=0  placeholder="Enter quanity Purchase">
@@ -266,7 +266,7 @@ function modalPopUpAddCart(e){
     if(validate["status"]=="fail"){
       $('#modalError').text(validateInteger(quantityPurchase)["message"])
     }else if (validate["status"]=="success" && validate["value"]>maxQuantity){
-      $('#modalError').text("There is not enough stock. Please wait for restock")
+      $('#modalError').text("Not enough stock. Please wait for restock")
     }else{
       var info = {id:id,quantity:quantityPurchase,price:price,maxQuantity:maxQuantity};
       $.ajax({
