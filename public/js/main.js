@@ -436,6 +436,9 @@ function changeFilter(){
     } else {
         $('.searchItem').each(function(){
             $(this).removeClass('hide');
+            if(parseFloat($(this).find('.price').text()) > priceFilter){
+              $(this).addClass('hide');
+            }
         })
     }
 }
