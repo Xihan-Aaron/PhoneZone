@@ -87,6 +87,7 @@ $(document).ready(function() {
     $('.showMoreReviews').on('click', showMoreReviews);
     $('#addToCart').on('click', modalPopUpAddCart);
     updateCartQuantity();
+    updateItemQuantity();
 });
 
 function viewSearch(result){
@@ -190,7 +191,7 @@ function viewItem(result) {
 
   info.append(tableDiv)
 
-  updateItemQuantity(result._id)
+  updateItemQuantity()
   $('.reviews').on('click', showMoreComments)
   $('.showMoreReviews').on('click', showMoreReviews)
   $('.showLessReviews').on('click', showLessReviews)
@@ -464,7 +465,11 @@ function changeRange(){
 };
 
 function updateItemQuantity(item) {
-  $.post('/getQuantityInCart',{item:item},function(result) {
+  item_id = $('#itemId').text().trim()
+  if(typeof item_id == 'undefined') {
+    return;
+  }
+  $.post('/getQuantityInCart',{item:item_id},function(result) {
     if(typeof result.quantityInCart != 'undefined') {
       $('#quantityInCart').text(result.quantityInCart)
     }
