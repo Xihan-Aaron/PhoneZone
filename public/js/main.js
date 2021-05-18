@@ -179,7 +179,7 @@ function viewItem(result) {
     }
     if(reviews.length > 3) {
       tableBody += '<tr > <td class="showMoreReviews" colspan=2><p class="textComment">show more comments</p></td> '
-      tableBody += '<td class="showLessReviews hide" colspan=3><p class="textComment">show less comments</p></td> </tr>'
+      tableBody += '<td class="showLessReviews hide" colspan=3><p class="textComment">show less comments</p></td><td></td> </tr>'
     }
   }
 
