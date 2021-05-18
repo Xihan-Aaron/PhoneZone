@@ -2,9 +2,12 @@
 <html>
 	<head>
 		<script type="text/javascript" src="/js/jquery-3.6.0.js"></script>
+		<script type="text/javascript" src="/bootstrap-3.4.1-dist/js/bootstrap.js"></script>
 		<link rel="stylesheet" type="text/css" href="/bootstrap-3.4.1-dist/css/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="/css/main.css" media="screen" />
 		<script defer type="text/javascript" src="/js/main.js"></script>
+		<script defer type="text/javascript" src="/js/utility.js"></script>
+		<script defer type="text/javascript" src="/js/validate.js"></script>
 		<script defer type="text/javascript" src="/js/jquerysession.js"></script>
 		<title>PhoneZone</title>
 	</head>
@@ -13,7 +16,7 @@
 			<div class="container">
 				<div class="navbar-header" style="top: 50%;">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"></button>
-					<a class="navbar-brand" href="/">PhoneZone</a>
+					<a class="navbar-brand" href="/home">PhoneZone</a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse" style="top: 50%;">
 					<!-- <form method="POST" name="search" class="navbar-form navbar-left" role="search"> -->
@@ -34,20 +37,14 @@
 							<li><a href="/users/signin">Sign in</a></li>
 						<% } else { %>
 							<li><a href="/profile">Profile</a></li>
-							<li><a href="/users/signout">Sign out</a></li>
+							<li><a href="/users/signout" id="signout">Sign out</a></li>
 						<% } %>
 					</ul>
 				</div>
 			</div>
 		</nav>
 		<div class="container">
-			<h3 id="heading">Home Page</h3>
-
 			<div id="searchError"></div>
-
-			<div id="searchResult"></div>
-
-			<div id="itemInfo"></div>
 
 			<% if(tab=='search') { %>
 				<%- include('main/search') %>
@@ -56,7 +53,28 @@
 			<% } else { %>
 				<%- include('main/home') %>
 			<% } %>
+
+			<div id="searchResult"></div>
+
+			<div id="itemInfo"></div>
+
+			<%- include('modal')%>
+			<!-- <div class="modal fade" id="signoutModal" tabindex="-1" role="dialog" aria-labelledby="signoutModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title" id="signoutModalLabel">Do you want to sign out?</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="close"></button>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<input id="confirmsignoutBtn" class="btn btn-primary" type="button" value="Confirm" role="button"/>
+						</div>
+					</div>
+				</div>
+			</div> -->
 		</div>
+		<%- include('modalCommon') %>
 
 	</body>
 </html>

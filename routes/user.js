@@ -43,6 +43,7 @@ router.get('/signin', (req,res,next)=>{
 })
 
 router.get('/signout', (req,res,next)=>{
+	console.log("hello")
     req.session.destroy(function(err) {
     	if(err){
     		const error = new Error('Server Error. Incorrect User was logged in');

@@ -38,5 +38,25 @@ body {
 }
 
 .error {
-    color: red;
+    color: #e34545;
+    font-weight: 600;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.textComment{
+    font-weight: 550;
+}
+
+.textComment:hover{
+    font-weight: 800;
+}
+#modalCommonTitle{
+    display:inline;
+}
+
+.phoneImage{
+    max-width: 400px;
+    max-height: 401px;
+    object-fit: contain;
 }
