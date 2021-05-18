@@ -295,6 +295,7 @@ function selectItem(result) {
       console.log(id);
 
       $.post('/item',id,function(result) {
+        window.location.href = '/'
         // $('#soldOutSoon').remove();
         // $('#bestSellers').remove();
         // $('#searchResult').empty();
