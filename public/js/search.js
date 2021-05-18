@@ -66,6 +66,7 @@ addRange(maxPrice());
 $('#filter').on('change', function(){
     var brandFilter = $('#filter').val();
     var priceFilter = parseFloat($('#priceRange').val());
+    // console.log(priceFilter);
     // $('tr.searchItem').show();
 
     if(brandFilter != 'All'){
@@ -76,7 +77,7 @@ $('#filter').on('change', function(){
                 }
             } else {
                 $(this).removeClass('hide');
-                if(parseFloat($(this).find('.price').val()) > priceFilter){
+                if(parseFloat($(this).find('.price').text()) > priceFilter){
                     $(this).addClass('hide');
                 }
             }
@@ -84,6 +85,9 @@ $('#filter').on('change', function(){
     } else {
         $('.searchItem').each(function(){
             $(this).removeClass('hide');
+            if(parseFloat($(this).find('.price').text()) > priceFilter){
+                $(this).addClass('hide');
+            }
         })
     }
 });
