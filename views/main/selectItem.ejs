@@ -41,8 +41,9 @@
           <% } %>
         </tr>
         <% } if(info.reviews.length > 3) {%>
-          <tr class="showMoreComments">
-            <td colspan=3>show more</td>
+          <tr>
+            <td class="showMoreReviews" colspan=2><p class="textComment">show more reviews</p></td>
+            <td class="showLessReviews hide" colspan=3><p class="textComment">show less reviews</p></td>
           </tr>
         <% } %>
 

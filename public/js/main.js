@@ -83,8 +83,8 @@ $(document).ready(function() {
     //   window.location.href = '/users/signout';
     // });
 
-    $('.reviews').on('click', showMoreReviews);
-    $('.showMoreComments').on('click', showMoreComments);
+    $('.reviews').on('click', showMoreComments);
+    $('.showMoreReviews').on('click', showMoreReviews);
     $('#addToCart').on('click', modalPopUpAddCart);
     updateCartQuantity();
 });
@@ -178,7 +178,8 @@ function viewItem(result) {
       tableBody += tableRow;
     }
     if(reviews.length > 3) {
-      tableBody += '<tr class="showMoreComments"> <td colspan=3><p class="textComment">show more comments</p></td> </tr>'
+      tableBody += '<tr > <td class="showMoreReviews" colspan=2><p class="textComment">show more comments</p></td> '
+      tableBody += '<td class="showLessReviews hide" colspan=3><p class="textComment">show less comments</p></td> </tr>'
     }
   }
 
@@ -188,12 +189,13 @@ function viewItem(result) {
 
   info.append(tableDiv)
 
-  $('.reviews').on('click', showMoreReviews)
-  $('.showMoreComments').on('click', showMoreComments)
+  $('.reviews').on('click', showMoreComments)
+  $('.showMoreReviews').on('click', showMoreReviews)
+  $('.showLessReviews').on('click', showLessReviews)
   $('#addToCart').on('click', modalPopUpAddCart)
 }
 
-function showMoreReviews(e) {
+function showMoreComments(e) {
   e.preventDefault();
   var comment = $(this).find('.partialComment');
   var fullComment = $(this).find('.fullComment');
@@ -201,13 +203,13 @@ function showMoreReviews(e) {
   fullComment.toggleClass("hide")
 }
 
-function showMoreComments(e) {
+function showMoreReviews(e) {
     e.preventDefault();
     reviews = $('.reviews');
     var added = 0;
     var more = true;
     for(var i =0; i<reviews.length;i++) {
-      if(i == reviews.length -1 && added < 3) {
+      if(i == reviews.length -1 && added <= 3) {
         more = false;
       }
       if(added >= 3) {
@@ -220,9 +222,41 @@ function showMoreComments(e) {
       }
     }
     if(!more) {
-      $('.showMoreComments').addClass('hide')
+      $('.showMoreReviews').addClass('hide')
+    }
+    if($('.showLessReviews').hasClass('hide')) {
+      $('.showLessReviews').removeClass('hide')
     }
 }
+
+function showLessReviews(e) {
+    e.preventDefault();
+    reviews = $('.reviews');
+    var hidden = 0;
+    var less = true;
+    for(var i =0; i<reviews.length;i++) {
+      currentIndex = reviews.length-1 - i
+      if(currentIndex < 3 && hidden <= 3) {
+        less = false;
+        break;
+      }
+      if(hidden >= 3) {
+        break;
+      }
+      if(!reviews[currentIndex].classList.contains("hide")) {
+        reviews[currentIndex].classList.add("hide");
+        hidden++;
+
+      }
+    }
+    if(!less) {
+      $('.showLessReviews').addClass('hide')
+    }
+    if($('.showMoreReviews').hasClass('hide')) {
+      $('.showMoreReviews').removeClass('hide')
+    }
+}
+
 
 function modalPopUpAddCart(e){
   var id = $('#itemId').text().trim();
@@ -234,7 +268,7 @@ function modalPopUpAddCart(e){
   var modalBody = $('#modalCommonBody')
   modalBody.attr("style", 'padding: 15px;')
   var modalFooter = $('#modalCommonFooter')
-  
+
 
 
   modalBox.css("display", "block")
@@ -246,7 +280,7 @@ function modalPopUpAddCart(e){
   <div class="error" id="modalError">
   </div>
   `
-  
+
   var htmlFooter = `<button class="btn btn-danger" id="closing" type="button">Cancel</button>
                     <button class="btn btn-primary" id="submitAddtoCart" type="button">Add to Cart</button>`
   console.log(modalFooter)
@@ -259,7 +293,7 @@ function modalPopUpAddCart(e){
     modalFooter.html('')
     modalBox.css("display", "none")
   })
-  
+
   function submitCart(){
     var quantityPurchase =$('#quantityInput').val();
     validate = validateInteger(quantityPurchase)
@@ -286,7 +320,7 @@ function modalPopUpAddCart(e){
             $('#modalError').html(responsehtml )
           }else{
             $('#modalError').text(response["message"] )
-          } 
+          }
         }
       })
     }
