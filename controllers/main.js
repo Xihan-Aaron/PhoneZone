@@ -101,7 +101,7 @@ module.exports.addItemToCart = async function(req,res,next){
 			if(currentQuantity+item_quantity>item_max_quantity){
 				return res.status(400).json(
 					{"status":"fail"
-					,"message":`You already have ${currentQuantity} of this product in your cart. With the addition purchase, 
+					,"message":`You already have ${currentQuantity} of this product in your cart. With the addition purchase,
 				there will not be enough stock. Please wait for restock`
 					,"type":"stock"})
 			}
@@ -111,7 +111,7 @@ module.exports.addItemToCart = async function(req,res,next){
 			var itemToAdd = {id:item_id,quantity:item_quantity,price:item_price}
 			console.log(itemToAdd);
 			var item = await User.addToCart(user_id,itemToAdd)
-		} 
+		}
 		return res.status(200).json({"status":"success"})
 	}catch(err){
 		return res.status(500).json({"status":"fail","message":`Server Side Error`})
@@ -136,6 +136,27 @@ module.exports.getCartInfo = async function(req,res,next){
 				"status":"success",
 				"cartQuantity":parseInt(cartQuantity),
 				"cartPrice":parseFloat(cartPrice).toFixed(2)
+			})
+		}
+	}catch(err){
+		return res.status(500).json({"status":"fail","message":`Server Side Error`})
+	}
+}
+
+
+module.exports.getQuantityInCart = async function(req,res,next){
+	try{
+		user_id = req.session.user_id
+		item_id = req.body.item
+
+		userFromDb = await User.getUserById(user_id)
+		if(userFromDb == null) {
+			return res.status(500).json({"status":"fail","message":`Unable to find user`})
+		}else{
+			cartQuantity = (await User.getQuantityInCart(user_id,item_id))[0]
+			return res.status(200).json({
+				"status":"success",
+				"quantityInCart":cartQuantity.checkout[0].quantity
 			})
 		}
 	}catch(err){
