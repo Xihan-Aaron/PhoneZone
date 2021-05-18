@@ -1,12 +1,4 @@
 node_modules/
 dataset_dev/
 Note.txt
-Apple_*
-BlackBerry_*
-HTC_*
-Huawei_*
-LG_*
-Motorola_*
-Nokia_*
-Samsung_*
-Sony_*
+*_*.jpeg
