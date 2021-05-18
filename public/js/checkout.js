@@ -248,14 +248,15 @@ $(document).ready(function() {
 
     }
   })
-  function updateCartQuantity() {
-    $.post('/getCartInfo',function(result) {
-      $('#cartQuantity').empty()
-      $('#cartQuantity').text(`Total items: ${result.cartQuantity}`)
-      $('#cartPrice').empty()
-      $('#cartPrice').text(`Total price: $${result.cartPrice}`)
-    })
-  }
+  updateCartQuantity()
+  // function updateCartQuantity() {
+  //   $.post('/getCartInfo',function(result) {
+  //     $('#cartQuantity').empty()
+  //     $('#cartQuantity').text(`Total items: ${result.cartQuantity}`)
+  //     $('#cartPrice').empty()
+  //     $('#cartPrice').text(`Total price: $${result.cartPrice}`)
+  //   })
+  // }
 
 })
 
@@ -294,6 +295,7 @@ function selectItem(result) {
       console.log(id);
 
       $.post('/item',id,function(result) {
+        window.location.href = '/'
         // $('#soldOutSoon').remove();
         // $('#bestSellers').remove();
         // $('#searchResult').empty();
@@ -309,5 +311,14 @@ function updateCartTotals() {
     $('#cartQuantity').text(result.cartQuantity)
     // $('#cartPrice').empty()
     $('#cartPrice').text(result.cartPrice)
+  })
+}
+
+function updateCartQuantity() {
+  $.post('/getCartInfo',function(result) {
+    $('#cartQuantity').empty()
+    $('#cartQuantity').text(`Total items: ${result.cartQuantity}`)
+    $('#cartPrice').empty()
+    $('#cartPrice').text(`Total price: $${result.cartPrice}`)
   })
 }

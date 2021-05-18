@@ -17,7 +17,7 @@ router.get('/home', (req,res,next)=>{
 },
 main.main
 )
-		
+
 
 router.post('/',function (req, res,next) {
 	searchtext = req.body.searchtext
@@ -61,5 +61,7 @@ main.selectItem
 router.post('/addToCart', main.addItemToCart);
 
 router.post('/getCartInfo', main.getCartInfo);
+
+router.post('/getQuantityInCart', main.getQuantityInCart);
 
 module.exports = router
