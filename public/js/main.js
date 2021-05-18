@@ -275,7 +275,7 @@ function modalPopUpAddCart(e){
   modalTitle.text("Please enter the quantity you would like to purchase")
   var htmlBody = `
   <div class="form-group">
-    <input type="number" class="form-control" step=1 id="quantityInput" min=0  placeholder="Enter quanity Purchase">
+    <input type="number" class="form-control" step=1 id="quantityInput" min=0  placeholder="Enter quantity Purchase">
   </div>
   <div class="error" id="modalError">
   </div>
@@ -299,6 +299,8 @@ function modalPopUpAddCart(e){
     validate = validateInteger(quantityPurchase)
     if(validate["status"]=="fail"){
       $('#modalError').text(validateInteger(quantityPurchase)["message"])
+    }else if (validate["status"]=="success" && validate["value"]==0){
+      $('#modalError').text("Please enter a digit greater than 0")
     }else if (validate["status"]=="success" && validate["value"]>maxQuantity){
       $('#modalError').text("Not enough stock. Please wait for restock")
     }else{
