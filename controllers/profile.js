@@ -140,16 +140,20 @@ module.exports.editPassword = async function(req,res,next){
 }	
 
 module.exports.addNewListing = async function(req,res,next){
-	if(req.session.success==false){
-		fs.unlinkSync('public/'+imagePath);
-		return res.status(400).json({errors: req.session.errors, success:req.session.success})
-		// return res.render('signup.ejs',{errors: req.session.errors, success:req.session.success});
-	}
 	var imagePath
 	if(req.file!= undefined){
 		imagePath = 'images/phone_default_images/'+req.file.filename
 	}else{
 		imagePath = 'images/phone_default_images/default.jpeg'
+	}
+	if(req.session.success==false){
+		try{
+			fs.unlinkSync('public/'+imagePath);
+		}catch{
+
+		}
+		return res.status(400).json({errors: req.session.errors, success:req.session.success})
+		// return res.render('signup.ejs',{errors: req.session.errors, success:req.session.success});
 	}
 	
 	try{
@@ -192,7 +196,11 @@ module.exports.addNewListing = async function(req,res,next){
 		}
 	}catch(err){
 		console.log(err)
-		fs.unlinkSync('public/'+imagePath);
+		try{
+			fs.unlinkSync('public/'+imagePath);
+		}catch{
+
+		}
 		req.session.success=false
 		req.session.errors['server']=[]
 		req.session.errors['server'].push('Server Side Error:'+err["codeName"])
