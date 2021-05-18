@@ -209,7 +209,7 @@ function showMoreReviews(e) {
     var added = 0;
     var more = true;
     for(var i =0; i<reviews.length;i++) {
-      if(i == reviews.length -1 && added <= 3) {
+      if(i == reviews.length -1 && added < 3) {
         more = false;
       }
       if(added >= 3) {
