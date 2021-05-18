@@ -70,6 +70,8 @@ $(document).ready(function() {
               url:"checkout/removeFromCart",
               success:function(result){
                 $(`#${itemId}`).css("display","none")
+                updateCartQuantity();
+
               },
               error:function(result){
                 $(success_id).css("display","none")
@@ -134,7 +136,7 @@ $(document).ready(function() {
           $('#info').html("<p><span>Items removed from cart successfully</span></p>")
         });
         closeModal()
-        updateCartQuantity();     
+        updateCartQuantity();
       }
 
       $(document).keydown(function (event) {
@@ -147,11 +149,11 @@ $(document).ready(function() {
         removeAll()
       })
 
-      
+
     }else{
       modalBox.css("display", "block")
       modalTitle.text(`Attention`)
-      var htmlBody = 
+      var htmlBody =
       `<div>
         <p>Please select phones to remove</p>
       </div>
@@ -174,7 +176,7 @@ $(document).ready(function() {
     if(results["quantity"]==0){
       modalBox.css("display", "block")
        modalTitle.text(`Attention`)
-      var htmlBody = 
+      var htmlBody =
       `<div>
         <p>Please select phones to buy</p>
       </div>
@@ -193,7 +195,7 @@ $(document).ready(function() {
       }else{
         modalTitle.text(`Are you sure you want to buy these ${results["quantity"]} items?`)
       }
-      var htmlBody = 
+      var htmlBody =
       `<div>
         <p>Total Quantity: ${results["quantity"]}</p>
         <p>Total Cost: ${results["total"]}</p>
@@ -207,7 +209,7 @@ $(document).ready(function() {
        $('#closing,#closeModal').on('click',function(e){
          closeModal()
       })
-      
+
 
       function buyAll(){
         $.ajax({
@@ -225,10 +227,10 @@ $(document).ready(function() {
             window.location.href = "/"
           },
           error:function(result){
-       
+
           }
         })
-        updateCartQuantity();     
+        updateCartQuantity();
       }
 
       $(document).keydown(function (event) {
@@ -243,7 +245,7 @@ $(document).ready(function() {
 
 
 
-        
+
     }
   })
   function updateCartQuantity() {
