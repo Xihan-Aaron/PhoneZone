@@ -25,6 +25,9 @@
 - npm start
 
 # Tasks completed
+
+##
+
 ## User login and authentification
 A session is created with the user_id when the client sign ins or sign up.
 
@@ -32,7 +35,7 @@ For profile, checkout buttons, there is a middlewear that makes sure the session
 
 For sign in and sign up, there is a middlewear that makes sure that if the session has a user_id, it will be redirected to the main page.
 
-Signout will destroy the session. When the session is destroyed, then the client will be unable to access profile and checkout due to the middlewear. 
+Signout will destroy the session. When the session is destroyed, then the client will be unable to access profile and checkout due to the middlewear. There is a modal to confirm if you wish to sign out. 
 
 If a user is searching something or have selected something in the main page but is not signed in, they will be reverted back to that page when they immediately sign in or sign up.
 
@@ -78,20 +81,29 @@ To remove the listing use endpoint profile/removeListing with parameters req.bod
 
 To edit the listing for disabled or not disabled use endpoint profile/editListing with parameters req.body.editId (the id of the listing) ,req.body.disabled (boolean: True - Disabled and False - Enable)
 
+## Checkout
+
+### Functions
+
+When the user adds to the cart, a modal will pop up with the quantity in which they want to purchase. There is a custom validation to ensure 
+- only postive integers can be inputted
+- if the user current stock of the product + requested quantity must be less than current stock in shop
+
+The user can update the quantity of each product in the checkout. Once again the validations ensure that current stock of the product + requested quantity must be less than current stock in shop
+
+The user can remove multiple products in the checkout (tick checkbox)
+
+The user can purchase multiple products in the checkout (tick checkbox)
+
+### Edge cases
+
+- User are allowed to buy mulitple times of the same product. Each time a user buys, it will check if the current stock is greater than the stock in cart + stock
+
+- If users have items in the cart, 
+
+  - The item is SOLD out or has been disabled, then when the user goes to checkout, these products will be removed and a message will show.
+
+  - If the items are sold are not completely sold out but the remaining stock is less than the items in the cart, when the user goes to the checkout, these quantities will be udpated and a message will show
 
 # Further Steps
-## Front end
-### Style the pages for login, sign up , profile and layout of Main.
-- Consider using bootstrap as it just simple html.
-### Set up req and res for event listeners
-- The front end needs to us fetch or ajax to get those json responses and use either vanilla js or jquery to paint the DOM.
-Please ensure event.preventDefault() is applied to event listeners so that the page does not refresh.
-### Validation rules
-- Include very simple validation rules in the front end. 
-
-## Back End
-### Consider the checkout page and think of steps to meeting the requirements. 
-### Consider further validation rules.
-
-
-
+## Testing!!!
