@@ -123,13 +123,19 @@
 							<% if (reviewedItems.length > 0) { %>
 								<% for(var i=0;i<reviewedItems.length;i++) {%>
 									<tr id=<%=reviewedItems[i]._id %> class="reviewedItem">
-										<td class="title"><%= reviewedItems[i].title %></td>
-										<td class="brand"><%= reviewedItems[i].brand %></td>
-										<td><img src=<%=reviewedItems[i].image %> onerror="this.onerror=null;this.src='/images/phone_default_images/default.png';" alt="" class="thumbnail"></td>
+										<td rowspan=<%= reviewedItems[i].numReviews %> class="title"><%= reviewedItems[i].title %></td>
+										<td rowspan=<%= reviewedItems[i].numReviews %> class="brand"><%= reviewedItems[i].brand %></td>
+										<td rowspan=<%= reviewedItems[i].numReviews %>><img src=<%=reviewedItems[i].image %> onerror="this.onerror=null;this.src='/images/phone_default_images/default.png';" alt="" class="thumbnail"></td>
 										<% for(var j=0;j<reviewedItems[i].reviews.length;j++) {%>
 											<td class="Rating"><%= reviewedItems[i].reviews[j].rating %></td>
 											<td class="Comment"><%= reviewedItems[i].reviews[j].comment %></td>
-										<% } %>
+											<% if(j < reviewedItems[i].numReviews) {%>
+											</tr>
+											<%} if(j>0 && j < reviewedItems[i].numReviews - 1){%>
+												<tr>
+											<%}%>
+										<%}%>
+
 									</tr>
 								<% } %>
 

@@ -14,9 +14,11 @@ function getReviews(arrayOfItems, user_id) {
 	for(var i =0;i<reviewedItems.length;i++){
 		itemInfo = reviewedItems[i]
 		reviews = []
+		numReviews = 0
 		for(var j =0;j<itemInfo.reviews.length;j++) {
 			if(itemInfo.reviews[j].reviewer == user_id) {
 				reviews.push({rating:itemInfo.reviews[j].rating,comment:itemInfo.reviews[j].comment})
+				numReviews++
 			}
 		}
 		result.push({
@@ -24,6 +26,7 @@ function getReviews(arrayOfItems, user_id) {
 			title:itemInfo.title,
 			brand:itemInfo.brand,
 			image:itemInfo.image,
+			numReviews:numReviews,
 			reviews:reviews
 		})
 	}
