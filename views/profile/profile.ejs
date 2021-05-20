@@ -71,7 +71,7 @@
 									<tr id=<%=items[i]._id %> class="phoneListItem">
 										<td class="title"><%= items[i].title %></td>
 										<td class="brand"><%= items[i].brand %></td>
-										<td><img src=<%=items[i].image %> alt="" class="thumbnail"></td>
+										<td><img src=<%=items[i].image %> onerror="this.onerror=null;this.src='/images/phone_default_images/default.png';" alt="" class="thumbnail"></td>
 										<td class="stock"><%= items[i].stock %></td>
 										<td class="seller"><%= items[i].seller %></td>
 										<td class="price"><%= items[i].price %></td>
@@ -125,7 +125,7 @@
 									<tr id=<%=reviewedItems[i]._id %> class="reviewedItem">
 										<td class="title"><%= reviewedItems[i].title %></td>
 										<td class="brand"><%= reviewedItems[i].brand %></td>
-										<td><img src=<%=reviewedItems[i].image %> alt="" class="thumbnail"></td>
+										<td><img src=<%=reviewedItems[i].image %> onerror="this.onerror=null;this.src='/images/phone_default_images/default.png';" alt="" class="thumbnail"></td>
 										<% for(var j=0;j<reviewedItems[i].reviews.length;j++) {%>
 											<td class="Rating"><%= reviewedItems[i].reviews[j].rating %></td>
 											<td class="Comment"><%= reviewedItems[i].reviews[j].comment %></td>
