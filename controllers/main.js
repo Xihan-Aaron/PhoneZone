@@ -46,7 +46,6 @@ module.exports.search = async function(req,res,next){
 		searchResults = await PhoneListing.getMatchingItems(searchtext);
 		req.session.prevInfo = searchResults
 		req.session.prevUrl = 'search'
-		console.log(req.session)
 		res.status(200).json({
 			user_id:req.session.user_id,
 			searchResults:searchResults
@@ -83,19 +82,16 @@ module.exports.addItemToCart = async function(req,res,next){
 		item_id = req.body.id
 		item_quantity = parseInt(req.body.quantity)
 		item_max_quantity = parseInt(req.body.maxQuantity)
-		console.log(req.body.price);
 		item_price = parseFloat(req.body.price)
 
 		user_id = req.session.user_id
 		userFromDb = await User.getUserById(user_id)
-		console.log("userFromDb: ",userFromDb);
 		if(userFromDb == null) {
 			return res.status(400).json({"status":"fail","message":"Please sign in before adding to Cart","type":"signin"})
 		}
 		itemInfo =userFromDb["checkout"].filter(function(item){
 			return item['id']==item_id
 		})
-		console.log(itemInfo,"info")
 		if(itemInfo.length>0) {
 			currentQuantity =parseInt(itemInfo[0]["quantity"])
 			if(currentQuantity+item_quantity>item_max_quantity){
@@ -109,7 +105,6 @@ module.exports.addItemToCart = async function(req,res,next){
 		}
 		else{
 			var itemToAdd = {id:item_id,quantity:item_quantity,price:item_price}
-			console.log(itemToAdd);
 			var item = await User.addToCart(user_id,itemToAdd)
 		}
 		return res.status(200).json({"status":"success"})

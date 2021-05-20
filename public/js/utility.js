@@ -1,18 +1,14 @@
 function showmodal(type,info){
-  console.log(type);
   if(type == "alert") {
-    console.log("alerted");
     showModalBtn(false)
     showModalInput(false)
     $('#modalLabel').text(info.msg)
   } else if(type == "confirm") {
-    console.log("confirmed");
 
     showModalBtn(true)
     showModalInput(false)
     // $('#modalLabel').modal('show')
   } else if(type == "prompt") {
-    console.log("prompted");
 
     showModalBtn(true,info)
     showModalInput(true)
@@ -20,7 +16,6 @@ function showmodal(type,info){
     return;
   }
   $('#modalTemplate').modal('toggle')
-  console.log($('#modalTemplate'));
   $('#modalLabel').text(info.msg)
 
 }
@@ -32,8 +27,6 @@ function showModalBtn(show,info) {
     $('#modalBtn').removeClass("hide")
     if(info.funct != null) {
       $('#modalBtn').on('click',function(e){
-        console.log('here')
-        console.log(info.funct)
         e.preventDefault();
         input = $('input[name="modalInput"]').val()
         $('#modalTemplate').modal('hide');
@@ -42,7 +35,6 @@ function showModalBtn(show,info) {
       });
     } else {
       $('#modalBtn').on('click', function(e){
-        console.log('here')
         e.preventDefault();
         $('#modalTemplate').modal('hide');
         window.location.href = '/users/signout';
@@ -53,7 +45,6 @@ function showModalBtn(show,info) {
 }
 
 function showModalInput(show) {
-  console.log("modal input ", show);
   // $('#modalInput').modal({show:show})
   if(show) {
     $('#modalInput').addClass("hide")

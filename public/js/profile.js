@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    
+
     $('input[name="firstname"]').on('focus', function(e){
         $('#firstnameError').empty();
         $('#profile-serverError').empty();
@@ -59,7 +59,7 @@ $(document).ready(function(){
             lastname: $('#editProfile').find('input[name="lastname"]').val().trim(),
             email: $('#editProfile').find('input[name="email"]').val().trim()
         }
-        
+
         // Check password
         var password = $('#confirmPassword').val().trim();
         if(password == ""){
@@ -113,7 +113,6 @@ $(document).ready(function(){
 
                 },
                 error: function(result){
-                    console.log(result);
                     $('#confirmPasswordError').append('<p class="error">- Incorrect password.</p>');
 
                 }
@@ -147,10 +146,8 @@ $(document).ready(function(){
                     $('#editPassword').find('input[name="newPassword"]').val("");
                     history.go(0)
                     // alert("Password update success.");
-                    // console.log(passwordResult);
                 },
                 error: function(passwordResult){
-                    // console.log(passwordResult.responseJSON);
                     if(passwordResult.responseJSON.success == false){
                         for(error in passwordResult.responseJSON.errors){
                             if(passwordResult.responseJSON.errors[error].length > 0){
@@ -179,7 +176,6 @@ $(document).ready(function(){
         var stock = parseInt($('#addNewListing').find('input[name="stock"]').val().trim());
         var price = $('#addNewListing').find('input[name="price"]').val().trim();
         var disabled;
-        // console.log(disabled);
         var files = $('#addNewListing').find('input[name="productImage"]')[0].files;
         var fileCheck = true;
         if(files.length < 1){
@@ -207,7 +203,7 @@ $(document).ready(function(){
             stockCheck = false;
             $('#stockError').append('<p class="error">- Please type in a valid stock number.</p>');
         }
-        
+
         if ($('#disableCheck').prop('checked') == true || stock == 0){
             disabled = 'on';
         } else {
@@ -220,10 +216,6 @@ $(document).ready(function(){
             priceCheck = false;
         }
 
-        // var floatTest = /^\\d+(\\.\\d+)?$/;
-        // console.log(floatNum);
-        // if(floatTest.test(price) == false){
-        // }
         var phoneInfo = {
             title: title,
             brand: brand,
@@ -236,12 +228,8 @@ $(document).ready(function(){
         $.each(phoneInfo, function(key, value){
             formData.append(key, value);
         })
-        
-        // console.log(phoneInfo.stock);
-        // console.log(phoneInfo.disable);
-        
-        // console.log(phoneInfo.price);
-        // if(phoneInfo.title != "" && phoneInfo.brand != "" && phoneInfo.stock != "" )
+
+
         if(title != "" && brand != "" && stockCheck && priceCheck && fileCheck){
             $.ajax({
                 data: formData,
@@ -250,14 +238,9 @@ $(document).ready(function(){
                 processData: false,
                 contentType: false,
                 success: function(result){
-                    // console.log("success");
-                    // console.log(result);
                     history.go(0);
-                    // window.location.href = '/profile';
                 },
                 error: function(result){
-                    // console.log("error");
-                    // console.log(result);
                     if(result.responseJSON.success == false){
                         for(error in result.responseJSON.errors){
                             if(error == 'server'){
@@ -282,8 +265,7 @@ $(document).ready(function(){
 
         var id = $(this).parent().parent().parent().prop('id');
         var disableDivHTML = $(this).parent().parent().parent().find('.disabled').html();
-        console.log(disableDivHTML);
-        
+
         var disable;
         if(disableDivHTML.indexOf('Disable') > -1){
             disable = false;
@@ -299,7 +281,6 @@ $(document).ready(function(){
             type: "put",
             url: "/profile/editListing",
             success: function(result){
-                console.log(result);
                 // alert("Disabled successfully.");
                 history.go(0);
                 // disableDiv.html('<del>Disabled</del>');
@@ -334,12 +315,10 @@ $(document).ready(function(){
             type: "post",
             url: "/profile/removeListing",
             success: function(result){
-                console.log(result);
                 alert("Remove successfully.");
                 itemRow.remove();
             },
             error: function(result){
-                console.log(result.responseJSON);
                 for(error in result.responseJSON.errors){
                     if(error == 'item'){
                         for(var i = 0; i < result.responseJSON.errors[error].length; i++){
@@ -356,7 +335,6 @@ $(document).ready(function(){
     });
 
     $('#confirmsignoutBtn').on('click', function(e){
-        console.log('here')
         e.preventDefault();
         $('#signoutModal').modal('hide');
         window.location.href = '/users/signout';
