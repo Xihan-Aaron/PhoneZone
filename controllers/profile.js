@@ -7,26 +7,58 @@ const path = require('path');
 var fs = require('fs');
 const { type } = require('os');
 
+function getReviews(arrayOfItems, user_id) {
+	reviewedItems = arrayOfItems
+	result = []
+	try {
+	for(var i =0;i<reviewedItems.length;i++){
+		itemInfo = reviewedItems[i]
+		reviews = []
+		for(var j =0;j<itemInfo.reviews.length;j++) {
+			if(itemInfo.reviews[j].reviewer == user_id) {
+				reviews.push({rating:itemInfo.reviews[j].rating,comment:itemInfo.reviews[j].comment})
+			}
+		}
+		result.push({
+			id:itemInfo._id,
+			title:itemInfo.title,
+			brand:itemInfo.brand,
+			image:itemInfo.image,
+			reviews:reviews
+		})
+	}
+	console.log(result);
+	return result
+	}catch(err){
+		err.statusCode=500
+		err.message='Issues with getting Reviewed Items'
+		return err
+	}
+}
+
 module.exports.profilePage = async function(req,res,next){
 	try{
 		userFromDb = await User.getUserById(req.session.user_id)
-		itemsFromSeller = await PhoneListing.getItemsBySeller(req.session.user_id)	
+		itemsFromSeller = await PhoneListing.getItemsBySeller(req.session.user_id)
+		itemsReviewed = await PhoneListing.getItemsByReviewer(req.session.user_id)
 		if(userFromDb ==null){
 			redirect('/')
 		}else{
 
-			userInfo = 
+			userInfo =
 			{
 				firstname:userFromDb.firstname,
 				lastname:userFromDb.lastname,
 				email:userFromDb.email,
 			}
+			reviewedItems = getReviews(itemsReviewed,req.session.user_id)
+			console.log(reviewedItems);
 			helper.extractNames(itemsFromSeller)
 			.then((items)=>{
 				if(items instanceof Error){
 					next(items)
 				}else{
-					return res.render('profile/profile.ejs',{userInfo:userInfo,errors: req.session.errors, success:req.session.success,items:items})
+					return res.render('profile/profile.ejs',{userInfo:userInfo,errors: req.session.errors, success:req.session.success,items:items,reviewedItems:reviewedItems})
 				}
 			})
 		}
@@ -64,7 +96,7 @@ module.exports.editProfilePage = async function(req,res,next){
 			const updatingUser = await User.updateUser(req.session.user_id,editAttributes)
 			const updatedUser = await User.getUserById(req.session.user_id)
 			req.session.success=true
-			userInfo = 
+			userInfo =
 			{
 				firstname:updatedUser.firstname,
 				lastname:updatedUser.lastname,
@@ -119,7 +151,7 @@ module.exports.editPassword = async function(req,res,next){
 			req.session.success=true
 			return res.status(200).json({errors:req.session.errors, success:req.session.success})
 		}else{
-			if(currentUser==null){//Shouldn't happen since we have a middlewear that checks the user_id 
+			if(currentUser==null){//Shouldn't happen since we have a middlewear that checks the user_id
 				const error = new Error('Server Error. Incorrect User was logged in');
 	  			error.statusCode = 500;
 	  			next(error);
@@ -136,8 +168,8 @@ module.exports.editPassword = async function(req,res,next){
 		req.session.errors['server'].push('Server Side Error:'+err["codeName"])
 		return res.status(500).json({errors: errors, success:req.session.success})
 	}
-	
-}	
+
+}
 
 module.exports.addNewListing = async function(req,res,next){
 	if(req.session.success==false){
@@ -151,7 +183,7 @@ module.exports.addNewListing = async function(req,res,next){
 	}else{
 		imagePath = 'images/phone_default_images/default.jpeg'
 	}
-	
+
 	try{
 		const existingInfo = await PhoneListing.getItemByTitleBrand(req.body.title,req.body.brand)
 		if(existingInfo.length==0){
@@ -219,13 +251,13 @@ module.exports.removeListing = async function(req,res,next){
 				req.session.errors['item'].push('Server Unable to Delete.')
 				return res.status(400).json({errors:req.session.errors, success:req.session.success})
 			}
-			
+
 		}
 		req.session.success=false
 		req.session.errors['item']=[]
 		req.session.errors['item'].push('Item has already been deleted.')
 		return res.status(400).json({errors: req.session.errors, success:req.session.success})
-		
+
 	}catch(err){
 		req.session.success=false
 		req.session.errors['server']=[]
@@ -245,7 +277,7 @@ module.exports.editListing = async function(req,res,next){
 			req.session.errors['item']=[]
 			req.session.errors['item'].push('Server Unable to Edit')
 			return res.status(400).json({errors:req.session.errors, success:req.session.success})
-		}	
+		}
 	}catch(err){
 		req.session.success=false
 		req.session.errors['server']=[]
