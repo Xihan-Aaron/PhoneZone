@@ -179,17 +179,22 @@ $(document).ready(function(){
         var stock = parseInt($('#addNewListing').find('input[name="stock"]').val().trim());
         var price = $('#addNewListing').find('input[name="price"]').val().trim();
         var disabled;
-        if ($('#disableCheck').prop('checked') == true){
-            disabled = 'on';
-        } else {
-            disabled = 'off';
-        }
-        console.log(disabled);
+        // console.log(disabled);
         var files = $('#addNewListing').find('input[name="productImage"]')[0].files;
+        var fileCheck = true;
         if(files.length < 1){
             $('#fileError').append('<p class="error">- Please choose a product image.</p>');
+            fileCheck = false;
         }
         var file = files[0];
+        var filename = file.name;
+        var temp = filename.split('.');
+        // Check for file extension
+        temp = temp[temp.length - 1];
+        if ('jpg' != temp && 'jpeg' != temp && 'png' != temp){
+            fileCheck = false;
+            $('#fileError').append('<p class="error">- Please choose a valid image file.</p>');
+        }
 
         if(title == ""){
             $('#titleError').append('<p class="error">- Please type in a title/description.</p>');
@@ -197,16 +202,24 @@ $(document).ready(function(){
         if(brand == ""){
             $('#brandError').append('<p class="error">- Please type in a brand.</p>');
         }
+        var stockCheck = true;
         if(isNaN(stock) || stock < 0){
+            stockCheck = false;
             $('#stockError').append('<p class="error">- Please type in a valid stock number.</p>');
         }
         
+        if ($('#disableCheck').prop('checked') == true || stock == 0){
+            disabled = 'on';
+        } else {
+            disabled = 'off';
+        }
         var floatNum = parseFloat(price);
         var priceCheck = true;
         if(isNaN(floatNum) || floatNum < 0){
             $('#priceError').append('<p class="error">- Please enter a positive number.</p>');
             priceCheck = false;
         }
+
         // var floatTest = /^\\d+(\\.\\d+)?$/;
         // console.log(floatNum);
         // if(floatTest.test(price) == false){
@@ -217,17 +230,19 @@ $(document).ready(function(){
             stock: stock,
             price: floatNum,
             productImage: file,
-            disable: disabled
+            disabled: disabled
         }
         var formData = new FormData();
         $.each(phoneInfo, function(key, value){
             formData.append(key, value);
         })
         
-        console.log(phoneInfo.stock);
+        // console.log(phoneInfo.stock);
+        // console.log(phoneInfo.disable);
+        
         // console.log(phoneInfo.price);
         // if(phoneInfo.title != "" && phoneInfo.brand != "" && phoneInfo.stock != "" )
-        if(title != "" && brand != "" && !isNaN(stock) && !(stock < 0) && !isNaN(floatNum) && floatNum >= 0 && files.length > 0){
+        if(title != "" && brand != "" && stockCheck && priceCheck && fileCheck){
             $.ajax({
                 data: formData,
                 type: "post",
@@ -236,7 +251,7 @@ $(document).ready(function(){
                 contentType: false,
                 success: function(result){
                     // console.log("success");
-                    console.log(result);
+                    // console.log(result);
                     history.go(0);
                     // window.location.href = '/profile';
                 },

@@ -87,6 +87,7 @@ $(document).ready(function() {
     $('.showMoreReviews').on('click', showMoreReviews);
     $('#addToCart').on('click', modalPopUpAddCart);
     updateCartQuantity();
+    updateItemQuantity();
 });
 
 function viewSearch(result){
@@ -138,6 +139,7 @@ function viewItem(result) {
   div += '<p> Stock: <span id="itemStock">' + result.stock  + '</span></p>'
   div += '<p> Seller: ' + result.seller  + '</p>'
   div += '<p> Price: <span id="itemPrice">' + result.price  + '</span></p>'
+  div += '<p> Quantity in cart:<span id="quantityInCart"> ' + 0 + '</span></p>'
   div += '<input id="addToCart" class="btn btn-primary" type="button" value="Add to Cart" role="button" />'
   div += '</div></div> '
 
@@ -179,7 +181,7 @@ function viewItem(result) {
     }
     if(reviews.length > 3) {
       tableBody += '<tr > <td class="showMoreReviews" colspan=2><p class="textComment">show more comments</p></td> '
-      tableBody += '<td class="showLessReviews hide" colspan=3><p class="textComment">show less comments</p></td> </tr>'
+      tableBody += '<td class="showLessReviews hide" colspan=3><p class="textComment">show less comments</p></td><td></td> </tr>'
     }
   }
 
@@ -189,6 +191,7 @@ function viewItem(result) {
 
   info.append(tableDiv)
 
+  updateItemQuantity()
   $('.reviews').on('click', showMoreComments)
   $('.showMoreReviews').on('click', showMoreReviews)
   $('.showLessReviews').on('click', showLessReviews)
@@ -275,7 +278,7 @@ function modalPopUpAddCart(e){
   modalTitle.text("Please enter the quantity you would like to purchase")
   var htmlBody = `
   <div class="form-group">
-    <input type="number" class="form-control" step=1 id="quantityInput" min=0  placeholder="Enter quanity Purchase">
+    <input type="number" class="form-control" step=1 id="quantityInput" min=0  placeholder="Enter quantity Purchase">
   </div>
   <div class="error" id="modalError">
   </div>
@@ -299,6 +302,8 @@ function modalPopUpAddCart(e){
     validate = validateInteger(quantityPurchase)
     if(validate["status"]=="fail"){
       $('#modalError').text(validateInteger(quantityPurchase)["message"])
+    }else if (validate["status"]=="success" && validate["value"]==0){
+      $('#modalError').text("Please enter a digit greater than 0")
     }else if (validate["status"]=="success" && validate["value"]>maxQuantity){
       $('#modalError').text("Not enough stock. Please wait for restock")
     }else{
@@ -309,6 +314,7 @@ function modalPopUpAddCart(e){
         url:"/addToCart",
         success:function(result){
           updateCartQuantity()
+          updateItemQuantity(info.id)
           modalTitle.text()
           modalBody.html('')
           modalBox.css("display", "none")
@@ -430,6 +436,9 @@ function changeFilter(){
     } else {
         $('.searchItem').each(function(){
             $(this).removeClass('hide');
+            if(parseFloat($(this).find('.price').text()) > priceFilter){
+              $(this).addClass('hide');
+            }
         })
     }
 }
@@ -457,3 +466,15 @@ function changeRange(){
         }
     });
 };
+
+function updateItemQuantity(item) {
+  item_id = $('#itemId').text().trim()
+  if(typeof item_id == 'undefined') {
+    return;
+  }
+  $.post('/getQuantityInCart',{item:item_id},function(result) {
+    if(typeof result.quantityInCart != 'undefined') {
+      $('#quantityInCart').text(result.quantityInCart)
+    }
+  })
+}

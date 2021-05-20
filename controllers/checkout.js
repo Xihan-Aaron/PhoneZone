@@ -32,6 +32,7 @@ module.exports.checkoutPage = async function(req,res,next){
             item['flag']=1
             totalQuantity+=itemInfo['stock']
             totalPrice+=parseFloat(itemInfo['stock']*itemInfo['price'])
+						cart_final.push(item)
           }else if(itemInfo["stock"]==0||itemInfo["disabled"]==""){
             countInvalid+=1
             remove = await User.removeFromCart(req.session.user_id,item.id)
@@ -52,7 +53,7 @@ module.exports.checkoutPage = async function(req,res,next){
 			res.render('checkout.ejs',{user_id:req.session.user_id,
         info:cart_final,
         countInvalid:countInvalid,
-        countQuantityChage:countQuantityChage,  
+        countQuantityChage:countQuantityChage,
         totalQuantity:totalQuantity,
         totalPrice:totalPrice
       })
@@ -100,6 +101,9 @@ module.exports.clearCart = async function(req,res,next){
     clearCart = {checkout: updatedCheckout}
     result2 = await User.updateUser(req.session.user_id,clearCart)
     console.log(result2);
+		delete req.session.prevUrl
+		delete req.session.prevInfo
+
     return res.status(200).json({"status":"success"})
 
 	}catch(err){
