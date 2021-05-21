@@ -3,14 +3,12 @@ const router =express.Router();
 const main = require('../controllers/main');
 
 router.get('/', (req,res,next)=>{
-	console.log(req.session,'Main')
 	next()
 },
 main.main
 )
 
 router.get('/home', (req,res,next)=>{
-	console.log(req.session,'Main')
 	delete req.session.prevUrl
 	delete req.session.prevInfo
 	next()

@@ -17,7 +17,6 @@ $(document).ready(function() {
     })
 
   $('#goBack').on('click', function(){
-    console.log(document.referrer.split('/home').pop()=="")
     if(document.referrer.split('/').pop()==""){
       window.location.href="/"
     }else{
@@ -105,7 +104,6 @@ $(document).ready(function() {
 
   $('#remove').on('click', function(e){
     results = getSelectedItems()
-    console.log(results)
     if(results["quantity"]>0){
 
       modalBox.css("display", "block")
@@ -217,7 +215,6 @@ $(document).ready(function() {
           type:"post",
           url:"checkout/clearCart",
           success:function(result){
-            console.log(results["items"])
             closeModal()
             for(i=0;i<results["items"].length;i++){
               $(`#${results["items"][i]}`).css("display","none")
@@ -292,7 +289,6 @@ function getSelectedItems(){
 function selectItem(result) {
       result.preventDefault();
       var id = {id: $(this).parent().prop('id') };
-      console.log(id);
 
       $.post('/item',id,function(result) {
         window.location.href = '/'
@@ -306,7 +302,6 @@ function selectItem(result) {
 
 function updateCartTotals() {
   $.post('/getCartInfo',function(result) {
-    console.log("post getCartInfo",result);
     // $('#cartQuantity').empty()
     $('#cartQuantity').text(result.cartQuantity)
     // $('#cartPrice').empty()

@@ -36,7 +36,6 @@ module.exports.search = async function(req,res,next){
 		searchResults = await PhoneListing.getMatchingItems(searchtext);
 		req.session.prevInfo = searchResults
 		req.session.prevUrl = 'search'
-		console.log(req.session)
 		res.status(200).json({
 			user_id:req.session.user_id,
 			searchResults:searchResults
@@ -73,25 +72,23 @@ module.exports.addItemToCart = async function(req,res,next){
 		item_id = req.body.id
 		item_quantity = parseInt(req.body.quantity)
 		item_max_quantity = parseInt(req.body.maxQuantity)
-		console.log(req.body.price);
 		item_price = parseFloat(req.body.price)
 
 		user_id = req.session.user_id
+
 		userFromDb = await User.getUserById(user_id)
-		console.log("userFromDb: ",userFromDb);
 		if(userFromDb == null) {
 			return res.status(400).json({"status":"fail","message":"Please sign in before adding to Cart","type":"signin"})
 		}
 		itemInfo =userFromDb["checkout"].filter(function(item){
 			return item['id']==item_id
 		})
-		console.log(itemInfo,"info")
 		if(itemInfo.length>0) {
 			currentQuantity =parseInt(itemInfo[0]["quantity"])
 			if(currentQuantity+item_quantity>item_max_quantity){
 				return res.status(400).json(
 					{"status":"fail"
-					,"message":`You already have ${currentQuantity} of this product in your cart. With the addition purchase, 
+					,"message":`You already have ${currentQuantity} of this product in your cart. With the addition purchase,
 				there will not be enough stock. Please wait for restock`
 					,"type":"stock"})
 			}
@@ -99,9 +96,8 @@ module.exports.addItemToCart = async function(req,res,next){
 		}
 		else{
 			var itemToAdd = {id:item_id,quantity:item_quantity,price:item_price}
-			console.log(itemToAdd);
 			var item = await User.addToCart(user_id,itemToAdd)
-		} 
+		}
 		return res.status(200).json({"status":"success"})
 	}catch(err){
 		return res.status(500).json({"status":"fail","message":`Server Side Error`})
@@ -111,6 +107,9 @@ module.exports.addItemToCart = async function(req,res,next){
 module.exports.getCartInfo = async function(req,res,next){
 	try{
 		user_id = req.session.user_id
+		if( user_id == undefined) {
+			return res.status(200).json({"status":"fail","message":`Not logged in`})
+		}
 		userFromDb = await User.getUserById(user_id)
 		if(userFromDb == null) {
 			return res.status(500).json({"status":"fail","message":`Unable to find user`})
@@ -126,6 +125,39 @@ module.exports.getCartInfo = async function(req,res,next){
 				"status":"success",
 				"cartQuantity":parseInt(cartQuantity),
 				"cartPrice":parseFloat(cartPrice).toFixed(2)
+			})
+		}
+	}catch(err){
+		return res.status(500).json({"status":"fail","message":`Server Side Error`})
+	}
+}
+
+
+module.exports.getQuantityInCart = async function(req,res,next){
+	try{
+		user_id = req.session.user_id
+		item_id = req.body.item
+		if( user_id == undefined) {
+			return res.status(200).json({"status":"fail","message":`Not logged in`})
+		} else if( item_id == undefined) {
+			return res.status(200).json({"status":"fail","message":`not correct state`})
+		}
+		cartQuantity = 0
+
+		userFromDb = await User.getUserById(user_id)
+		if(userFromDb == null) {
+			return res.status(500).json({"status":"fail","message":`Unable to find user`})
+		}else{
+			results = await User.getQuantityInCart(user_id,item_id)
+			console.log(results);
+			if(results[0].checkout.length > 0) {
+				cartQuantity = results[0].checkout[0].quantity
+				console.log(cartQuantity);
+			}
+
+			return res.status(200).json({
+				"status":"success",
+				"quantityInCart":cartQuantity
 			})
 		}
 	}catch(err){

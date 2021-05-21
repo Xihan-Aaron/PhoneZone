@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    
+
     $('input[name="firstname"]').on('focus', function(e){
         $('#firstnameError').empty();
         $('#serversideError').empty();
@@ -39,7 +39,6 @@ $(document).ready(function(){
             password: $('input[name="password"]').val().trim(),
             confirm_password: $('input[name="confirm_password"]').val().trim()
         }
-        // console.log(signupInfo);
         if(signupInfo.firstname == ""){
             $('#firstnameError').append('<p class="error">- Please enter a name.</p>');
         }
@@ -66,7 +65,6 @@ $(document).ready(function(){
                     //history.back(-1); - DO NOT USE
                 },
                 error: function(result){
-                    // console.log(result.responseJSON);
                     if(result.responseJSON.success == false){
                         for(error in result.responseJSON.errors){
                             if(result.responseJSON.errors[error].length > 0){

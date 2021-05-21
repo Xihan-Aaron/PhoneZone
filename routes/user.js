@@ -29,7 +29,7 @@ router.post('/signup',
 			namesToValidate.push(firstnameObject)
 			validation.nameValidation(namesToValidate,req,res,next)
 		}
-	],userController.signup	
+	],userController.signup
 )
 
 router.post('/signin',userController.signin)
@@ -43,7 +43,6 @@ router.get('/signin', (req,res,next)=>{
 })
 
 router.get('/signout', (req,res,next)=>{
-	console.log("hello")
     req.session.destroy(function(err) {
     	if(err){
     		const error = new Error('Server Error. Incorrect User was logged in');

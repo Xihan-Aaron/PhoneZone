@@ -30,7 +30,6 @@ function getReviews(arrayOfItems, user_id) {
 			reviews:reviews
 		})
 	}
-	console.log(result);
 	return result
 	}catch(err){
 		err.statusCode=500
@@ -55,7 +54,6 @@ module.exports.profilePage = async function(req,res,next){
 				email:userFromDb.email,
 			}
 			reviewedItems = getReviews(itemsReviewed,req.session.user_id)
-			console.log(reviewedItems);
 			helper.extractNames(itemsFromSeller)
 			.then((items)=>{
 				if(items instanceof Error){
@@ -193,7 +191,6 @@ module.exports.addNewListing = async function(req,res,next){
 	try{
 		const existingInfo = await PhoneListing.getItemByTitleBrand(req.body.title,req.body.brand)
 		if(existingInfo.length==0){
-			console.log(req.body.disabled);
 			if(req.body.disabled=='on'){
 				var listingInformation
 				listingInformation = new PhoneListing({
@@ -220,7 +217,6 @@ module.exports.addNewListing = async function(req,res,next){
 			}
 			const addLisitng = await PhoneListing.addNewListing(listingInformation)
 			req.session.success=true
-			console.log(addLisitng)
 			return res.status(200).json({errors:req.session.errors, success:req.session.success})
 		}else{
 			fs.unlinkSync('public/'+imagePath);
@@ -278,7 +274,6 @@ module.exports.removeListing = async function(req,res,next){
 
 module.exports.editListing = async function(req,res,next){
 	try{
-		console.log(typeof req.body.disabled)
 		const editNow = await PhoneListing.updateDisabled(req.body.editId,req.body.disabled)
 		if(editNow['nModified']==1){
 			return res.status(200).json({errors:req.session.errors, success:req.session.success})
@@ -291,7 +286,6 @@ module.exports.editListing = async function(req,res,next){
 	}catch(err){
 		req.session.success=false
 		req.session.errors['server']=[]
-		console.log(err)
 		req.session.errors['server'].push('Server Side Error:'+err["codeName"])
 		return res.status(500).json({errors: req.session.errors, success:req.session.success})
 	}

@@ -38,7 +38,6 @@ $(document).ready(function() {
       var searchText = {searchtext: $('input[name="searchtext"]').val()};
       if ($('input[name="searchtext"]').val() != ""){
           $.post('/search', searchText, function(result){
-              // console.log(result);
               if (result.searchResults.length < 1){
                   $('#searchError').append('<p class="error">- No search result found.</p>');
                   if($('.searchItem').length > 0){
@@ -101,7 +100,6 @@ function viewSearch(result){
     var tableBody = '<tbody>';
     for(var i = 0; i < result.length; i++){
         var tableRow = '<tr class="searchItem ' + result[i].brand + '">';
-        // console.log(tableRow);
         tableRow += '<td class="id hide">' + result[i]._id + '</td>';
         tableRow += '<td><img src=' + result[i].image + ' onerror="this.onerror=null;this.src=\'/images/phone_default_images/default.png\';" alt="" class="thumbnail"></td>';
         tableRow += '<td class="title">' + result[i].title + '</td>';
@@ -109,11 +107,6 @@ function viewSearch(result){
         tableRow += '<td class="price">' + result[i].price + '</td>';
         tableRow += '<td class="stock">' + result[i].stock + '</td>';
         tableRow += '<td class="seller hide">' + result[i].seller + '</td>'
-        // tableRow += '<td class="review hide">';
-        // for (var j = 0; i < result[i].reviews.length; i++){
-        //     tableRow += '<div class="reviewDetails">' + result[i].reviews[j] + '</div>'
-        // }
-        // tableRow += '</td>'
         tableRow += '</tr>';
         tableBody += tableRow;
     }
@@ -164,7 +157,6 @@ function viewItem(result) {
       } else {
         var tableRow = '<tr class="reviews ' + '">';
       }
-      // console.log(tableRow);
       tableRow += '<td class="id hide">' + reviews[i].id + '</td>';
       tableRow += '<td class="reviewer">' + reviews[i].reviewer + '</td>';
       tableRow += '<td class="rating">' + reviews[i].rating + '</td>';
@@ -286,7 +278,6 @@ function modalPopUpAddCart(e){
 
   var htmlFooter = `<button class="btn btn-danger" id="closing" type="button">Cancel</button>
                     <button class="btn btn-primary" id="submitAddtoCart" type="button">Add to Cart</button>`
-  console.log(modalFooter)
   modalBody.html(htmlBody)
   modalFooter.html(htmlFooter)
 
@@ -345,7 +336,6 @@ function modalPopUpAddCart(e){
 
 function updateCartQuantity() {
   $.post('/getCartInfo',function(result) {
-    console.log("post getCartInfo",result);
     // $('#cartQuantity').empty()
     $('#cartQuantity').text(result.cartQuantity)
   })
@@ -354,7 +344,6 @@ function updateCartQuantity() {
 function selectItem(result) {
       result.preventDefault();
       var id = {id: $(this).find('.id').text() };
-      console.log(id);
 
       $.post('/item',id,function(result) {
         $('#soldOutSoon').remove();
@@ -384,7 +373,6 @@ function addDropDown(result){
         }
         brandList.sort();
     }
-    // console.log(brandList);
     for(var i = 0; i < brandList.length; i++){
         filterList += '<option>' + brandList[i] + '</option>';
     }
@@ -403,7 +391,6 @@ function addRange(result){
         }
         max = Math.max(...priceList) + 1;
     }
-    console.log(max);
     var rangeComponent ='<div id="rangeSection">';
     rangeComponent += '<input type="range" class="form-range" id="priceRange" min="0" ' + 'max="' + parseInt(max) + '"' + '></div>';
     rangeComponent += '<div style="text-align: center;"><span style="float: left;">0</span><span>' + parseInt(max / 2) + '</span>' + '<span style="float: right;">' + parseInt(max) + '</span></div>';
@@ -427,7 +414,6 @@ function changeFilter(){
                 }
             } else {
                 $(this).removeClass('hide');
-                console.log(parseFloat($(this).find('.price').text()));
                 if(parseFloat($(this).find('.price').text()) > priceFilter){
                     $(this).addClass('hide');
                 }
@@ -447,8 +433,6 @@ function changeRange(){
     var price = parseFloat($('#priceRange').val());
     $('#rangeValue').text(price);
     var brandFilter = $('#filter').val();
-    console.log("Current threshold: " + price.toString());
-    console.log(brandFilter);
 
     $('td.price').each(function(){
         if (parseFloat($(this).text()) > price){

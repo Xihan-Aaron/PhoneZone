@@ -18,7 +18,6 @@ const fileFilter = function(req,file,cb){
 	if(file.mimetype==='image/jpeg' || file.mimetype==='image/png'){
 		cb(null, true)
 	}else{
-		console.log("bad type")
 		cb(new Error('Wrong extension type'),false)
 	}
 }
@@ -32,11 +31,10 @@ const upload = multer({
 router.get('/', profileController.profilePage)
 
 
-router.post('/editProfile', 
+router.post('/editProfile',
 	[
 		(req,res,next)=>{
 			req.session.success=true
-			console.log("here")
 			req.session.errors={}
 			editAttributes = {}
 			if(req.body.email.length>0){
@@ -93,7 +91,7 @@ router.post('/addNewListing'
 	,(req,res,next)=>{
 		req.session.success=true
 		req.session.errors={}
-		upload.single('productImage')(req,res,function (err){	
+		upload.single('productImage')(req,res,function (err){
 			if(err) {
 		    	req.session.errors['file']=[]
 		     	req.session.errors['file'].push(err.message)
