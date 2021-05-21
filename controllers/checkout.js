@@ -73,6 +73,7 @@ module.exports.removeFromCart = async function(req,res,next){
     for(var i =0; i<selectedItems.length;i++) {
       result = await User.removeFromCart(user_id,selectedItems[i])
     }
+    
 		return res.status(200).json({"status":"success"});
 
 	}catch(err){
@@ -101,8 +102,8 @@ module.exports.clearCart = async function(req,res,next){
     clearCart = {checkout: updatedCheckout}
     result2 = await User.updateUser(req.session.user_id,clearCart)
     console.log(result2);
-		delete req.session.prevUrl
-		delete req.session.prevInfo
+    delete req.session.prevUrl
+    delete req.session.prevInfo
 
     return res.status(200).json({"status":"success"})
 

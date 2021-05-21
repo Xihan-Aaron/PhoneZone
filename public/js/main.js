@@ -103,7 +103,7 @@ function viewSearch(result){
         var tableRow = '<tr class="searchItem ' + result[i].brand + '">';
         // console.log(tableRow);
         tableRow += '<td class="id hide">' + result[i]._id + '</td>';
-        tableRow += '<td><img src=' + result[i].image + ' alt="" class="thumbnail"></td>';
+        tableRow += '<td><img src=' + result[i].image + ' onerror="this.onerror=null;this.src=\'/images/phone_default_images/default.png\';" alt="" class="thumbnail"></td>';
         tableRow += '<td class="title">' + result[i].title + '</td>';
         tableRow += '<td class="brand">' + result[i].brand + '</td>';
         tableRow += '<td class="price">' + result[i].price + '</td>';
@@ -130,7 +130,7 @@ function viewItem(result) {
   var info = $('#itemInfo');
   // info.append('<h3 id="heading">' + result.title + '</h3>');
 
-  var image = '<img src=' + result.image + ' alt="" style="width: 12em;">'
+  var image = '<img src=' + result.image + ' onerror="this.onerror=null;this.src=\'/images/phone_default_images/default.png\';" alt="" style="width: 12em;">'
 
   div = '<div class="row"> <div class="col-md-6">' + image + '</div>'
   div += '<div class="col-md-6">'

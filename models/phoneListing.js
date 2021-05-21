@@ -70,6 +70,13 @@ PhoneListingSchema.statics.getItemsBySeller = function(user_id){
 		})
 }
 
+PhoneListingSchema.statics.getItemsByReviewer = function(user_id){
+	return this
+		.find({
+				'reviews.reviewer': user_id
+		})
+}
+
 PhoneListingSchema.statics.updateDisabled = function(id,disabled){
 	if(disabled == 'true'){
 		return this.updateOne(

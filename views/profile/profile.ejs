@@ -28,7 +28,7 @@
 		<div class="container">
 			<div class="userInfo">
 				<h2>Profile</h2>
-				
+
 				<div id="tabDiv">
 					<ul id="profileTab" class="nav nav-tabs" style="padding: 10px;">
 						<li class="active">
@@ -71,13 +71,13 @@
 									<tr id=<%=items[i]._id %> class="phoneListItem">
 										<td class="title"><%= items[i].title %></td>
 										<td class="brand"><%= items[i].brand %></td>
-										<td><img src=<%=items[i].image %> alt="" class="thumbnail"></td>
+										<td><img src=<%=items[i].image %> onerror="this.onerror=null;this.src='/images/phone_default_images/default.png';" alt="" class="thumbnail"></td>
 										<td class="stock"><%= items[i].stock %></td>
 										<td class="seller"><%= items[i].seller %></td>
 										<td class="price"><%= items[i].price %></td>
 										<td class="disabled">
 											<b><%= items[i].disabled %></b>
-											
+
 										</td>
 										<td>
 											<div>
@@ -86,7 +86,7 @@
 												<% } else { %>
 													<input class="disableBtn btn btn-danger btn-xs" type="button" value="Disable" role="button" />
 												<% } %>
-												
+
 											</div>
 										</td>
 										<td>
@@ -97,9 +97,50 @@
 										<td></td>
 								  </tr>
 								<% } %>
-							 
+
 							<% } else {%>
 								<td colspan="9" style="text-align: center;">You do not have anything listed yet.</td>
+							<% } %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div id="reviewedItems">
+				<legend style="margin-top: 15px;">My Reviews</legend>
+				<div id="modifyReviewedError"></div>
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<th>Title</th>
+							<th>Brand</th>
+							<th>Image</th>
+							<th>Rating</th>
+							<th>Comment</th>
+
+						</thead>
+						<tbody id="reviewedItemsBody">
+							<% if (reviewedItems.length > 0) { %>
+								<% for(var i=0;i<reviewedItems.length;i++) {%>
+									<tr id=<%=reviewedItems[i]._id %> class="reviewedItem">
+										<td rowspan=<%= reviewedItems[i].numReviews %> class="title"><%= reviewedItems[i].title %></td>
+										<td rowspan=<%= reviewedItems[i].numReviews %> class="brand"><%= reviewedItems[i].brand %></td>
+										<td rowspan=<%= reviewedItems[i].numReviews %>><img src=<%=reviewedItems[i].image %> onerror="this.onerror=null;this.src='/images/phone_default_images/default.png';" alt="" class="thumbnail"></td>
+										<% for(var j=0;j<reviewedItems[i].reviews.length;j++) {%>
+											<td class="Rating"><%= reviewedItems[i].reviews[j].rating %></td>
+											<td class="Comment"><%= reviewedItems[i].reviews[j].comment %></td>
+											<% if(j < reviewedItems[i].numReviews) {%>
+											</tr>
+											<%} if(j>0 && j < reviewedItems[i].numReviews - 1){%>
+												<tr>
+											<%}%>
+										<%}%>
+
+									</tr>
+								<% } %>
+
+							<% } else {%>
+								<td colspan="5" style="text-align: center;">You do not have any reviews yet.</td>
 							<% } %>
 						</tbody>
 					</table>

@@ -107,3 +107,5 @@ The user can purchase multiple products in the checkout (tick checkbox)
 
 # Further Steps
 ## Testing!!!
+
+[Default phone image source](https://commons.wikimedia.org/wiki/File:Circle-icons-smartphone.svg)

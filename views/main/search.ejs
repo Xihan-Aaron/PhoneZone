@@ -14,7 +14,7 @@
         <% for(var i =0;i<info.length;i++) {%>
           <tr class="searchItem <%= info[i].brand %>">
             <td class="id hide"><%= info[i]._id %></td>
-            <td><img src=<%=info[i].image %> alt="" class="thumbnail"></td>
+            <td><img src=<%=info[i].image %> onerror="this.onerror=null;this.src='/images/phone_default_images/default.png';" alt="" class="thumbnail"></td>
             <td class="title"><%= info[i].title %></td>
             <td class="brand"><%= info[i].brand %></td>
             <td class="price"><%= info[i].price %></td>
