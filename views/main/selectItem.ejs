@@ -32,7 +32,7 @@
             <tr class="reviews" >
           <% } %>
           <td class="id hide"><%= info.reviews[i].id %></td>
-          <td class="reviewer"> <%= info.reviews[i].reviewer %></td>
+          <td class="reviewer fit"> <%= info.reviews[i].reviewer %></td>
           <td class="rating"> <%= info.reviews[i].rating %></td>
           <% if(info.reviews[i].comment.length > 200) { %>
             <td class="partialComment "> <%= info.reviews[i].comment.substring(0,200) %> <p class="textComment"> (Show More) </p> </td>

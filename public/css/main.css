@@ -60,3 +60,7 @@ body {
     max-height: 401px;
     object-fit: contain;
 }
+
+.fit {
+  white-space: nowrap;
+}
