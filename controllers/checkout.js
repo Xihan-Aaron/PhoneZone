@@ -5,7 +5,6 @@ const PhoneListing = require('../models/phoneListing');
 
 
 module.exports.checkoutPage = async function(req,res,next){
-	console.log(req.session.prevUrl)
 	try{
 		userFromDb = await User.getUserById(req.session.user_id)
 		if(userFromDb == null){
@@ -73,7 +72,7 @@ module.exports.removeFromCart = async function(req,res,next){
     for(var i =0; i<selectedItems.length;i++) {
       result = await User.removeFromCart(user_id,selectedItems[i])
     }
-    
+
 		return res.status(200).json({"status":"success"});
 
 	}catch(err){
@@ -94,21 +93,16 @@ module.exports.clearCart = async function(req,res,next){
     })
     for( itemId in selectedItems) {
       quantityBought = selectedItems[itemId]
-      console.log(itemId,quantityBought)
       result1 = await PhoneListing.editStock(itemId,-parseInt(quantityBought))
-      console.log(result1)
     }
-    console.log(updatedCheckout)
     clearCart = {checkout: updatedCheckout}
     result2 = await User.updateUser(req.session.user_id,clearCart)
-    console.log(result2);
-    delete req.session.prevUrl
-    delete req.session.prevInfo
+		delete req.session.prevUrl
+		delete req.session.prevInfo
 
     return res.status(200).json({"status":"success"})
 
 	}catch(err){
-    console.log(err)
 	  return res.status(500).json({"status":"fail","message":`Server Side Error`})
 	}
 }
