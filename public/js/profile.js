@@ -1,5 +1,18 @@
 $(document).ready(function(){
 
+    var modalBox = $('#modalCommon')
+    var modalTitle = $('#modalCommonTitle')
+    var modalBody = $('#modalCommonBody')
+    modalBody.attr("style", "padding: 15px;")
+    var modalFooter = $('#modalCommonFooter')
+
+    function closeModal(){
+        modalTitle.text()
+        modalBody.attr("style", "padding: 15px;")
+        modalBody.html('')
+        modalFooter.html('')
+        modalBox.css("display", "none")
+    }
     $('input[name="firstname"]').on('focus', function(e){
         $('#firstnameError').empty();
         $('#profile-serverError').empty();
@@ -315,7 +328,20 @@ $(document).ready(function(){
             type: "post",
             url: "/profile/removeListing",
             success: function(result){
-                alert("Remove successfully.");
+                modalBox.css("display", "block")
+                 modalTitle.text(`Attention`)
+                var htmlBody =
+                `<div>
+                  <p>Remove successfully</p>
+                </div>
+                `
+                var htmlFooter = `<button class="btn btn-danger" id="closing" type="button">Cancel</button>`
+                modalBody.html(htmlBody)
+                modalFooter.html(htmlFooter)
+
+                $('#closing,#closeModal').on('click',function(e){
+                   closeModal()
+                })
                 itemRow.remove();
             },
             error: function(result){

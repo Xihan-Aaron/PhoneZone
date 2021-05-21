@@ -7,7 +7,6 @@
 		<link rel="stylesheet" type="text/css" href="/css/main.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="/css/checkout.css" media="screen" />
 		<script defer type="text/javascript" src="/js/checkout.js"></script>
-		<script defer type="text/javascript" src="/js/utility.js"></script>
 		<script defer type="text/javascript" src="/js/validate.js"></script>
 		<script type="text/javascript" src="/js/jquerysession.js"></script>
 		<title>Check out</title>
@@ -30,7 +29,7 @@
 						<% } else { %>
 							<p>Status: There has been <%= countInvalid %> item that was removed from the cart because it has been removed or sold out!</p>
 						<% } %>
-						
+
 					</div>
 				<% } %>
 
@@ -41,11 +40,11 @@
 						<% } else { %>
 							<p><span>Status: There has been <%= countQuantityChage %> item that was changed from the cart because people have been buying. Purchase NOW!<span></p>
 						<% } %>
-						
+
 					</div>
 				<% } %>
 			</div>
-			
+
 			<div class="table-responsive">
 				<table class="table table-hover">
 					<thead>
@@ -59,13 +58,13 @@
 					</thead>
 					<tbody>
 						<% for(var i = 0; i < info.length; i++) {%>
-						
+
 						<% if (info[i]["flag"]==1) { %>
 							<tr class="cartItem flag" id=<%=info[i].id %>>
 						<% } else { %>
 							<tr class="cartItem" id=<%=info[i].id %>>
 						<% } %>
-						 
+
 							<td>
 								<div class="checkbox">
 									<label>
@@ -82,7 +81,7 @@
 								<!-- <div class="row"> -->
 									<div class="quantityDiv">
 										<input type="text" id="<%=info[i].id %>_quantity" placeholder="Quantity" name="quantity" style="width:6em; display:inline;" class="form-control">
-										<input class="btn btn-primary" name= "changeQuantityButton" type="button" value="Change quantity"/>	
+										<input class="btn btn-primary" name= "changeQuantityButton" type="button" value="Change quantity"/>
 									</div>
 									<div class="error" id="<%=info[i].id %>_error"></div>
 									<div class="success" id="<%=info[i].id %>_success"></div>
