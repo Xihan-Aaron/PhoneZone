@@ -85,6 +85,7 @@ module.exports.addItemToCart = async function(req,res,next){
 		item_price = parseFloat(req.body.price)
 
 		user_id = req.session.user_id
+
 		userFromDb = await User.getUserById(user_id)
 		if(userFromDb == null) {
 			return res.status(400).json({"status":"fail","message":"Please sign in before adding to Cart","type":"signin"})
@@ -116,6 +117,9 @@ module.exports.addItemToCart = async function(req,res,next){
 module.exports.getCartInfo = async function(req,res,next){
 	try{
 		user_id = req.session.user_id
+		if( user_id == undefined) {
+			return res.status(200).json({"status":"fail","message":`Not logged in`})
+		}
 		userFromDb = await User.getUserById(user_id)
 		if(userFromDb == null) {
 			return res.status(500).json({"status":"fail","message":`Unable to find user`})
@@ -143,15 +147,27 @@ module.exports.getQuantityInCart = async function(req,res,next){
 	try{
 		user_id = req.session.user_id
 		item_id = req.body.item
+		if( user_id == undefined) {
+			return res.status(200).json({"status":"fail","message":`Not logged in`})
+		} else if( item_id == undefined) {
+			return res.status(200).json({"status":"fail","message":`not correct state`})
+		}
+		cartQuantity = 0
 
 		userFromDb = await User.getUserById(user_id)
 		if(userFromDb == null) {
 			return res.status(500).json({"status":"fail","message":`Unable to find user`})
 		}else{
-			cartQuantity = (await User.getQuantityInCart(user_id,item_id))[0]
+			results = await User.getQuantityInCart(user_id,item_id)
+			console.log(results);
+			if(results[0].checkout.length > 0) {
+				cartQuantity = results[0].checkout[0].quantity
+				console.log(cartQuantity);
+			}
+
 			return res.status(200).json({
 				"status":"success",
-				"quantityInCart":cartQuantity.checkout[0].quantity
+				"quantityInCart":cartQuantity
 			})
 		}
 	}catch(err){
