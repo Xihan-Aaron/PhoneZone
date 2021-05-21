@@ -17,7 +17,7 @@
         <% for(var i = 0; i < info['soldOut'].length; i++) {%>
           <tr class="soldOutItem">
             <td class="id hide"><%= info['soldOut'][i]._id %></td>
-            <td><img src=<%= info['soldOut'][i].image %> alt="" class="thumbnail"></td>
+            <td><img src=<%= info['soldOut'][i].image %> onerror="this.onerror=null;this.src='/images/phone_default_images/default.png';" alt="" class="thumbnail"></td>
             <td class="title"><%= info['soldOut'][i].title %></td>
             <td class="brand"><%= info['soldOut'][i].brand %></td>
             <td class="price"><%= info['soldOut'][i].price %></td>
@@ -51,7 +51,7 @@
         <% for(var i = 0; i < info['topFive'].length; i++) {%>
           <tr class="topFiveItem">
             <td class="id hide"><%= info['topFive'][i]._id %></td>
-            <td><img src=<%=info['topFive'][i].image %> alt="" class="thumbnail"></td>
+            <td><img src=<%=info['topFive'][i].image %> onerror="this.onerror=null;this.src='/images/phone_default_images/default.png';" alt="" class="thumbnail"></td>
             <td class="title"><%= info['topFive'][i].title %></td>
             <td class="brand"><%= info['topFive'][i].brand %></td>
             <td class="price"><%= info['topFive'][i].price %></td>
