@@ -158,7 +158,7 @@ function viewItem(result) {
         var tableRow = '<tr class="reviews ' + '">';
       }
       tableRow += '<td class="id hide">' + reviews[i].id + '</td>';
-      tableRow += '<td class="reviewer">' + reviews[i].reviewer + '</td>';
+      tableRow += '<td class="reviewer fit">' + reviews[i].reviewer + '</td>';
       tableRow += '<td class="rating">' + reviews[i].rating + '</td>';
 
       if(reviews[i].comment.length > 200) {
