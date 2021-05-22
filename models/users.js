@@ -67,7 +67,7 @@ UserSchema.statics.addExistingToCart = function(user_id,item,quantity){
 	return this
 	.updateOne(
 		{_id:user_id,"checkout.id":item},
-		{$inc: {"checkout.$.quantity":quantity}}
+		{$inc: {"checkout.$.quantity":parseInt(quantity)}}
 	)
 	.exec();
 }
@@ -76,7 +76,7 @@ UserSchema.statics.editCart = function(user_id,item,quantity){
 	return this
 	.updateOne(
 		{_id:user_id,"checkout.id":item},
-		{$set: {"checkout.$.quantity":quantity}
+		{$set: {"checkout.$.quantity":parseInt(quantity)}
 	}
 	)
 	.exec();
@@ -99,8 +99,8 @@ UserSchema.statics.removeFromCart = function(user_id,item){
         if(err){
         console.log(err);
         }else{
-					console.log("user_id",user_id);
-					console.log("item: ",item);
+				console.log("user_id",user_id);
+				console.log("item: ",item);
 				}
 			}
 		).exec()

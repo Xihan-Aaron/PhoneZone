@@ -40,11 +40,6 @@ const PhoneListingSchema = mongoose.Schema({
 , {collection:"phoneListing"})
 
 
-// PhoneListingSchema.statics.checkStock = function(item_id,quantity){
-// 	return this.find({
-// 		_id: item_id, stock: {$gte:quantity}
-// 	})
-// }
 
 PhoneListingSchema.statics.editStock = function(item_id,quantity){
 	return this
@@ -60,6 +55,7 @@ PhoneListingSchema.statics.getMatchingItems = function(search){
 		.find({
 				title: {$regex: search,$options: 'i'},
 				disabled:null
+				,stock:{$gte:0}
 		})
 }
 
@@ -122,9 +118,10 @@ PhoneListingSchema.statics.getTopFive = function(){
 			    {$match:{
 			        "reviews":{$elemMatch:{"rating":{$exists:true}}},
 			        disabled:null
+			        ,stock:{$gte:0}
 			        }
 			    },
-			    {$project:{"_id":1,image:1,title:1,brand:1,price:1,seller:1,reviews:1,avgReviews:{$avg:"$reviews.rating"},numReviews:{$size:"$reviews"}}},
+			    {$project:{"_id":1,image:1,title:1,brand:1,price:1,seller:1,stock:1,reviews:1,avgReviews:{$avg:"$reviews.rating"},numReviews:{$size:"$reviews"}}},
 			    {$match:{"numReviews":{$gte:2}}},
 			    {$limit:5},
 			    {$sort:{"avgReviews":-1,}}
