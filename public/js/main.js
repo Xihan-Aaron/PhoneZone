@@ -211,7 +211,6 @@ function modalPopUpAddCart(e){
 
   function submitCart(){
     var quantityPurchase =$('#quantityInput').val();
-    console.log(quantityPurchase)
     var validate = validateInteger(quantityPurchase)
     if(validate["status"]=="fail"){
       $('#modalError').text(validateInteger(quantityPurchase)["message"])

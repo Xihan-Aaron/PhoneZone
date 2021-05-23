@@ -14,9 +14,12 @@
     "ejs": "*",
     "express": "*",
     "express-session": "^1.17.1",
-    "jsonwebtoken": "*",
+    "jsonwebtoken": "^8.5.1",
+    "loadash": "^1.0.0",
     "mongoose": "*",
     "multer": "^1.4.2",
+    "nodemailer": "^6.6.0",
+    "nodemailer-smtp-transport": "^2.7.4",
     "passport": "*"
   },
   "author": "Alan Hoang",

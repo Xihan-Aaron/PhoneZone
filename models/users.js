@@ -27,6 +27,10 @@ const UserSchema = mongoose.Schema({
 	},
 	checkout:{
 		type:Array
+	},
+	resetLink:{
+		type:String,
+		trim:true
 	}
 }
 , {collection:"users"})
