@@ -26,12 +26,12 @@ module.exports.signup = async function (req,res,next){
 			req.session.success=true
 			req.session.user_id=addedUser._id
 		}else{
-			req.session.success=false		
+			req.session.success=false
 			req.session.errors['email'].push('Email already exists')
 		}
 	}catch(err){
 		req.session.success=false
-		req.session.errors['server']=[]		
+		req.session.errors['server']=[]
 		req.session.errors['server'].push('Server side Error: '+err["codeName"])
 		return res.status(500).json({errors: req.session.errors, success:req.session.success})
 	}
@@ -95,7 +95,7 @@ module.exports.forgotPassword = async function(req,res,next){
 			htmlString = `<p>Please click on this link to rest your password <a href='http://localhost:3000/users/restPassword/${token}'>Reset Password </a></p>`
 			var mailOptions = {
 			  from: 'phonezonecomp5347@gmail.com',
-			  to: 'alankhoangfr@gmail.com',
+			  to: email,
 			  subject: 'Restore Password',
 			  html: htmlString
 			};
@@ -104,11 +104,11 @@ module.exports.forgotPassword = async function(req,res,next){
 			  if (error) {
 			    res.status(400).json({success:false,message:"Error in Sending the email"})
 			  } else {
-			  	
-   				
+
+
 			    res.status(200).json({success:true,message:"An email has been sent"})
 			  }
-			});  
+			});
 		}
 	}
 	catch(err){
@@ -116,7 +116,7 @@ module.exports.forgotPassword = async function(req,res,next){
 		req.session.success=false
 		return res.status(500).json({errors: req.session.errors, success:req.session.success})
 	}
-	
+
 }
 
 
