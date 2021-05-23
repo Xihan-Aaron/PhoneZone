@@ -16,6 +16,7 @@ module.exports.main = async function(req,res,next){
 			var prevUrl = req.session.prevUrl
 			var prevInfo = req.session.prevInfo
 			delete req.session.auth
+
 			return res.render('main.ejs',{user_id:req.session.user_id,info:prevInfo,tab:prevUrl})
 		}else{
 			req.session.prevInfo = info
@@ -49,15 +50,56 @@ module.exports.search = async function(req,res,next){
 
 module.exports.selectItem = async function(req,res,next){
 	try{
-		var item_id = req.body.id
-		var items = await PhoneListing.getItemById(item_id)
-		var item = (await helper.extractNames([items]))[0]
-		req.session.prevInfo = item
-		req.session.prevUrl = 'item'
-		return res.json({
-			user_id:req.session.user_id,
-			info:item
-		});
+		item_id = req.body.id
+		items = await PhoneListing.getItemById(item_id)
+		item = (await helper.extractNames([items]))[0]
+		quantityInCart=0
+		if(req.session.user_id!=undefined){
+			userFromDb = await User.getUserById(req.session.user_id)
+			if(userFromDb == null) {
+				return res.status(400).json({"status":"fail","message":"Please sign in before adding to Cart","type":"signin"})
+			}
+			itemCart = userFromDb["checkout"].filter(function(item){
+				return item['id']==item_id
+			})
+			if(itemCart.length>0){
+				quantityInCart = itemCart[0]['quantity']
+			}else{
+				quantityInCart=0
+			}
+		}
+
+		if(item !=undefined){
+			result ={}
+			for( field in item["_doc"]){
+				result[field]=item[field]
+			}
+
+			result["sell"]=1
+			result["quantityInCart"]=quantityInCart
+			req.session.prevInfo = result
+			req.session.prevUrl = 'item'
+			return res.status(200).json({
+				user_id:req.session.user_id,
+				info:result,
+				status:"success"
+			});
+		}else{
+			result ={}
+			for (field in items["_doc"]){
+				result[field]=items[field]
+			}
+			result["sell"]=0
+			result["quantityInCart"]=quantityInCart
+			result["seller"]="Unknown"
+			req.session.prevInfo = result
+			req.session.prevUrl = 'item'
+			return res.status(200).json({
+				user_id:req.session.user_id,
+				info:result,
+				status:"fail"
+			});
+		}
 
 	}catch(err){
 		err.statusCode=500
@@ -90,14 +132,15 @@ module.exports.addItemToCart = async function(req,res,next){
 				there will not be enough stock. Please wait for restock`
 					,"type":"stock"})
 			}
-			var item = await User.addExistingToCart(user_id,item_id,item_quantity)
+			var item = await User.addExistingToCart(user_id,item_id,parseInt(item_quantity))
 		}
 		else{
-			var itemToAdd = {id:item_id,quantity:item_quantity,price:item_price}
+			var itemToAdd = {id:item_id,quantity:parseInt(item_quantity),price:item_price}
 			var item = await User.addToCart(user_id,itemToAdd)
 		}
 		return res.status(200).json({"status":"success"})
 	}catch(err){
+		console.log(err)
 		return res.status(500).json({"status":"fail","message":`Server Side Error`})
 	}
 }

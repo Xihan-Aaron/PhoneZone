@@ -4,6 +4,7 @@ $(document).ready(function() {
         $('#searchError').empty();
     });
 
+
     $('#signout').on('click',function(e){
       e.preventDefault();
       var modalBox = $('#modalCommon')
@@ -74,14 +75,6 @@ $(document).ready(function() {
     $('.soldOutItem').on('click', selectItem);
     $('.searchItem').on('click', selectItem);
     $('.topFiveItem').on('click', selectItem);
-    // Not necessary anymore
-    // $('#confirmsignoutBtn').on('click', function(e){
-    //   console.log('here')
-    //   e.preventDefault();
-    //   $('#signoutModal').modal('hide');
-    //   window.location.href = '/users/signout';
-    // });
-
     $('.reviews').on('click', showMoreComments);
     $('.showMoreReviews').on('click', showMoreReviews);
     $('.showLessReviews').on('click', showLessReviews);
@@ -89,6 +82,7 @@ $(document).ready(function() {
     updateCartQuantity();
     updateItemQuantity();
 });
+
 
 function viewSearch(result){
     $('#heading').empty();
@@ -117,79 +111,6 @@ function viewSearch(result){
     searchSection.append(tableDiv)
 }
 
-function viewItem(result) {
-  $('#searchRange').css("display","none") //Hide the range finder
-  $('#searchFilter').css("display","none") //Hide the search filter
-  $('#heading').append(result.title);
-  var info = $('#itemInfo');
-  // info.append('<h3 id="heading">' + result.title + '</h3>');
-
-  var image = '<img src=' + result.image + ' onerror="this.onerror=null;this.src=\'/images/phone_default_images/default.png\';" alt="" style="width: 12em;">'
-
-  div = '<div class="row"> <div class="col-md-6">' + image + '</div>'
-  div += '<div class="col-md-6">'
-  div += '<p id="itemId" class="hide"> ' + result._id  + '</p>'
-  div += '<p> Brand: ' + result.brand  + '</p>'
-  div += '<p> Stock: <span id="itemStock">' + result.stock  + '</span></p>'
-  div += '<p> Seller: ' + result.seller  + '</p>'
-  div += '<p> Price: <span id="itemPrice">' + result.price  + '</span></p>'
-  div += '<p> Quantity in cart:<span id="quantityInCart"> ' + 0 + '</span></p>'
-  div += '<input id="addToCart" class="btn btn-primary" type="button" value="Add to Cart" role="button" />'
-  div += '</div></div> '
-
-  info.append(div)
-
-  var reviews = result.reviews;
-
-  var table = '<table class="table table-hover">';
-  var tableTitle = '<thead><th>Reviewer</th><th>Rating</th><th>Comment</th></thead>';
-  var tableBody = '<tbody>';
-  if(reviews == undefined || reviews.length == 0) {
-    var tableRow = '<tr class="reviews ' + '">';
-    tableRow += '<td colspan=3>' + 'No Reviews Yet' + '</td>'
-    tableRow += '</tr>';
-    tableBody += tableRow;
-
-  } else {
-    for(var i = 0; i < reviews.length; i++){
-      if(i >= 3) {
-        var tableRow = '<tr class="reviews hide ' +  '">';
-
-      } else {
-        var tableRow = '<tr class="reviews ' + '">';
-      }
-      tableRow += '<td class="id hide">' + reviews[i].id + '</td>';
-      tableRow += '<td class="reviewer fit">' + reviews[i].reviewer + '</td>';
-      tableRow += '<td class="rating">' + reviews[i].rating + '</td>';
-
-      if(reviews[i].comment.length > 200) {
-        tableRow += '<td class="partialComment ">' + reviews[i].comment.substring(0,200) + '<p class="textComment"> (Show More) </p>' + '</td>';
-        tableRow += '<td class="fullComment hide">' + reviews[i].comment + '<p class="textComment"> (Show Less) </p>' + '</td>';
-      } else {
-        tableRow += '<td class="comment">' + reviews[i].comment + '</td>';
-      }
-
-      tableRow += '</tr>';
-      tableBody += tableRow;
-    }
-    if(reviews.length > 3) {
-      tableBody += '<tr > <td class="showMoreReviews" colspan=2><p class="textComment">show more comments</p></td> '
-      tableBody += '<td class="showLessReviews hide" colspan=3><p class="textComment">show less comments</p></td><td></td> </tr>'
-    }
-  }
-
-  tableBody += '</tbody>';
-  table += tableTitle + tableBody + '</table>'
-  var tableDiv = '<div class="table-responsive">' + table + '</div>'
-
-  info.append(tableDiv)
-
-  updateItemQuantity()
-  $('.reviews').on('click', showMoreComments)
-  $('.showMoreReviews').on('click', showMoreReviews)
-  $('.showLessReviews').on('click', showLessReviews)
-  $('#addToCart').on('click', modalPopUpAddCart)
-}
 
 function showMoreComments(e) {
   e.preventDefault();
@@ -291,7 +212,7 @@ function modalPopUpAddCart(e){
 
   function submitCart(){
     var quantityPurchase =$('#quantityInput').val();
-    validate = validateInteger(quantityPurchase)
+    var validate = validateInteger(quantityPurchase)
     if(validate["status"]=="fail"){
       $('#modalError').text(validateInteger(quantityPurchase)["message"])
     }else if (validate["status"]=="success" && validate["value"]==0){
@@ -323,11 +244,6 @@ function modalPopUpAddCart(e){
       })
     }
   }
-  $(document).keydown(function (event) {
-    if ( (event.keyCode || event.which) === 13) {
-        $("#submitAddtoCart").click();
-    }
-  });
 
   $('#submitAddtoCart').on('click',function(event){
     submitCart()
@@ -345,16 +261,17 @@ function updateCartQuantity() {
 function selectItem(result) {
       result.preventDefault();
       var id = {id: $(this).find('.id').text() };
-
-      $.post('/item',id,function(result) {
-        $('#soldOutSoon').remove();
-        $('#bestSellers').remove();
-        $('#searchResult').empty();
-        $('#heading').empty();
-        viewItem(result.info);
-        $.session.set('prev', 'item');
-        $.session.set('itemId', id);
-
+      $.ajax({
+        data:id,
+        type:"post",
+        url:"/item",
+        success:function(result){
+          console.log(result)
+          window.location.href="/"
+        },
+        error:function(result){
+          console.log(result)
+        }
       })
 }
 

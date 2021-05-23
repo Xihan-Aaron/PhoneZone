@@ -39,5 +39,14 @@
 }
 
 .error {
-    color: red;
+    color: #e34545;
+    font-weight: 600;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+.success {
+    color: #115611;
+    font-weight: 600;
+    margin-top: 16px;
+    margin-bottom: 16px;
 }

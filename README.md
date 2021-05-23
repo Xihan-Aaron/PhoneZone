@@ -39,6 +39,8 @@ Signout will destroy the session. When the session is destroyed, then the client
 
 If a user is searching something or have selected something in the main page but is not signed in, they will be reverted back to that page when they immediately sign in or sign up.
 
+If the user has forgotten the password, a link will be sent to an email they input. If the email does exist, they will receive an email with a link. It expires in 20mins. Then the user can change their password. once the password is change the link will be invalid
+
 ## Validation
 The validation that requires access to the database is in the controller. 
 
@@ -81,6 +83,8 @@ To remove the listing use endpoint profile/removeListing with parameters req.bod
 
 To edit the listing for disabled or not disabled use endpoint profile/editListing with parameters req.body.editId (the id of the listing) ,req.body.disabled (boolean: True - Disabled and False - Enable)
 
+If you click on the row of the table, then it will lead you to the item. However, this will only occur when the item is enabled. 
+
 ## Checkout
 
 ### Functions
@@ -93,7 +97,6 @@ The user can update the quantity of each product in the checkout. Once again the
 
 The user can remove multiple products in the checkout (tick checkbox)
 
-The user can purchase multiple products in the checkout (tick checkbox)
 
 ### Edge cases
 
@@ -105,7 +108,18 @@ The user can purchase multiple products in the checkout (tick checkbox)
 
   - If the items are sold are not completely sold out but the remaining stock is less than the items in the cart, when the user goes to the checkout, these quantities will be udpated and a message will show
 
+
+## Main Page
+
+### Function
+
+- Ensures that stock of less than 0 will not show up. In addition, for top 5 and sold out, stock must be at least 1
+
+
+### Edge Cases
+
+- When a user uploads a phone for sale and then the user's account is removed, it will still show in the Phone zone website but when its in the item state, no one can add to cart and it will say Seller Unknown.
+
 # Further Steps
 ## Testing!!!
 
-[Default phone image source](https://commons.wikimedia.org/wiki/File:Circle-icons-smartphone.svg)

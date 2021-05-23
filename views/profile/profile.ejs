@@ -68,10 +68,10 @@
 						<tbody id="phoneListBody">
 							<% if (items.length > 0) { %>
 								<% for(var i=0;i<items.length;i++) {%>
-									<tr id=<%=items[i]._id %> class="phoneListItem">
+									<tr id="<%=items[i]._id %>_listing_<%=items[i].disabled%>" class="phoneListItem">
 										<td class="title"><%= items[i].title %></td>
 										<td class="brand"><%= items[i].brand %></td>
-										<td><img src=<%=items[i].image %> onerror="this.onerror=null;this.src='/images/phone_default_images/default.png';" alt="" class="thumbnail"></td>
+										<td class="image"><img src=<%=items[i].image %> onerror="this.onerror=null;this.src='/images/phone_default_images/default.png';" alt="" class="thumbnail"></td>
 										<td class="stock"><%= items[i].stock %></td>
 										<td class="seller"><%= items[i].seller %></td>
 										<td class="price"><%= items[i].price %></td>
@@ -115,6 +115,7 @@
 							<th>Title</th>
 							<th>Brand</th>
 							<th>Image</th>
+							<th>Status</th>
 							<th>Rating</th>
 							<th>Comment</th>
 
@@ -122,10 +123,11 @@
 						<tbody id="reviewedItemsBody">
 							<% if (reviewedItems.length > 0) { %>
 								<% for(var i=0;i<reviewedItems.length;i++) {%>
-									<tr id=<%=reviewedItems[i]._id %> class="reviewedItem">
+									<tr id="<%=reviewedItems[i].id %>_review_<%=reviewedItems[i].status%>" class="reviewedItem">
 										<td rowspan=<%= reviewedItems[i].numReviews %> class="title"><%= reviewedItems[i].title %></td>
 										<td rowspan=<%= reviewedItems[i].numReviews %> class="brand"><%= reviewedItems[i].brand %></td>
-										<td rowspan=<%= reviewedItems[i].numReviews %>><img src=<%=reviewedItems[i].image %> onerror="this.onerror=null;this.src='/images/phone_default_images/default.png';" alt="" class="thumbnail"></td>
+										<td rowspan=<%= reviewedItems[i].numReviews %> class="image"><img src=<%=reviewedItems[i].image %> onerror="this.onerror=null;this.src='/images/phone_default_images/default.png';" alt="" class="thumbnail"></td>
+										<td rowspan=<%= reviewedItems[i].numReviews %> class="status"><b><%= reviewedItems[i].status %></b></td>
 										<% for(var j=0;j<reviewedItems[i].reviews.length;j++) {%>
 											<td class="Rating"><%= reviewedItems[i].reviews[j].rating %></td>
 											<td class="Comment"><%= reviewedItems[i].reviews[j].comment %></td>

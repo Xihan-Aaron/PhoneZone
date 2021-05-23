@@ -14,17 +14,12 @@ router.get('/home', (req,res,next)=>{
 	res.redirect('/')
 })
 
-router.post('/search',function (req, res,next) {
-	next()
-},
-main.search
-)
+router.post('/',main.main)
 
-router.post('/item',function (req, res,next) {
-	next()
-},
-main.selectItem
-)
+
+router.post('/search',main.search)
+
+router.post('/item',main.selectItem)
 
 router.post('/addToCart', main.addItemToCart);
 

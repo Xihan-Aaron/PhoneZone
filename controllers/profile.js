@@ -21,13 +21,18 @@ function getReviews(arrayOfItems, user_id) {
 				numReviews++
 			}
 		}
+		var status = "Disabled"
+		if(itemInfo['disabled']==undefined){
+			status = "Enabled"
+		}
 		result.push({
 			id:itemInfo._id,
 			title:itemInfo.title,
 			brand:itemInfo.brand,
 			image:itemInfo.image,
 			numReviews:numReviews,
-			reviews:reviews
+			reviews:reviews,
+			status:status
 		})
 	}
 	return result
@@ -222,7 +227,6 @@ module.exports.addNewListing = async function(req,res,next){
 			return res.status(400).json({errors: req.session.errors, success:req.session.success})
 		}
 	}catch(err){
-		console.log(err)
 		try{
 			fs.unlinkSync('public/'+imagePath);
 		}catch{

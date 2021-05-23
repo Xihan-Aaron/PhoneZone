@@ -276,7 +276,7 @@ $(document).ready(function(){
         $('#modifyListError').empty();
         e.preventDefault();
 
-        var id = $(this).parent().parent().parent().prop('id');
+        var id = $(this).parent().parent().parent().prop('id').split('_')[0];
         var disableDivHTML = $(this).parent().parent().parent().find('.disabled').html();
 
         var disable;
@@ -321,7 +321,7 @@ $(document).ready(function(){
         $('#modifyListError').empty();
         e.preventDefault();
 
-        var id = $(this).parent().parent().parent().prop('id');
+        var id = $(this).parent().parent().parent().prop('id').split('_')[0];
         var itemRow = $(this).parent().parent().parent();
         $.ajax({
             data: {removeId: id},
@@ -365,4 +365,20 @@ $(document).ready(function(){
         $('#signoutModal').modal('hide');
         window.location.href = '/users/signout';
       });
+
+    $('.title, .brand, .stock, .price, .seller, .status').on('click', selectItem);
+    function selectItem(result) {
+        result.preventDefault();
+        var id = $(this).parent().prop('id').split('_')[0]
+        var status = $(this).parent().prop('id').split('_')[2]
+        if(status=="Enabled"){
+            var info = {id: id};
+            $.post('/item',info,function(result) {
+                window.location.href = '/'
+            })
+
+        }
+          
+
+    }
 });

@@ -72,11 +72,11 @@
 									</label>
 								</div>
 							</td>
-							<td><img src=<%= info[i].image %> onerror="this.onerror=null;this.src='/images/phone_default_images/default.png';" alt="" class="thumbnail"></td>
+							<td class="image"><img src=<%= info[i].image %> onerror="this.onerror=null;this.src='/images/phone_default_images/default.png';" alt="" class="thumbnail"></td>
 							<td class="title" id="<%=info[i].id %>_title"><%= info[i].title %></td>
 							<td class="price" id="<%=info[i].id %>_price"><%= info[i].price %></td>
 							<td class="quantity" id="<%=info[i].id %>_quantityCart"><%= info[i].quantity %></td>
-							<td class="quantity"><%=(info[i].quantity*info[i].price).toFixed(2) %></td>
+							<td class="subtotal"><%=(info[i].quantity*info[i].price).toFixed(2) %></td>
 							<td class="chageQuantity">
 								<!-- <div class="row"> -->
 									<div class="quantityDiv">
