@@ -47,6 +47,10 @@
             <td class="showLessReviews hide" colspan=3><p class="textComment">show less reviews</p></td>
             <td></td>
           </tr>
+        <% } else if(info.reviews.length == 0) {%>
+          <tr class="reviews">
+            <td colspan=3> No Reviews Yet</td>
+          </tr>
         <% } %>
 
       </tbody>
