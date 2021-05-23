@@ -7,14 +7,14 @@ const helper = require('./helper');
 
 module.exports.main = async function(req,res,next){
 	try{
-		topFive = await PhoneListing.getTopFive();
-		soldOut = await PhoneListing.soldOut();
-		info={}
+		var topFive = await PhoneListing.getTopFive();
+		var soldOut = await PhoneListing.soldOut();
+		var info={}
 		info['topFive']=topFive
 		info['soldOut']=soldOut
 		if(req.session.prevUrl != undefined){
-			prevUrl = req.session.prevUrl
-			prevInfo = req.session.prevInfo
+			var prevUrl = req.session.prevUrl
+			var prevInfo = req.session.prevInfo
 			delete req.session.auth
 			return res.render('main.ejs',{user_id:req.session.user_id,info:prevInfo,tab:prevUrl})
 		}else{
@@ -32,8 +32,8 @@ module.exports.main = async function(req,res,next){
 
 module.exports.search = async function(req,res,next){
 	try{
-		searchtext = req.body.searchtext
-		searchResults = await PhoneListing.getMatchingItems(searchtext);
+		var searchtext = req.body.searchtext
+		var searchResults = await PhoneListing.getMatchingItems(searchtext);
 		req.session.prevInfo = searchResults
 		req.session.prevUrl = 'search'
 		res.status(200).json({
@@ -49,13 +49,11 @@ module.exports.search = async function(req,res,next){
 
 module.exports.selectItem = async function(req,res,next){
 	try{
-		item_id = req.body.id
-		items = await PhoneListing.getItemById(item_id)
-		item = (await helper.extractNames([items]))[0]
+		var item_id = req.body.id
+		var items = await PhoneListing.getItemById(item_id)
+		var item = (await helper.extractNames([items]))[0]
 		req.session.prevInfo = item
 		req.session.prevUrl = 'item'
-		// fullname = seller.firstname + seller.lastname
-		// res.render('main.ejs',{user_id:req.session.user_id, info:item, tab:'item'})
 		return res.json({
 			user_id:req.session.user_id,
 			info:item
@@ -69,22 +67,22 @@ module.exports.selectItem = async function(req,res,next){
 
 module.exports.addItemToCart = async function(req,res,next){
 	try{
-		item_id = req.body.id
-		item_quantity = parseInt(req.body.quantity)
-		item_max_quantity = parseInt(req.body.maxQuantity)
-		item_price = parseFloat(req.body.price)
+		var item_id = req.body.id
+		var item_quantity = parseInt(req.body.quantity)
+		var item_max_quantity = parseInt(req.body.maxQuantity)
+		var item_price = parseFloat(req.body.price)
 
-		user_id = req.session.user_id
+		var user_id = req.session.user_id
 
-		userFromDb = await User.getUserById(user_id)
+		var userFromDb = await User.getUserById(user_id)
 		if(userFromDb == null) {
 			return res.status(400).json({"status":"fail","message":"Please sign in before adding to Cart","type":"signin"})
 		}
-		itemInfo =userFromDb["checkout"].filter(function(item){
+		var itemInfo =userFromDb["checkout"].filter(function(item){
 			return item['id']==item_id
 		})
 		if(itemInfo.length>0) {
-			currentQuantity =parseInt(itemInfo[0]["quantity"])
+			var currentQuantity =parseInt(itemInfo[0]["quantity"])
 			if(currentQuantity+item_quantity>item_max_quantity){
 				return res.status(400).json(
 					{"status":"fail"
@@ -106,7 +104,7 @@ module.exports.addItemToCart = async function(req,res,next){
 
 module.exports.getCartInfo = async function(req,res,next){
 	try{
-		user_id = req.session.user_id
+		var user_id = req.session.user_id
 		if( user_id == undefined) {
 			return res.status(200).json({"status":"fail","message":`Not logged in`})
 		}
@@ -114,9 +112,9 @@ module.exports.getCartInfo = async function(req,res,next){
 		if(userFromDb == null) {
 			return res.status(500).json({"status":"fail","message":`Unable to find user`})
 		}else{
-			checkout = userFromDb["checkout"]
-			cartQuantity =0
-			cartPrice= 0
+			var checkout = userFromDb["checkout"]
+			var cartQuantity =0
+			var cartPrice= 0
 			for(i=0;i<checkout.length;i++){
 				cartQuantity+=parseInt(checkout[i]['quantity'])
 				cartPrice+=parseFloat(checkout[i]['quantity']*checkout[i]['price'])
@@ -135,24 +133,22 @@ module.exports.getCartInfo = async function(req,res,next){
 
 module.exports.getQuantityInCart = async function(req,res,next){
 	try{
-		user_id = req.session.user_id
-		item_id = req.body.item
+		var user_id = req.session.user_id
+		var item_id = req.body.item
 		if( user_id == undefined) {
 			return res.status(200).json({"status":"fail","message":`Not logged in`})
 		} else if( item_id == undefined) {
 			return res.status(200).json({"status":"fail","message":`not correct state`})
 		}
-		cartQuantity = 0
+		var cartQuantity = 0
 
-		userFromDb = await User.getUserById(user_id)
+		var userFromDb = await User.getUserById(user_id)
 		if(userFromDb == null) {
 			return res.status(500).json({"status":"fail","message":`Unable to find user`})
 		}else{
-			results = await User.getQuantityInCart(user_id,item_id)
-			console.log(results);
+			var results = await User.getQuantityInCart(user_id,item_id)
 			if(results[0].checkout.length > 0) {
 				cartQuantity = results[0].checkout[0].quantity
-				console.log(cartQuantity);
 			}
 
 			return res.status(200).json({

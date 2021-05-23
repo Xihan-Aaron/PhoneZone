@@ -8,13 +8,13 @@ var fs = require('fs');
 const { type } = require('os');
 
 function getReviews(arrayOfItems, user_id) {
-	reviewedItems = arrayOfItems
-	result = []
+	var reviewedItems = arrayOfItems
+	var result = []
 	try {
 	for(var i =0;i<reviewedItems.length;i++){
-		itemInfo = reviewedItems[i]
-		reviews = []
-		numReviews = 0
+		var itemInfo = reviewedItems[i]
+		var reviews = []
+		var numReviews = 0
 		for(var j =0;j<itemInfo.reviews.length;j++) {
 			if(itemInfo.reviews[j].reviewer == user_id) {
 				reviews.push({rating:itemInfo.reviews[j].rating,comment:itemInfo.reviews[j].comment})
@@ -40,14 +40,14 @@ function getReviews(arrayOfItems, user_id) {
 
 module.exports.profilePage = async function(req,res,next){
 	try{
-		userFromDb = await User.getUserById(req.session.user_id)
-		itemsFromSeller = await PhoneListing.getItemsBySeller(req.session.user_id)
-		itemsReviewed = await PhoneListing.getItemsByReviewer(req.session.user_id)
+		var userFromDb = await User.getUserById(req.session.user_id)
+		var itemsFromSeller = await PhoneListing.getItemsBySeller(req.session.user_id)
+		var itemsReviewed = await PhoneListing.getItemsByReviewer(req.session.user_id)
 		if(userFromDb ==null){
 			redirect('/')
 		}else{
 
-			userInfo =
+			var userInfo =
 			{
 				firstname:userFromDb.firstname,
 				lastname:userFromDb.lastname,
@@ -70,11 +70,11 @@ module.exports.profilePage = async function(req,res,next){
 }
 
 module.exports.editProfilePage = async function(req,res,next){
-	errors={}
-	updateInfo={}
-	editAttributes=req.session.editAttributes
+	var errors={}
+	var updateInfo={}
+	var editAttributes=req.session.editAttributes
 	for(attrName in editAttributes){
-		attrErrorArray = req.session.errors[attrName]
+		var attrErrorArray = req.session.errors[attrName]
 		if(attrErrorArray.length>0){
 			errors[attrName]=attrErrorArray
 		}
@@ -83,7 +83,6 @@ module.exports.editProfilePage = async function(req,res,next){
 	if(Object.keys(errors).length>0){
 		req.session.success=false
 		return res.status(400).json({errors: errors, success:req.session.success})
-		//return res.render('profile/profile.ejs',{errors: req.session.errors, success:req.session.success, userInfo:userInfo});
 	}else{
 		try{
 			if("email" in editAttributes){
@@ -97,7 +96,7 @@ module.exports.editProfilePage = async function(req,res,next){
 			const updatingUser = await User.updateUser(req.session.user_id,editAttributes)
 			const updatedUser = await User.getUserById(req.session.user_id)
 			req.session.success=true
-			userInfo =
+			var userInfo =
 			{
 				firstname:updatedUser.firstname,
 				lastname:updatedUser.lastname,
@@ -115,10 +114,10 @@ module.exports.editProfilePage = async function(req,res,next){
 }
 
 module.exports.checkPassword = async function(req,res,next){
-	errors=[]
+	var errors=[]
 	req.session.success=true
 	try{
-		userFromDb = await User.getUserById(req.session.user_id)
+		var userFromDb = await User.getUserById(req.session.user_id)
 		if(userFromDb !=null){
 			const hashPasswordBrowser= await crypto.createHash('md5').update(req.body.password).digest("hex");
 			if (userFromDb.password===hashPasswordBrowser){
@@ -147,7 +146,7 @@ module.exports.editPassword = async function(req,res,next){
 		const hashCurrentPassword= await crypto.createHash('md5').update(req.body.currentPassword).digest("hex")
 		const hashNewPasword= await crypto.createHash('md5').update(req.body.newPassword).digest("hex")
 		if(currentUser!=null && currentUser.password===hashCurrentPassword&&req.session.success!=false){
-			editAttributes={password:hashNewPasword}
+			var editAttributes={password:hashNewPasword}
 			const updatingUser = await User.updateUser(req.session.user_id,editAttributes)
 			req.session.success=true
 			return res.status(200).json({errors:req.session.errors, success:req.session.success})
@@ -186,7 +185,6 @@ module.exports.addNewListing = async function(req,res,next){
 
 		}
 		return res.status(400).json({errors: req.session.errors, success:req.session.success})
-		// return res.render('signup.ejs',{errors: req.session.errors, success:req.session.success});
 	}
 	try{
 		const existingInfo = await PhoneListing.getItemByTitleBrand(req.body.title,req.body.brand)
@@ -212,7 +210,6 @@ module.exports.addNewListing = async function(req,res,next){
 				    seller: req.session.user_id,
 				    image: imagePath,
 				    reviews:[],
-					// disabled: "Not disabled"
 				})
 			}
 			const addLisitng = await PhoneListing.addNewListing(listingInformation)

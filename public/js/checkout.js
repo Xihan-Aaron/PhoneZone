@@ -239,22 +239,9 @@ $(document).ready(function() {
       $('#confirmBuy').on('click',function(event){
         buyAll()
       })
-
-
-
-
     }
   })
   updateCartQuantity()
-  // function updateCartQuantity() {
-  //   $.post('/getCartInfo',function(result) {
-  //     $('#cartQuantity').empty()
-  //     $('#cartQuantity').text(`Total items: ${result.cartQuantity}`)
-  //     $('#cartPrice').empty()
-  //     $('#cartPrice').text(`Total price: $${result.cartPrice}`)
-  //   })
-  // }
-
 })
 
 function getSelectedItems(){
@@ -292,23 +279,8 @@ function selectItem(result) {
 
       $.post('/item',id,function(result) {
         window.location.href = '/'
-        // $('#soldOutSoon').remove();
-        // $('#bestSellers').remove();
-        // $('#searchResult').empty();
-        // $('#heading').empty();
-        // viewItem(result.info);
       })
 }
-
-function updateCartTotals() {
-  $.post('/getCartInfo',function(result) {
-    // $('#cartQuantity').empty()
-    $('#cartQuantity').text(result.cartQuantity)
-    // $('#cartPrice').empty()
-    $('#cartPrice').text(result.cartPrice)
-  })
-}
-
 function updateCartQuantity() {
   $.post('/getCartInfo',function(result) {
     $('#cartQuantity').empty()

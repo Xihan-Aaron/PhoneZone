@@ -1,12 +1,12 @@
 const User = require('../models/users');
 
 module.exports.extractNames =async function (arrayOfItems){
-	result = arrayOfItems
+	var result = arrayOfItems
 	try{
 		for(var i =0;i<result.length;i++){
-			itemInfo = result[i]
-			sellerInfo = await User.getUserById(itemInfo['seller'])
-			concatFullName = sellerInfo['firstname']+' '+sellerInfo['lastname']
+			var itemInfo = result[i]
+			var sellerInfo = await User.getUserById(itemInfo['seller'])
+			var concatFullName = sellerInfo['firstname']+' '+sellerInfo['lastname']
 			itemInfo['seller']=concatFullName
 			if(itemInfo['disabled'] == ""){
 				itemInfo['disabled']='Disabled'
@@ -14,9 +14,9 @@ module.exports.extractNames =async function (arrayOfItems){
 				itemInfo['disabled']='Enabled'
 			}
 			for(var j =0; j<itemInfo['reviews'].length;j++){
-				review = itemInfo['reviews'][j]
-				reviewerInfo = await User.getUserById(review['reviewer'])
-				reviewerConcatFullName = reviewerInfo['firstname']+' '+reviewerInfo['lastname']
+				var review = itemInfo['reviews'][j]
+				var reviewerInfo = await User.getUserById(review['reviewer'])
+				var reviewerConcatFullName = reviewerInfo['firstname']+' '+reviewerInfo['lastname']
 				review['reviewer']=reviewerConcatFullName
 			}
 		}
