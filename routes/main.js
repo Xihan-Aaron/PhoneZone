@@ -11,12 +11,8 @@ main.main
 router.get('/home', (req,res,next)=>{
 	delete req.session.prevUrl
 	delete req.session.prevInfo
-	next()
-},
-main.main
-)
-
-
+	res.redirect('/')
+})
 
 router.post('/search',function (req, res,next) {
 	next()
