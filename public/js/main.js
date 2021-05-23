@@ -380,3 +380,83 @@ function updateItemQuantity(item) {
     }
   })
 }
+
+
+
+function modalPopUpAddReview(e){
+  var id = $('#itemId').text().trim();
+
+  var modalBox = $('#modalCommon')
+  var modalTitle = $('#modalCommonTitle')
+  var modalBody = $('#modalCommonBody')
+  modalBody.attr("style", 'padding: 15px;')
+  var modalFooter = $('#modalCommonFooter')
+
+
+
+  modalBox.css("display", "block")
+  modalTitle.text("Please enter your review")
+  var htmlBody = `
+  <div class="form-group">
+    <input type="number" class="form-control" step=1 id="ratingInput" min=0  placeholder="Enter rating (1-5)">
+    <input type="text" class="form-control" id="commentInput" placeholder="Enter comment">
+  </div>
+  <div class="error" id="modalError">
+  </div>
+  `
+
+  var htmlFooter = `<button class="btn btn-danger" id="closing" type="button">Cancel</button>
+                    <button class="btn btn-primary" id="submitAddReview" type="button">Add Review</button>`
+  modalBody.html(htmlBody)
+  modalFooter.html(htmlFooter)
+
+  $('#closing,#closeModal').on('click',function(e){
+    modalTitle.text()
+    modalBody.html('')
+    modalFooter.html('')
+    modalBox.css("display", "none")
+  })
+
+  function submitCart(){
+    var rating =$('#ratingInput').val();
+    var comment =$('#commentInput').val();
+    validate = validateInteger(rating)
+    if(validate["status"]=="fail"){
+      $('#modalError').text(validateInteger(quantityPurchase)["message"])
+    }else if (validate["status"]=="success" && validate["value"]> 5){
+      $('#modalError').text("Please enter a digit between 1-5")
+    }else{
+      var info = {id:id,rating:rating,comment:comment,maxQuantity:maxQuantity};
+      $.ajax({
+        data:info,
+        type:"post",
+        url:"/AddReview",
+        success:function(result){
+          updateCartQuantity()
+          updateItemQuantity(info.id)
+          modalTitle.text()
+          modalBody.html('')
+          modalBox.css("display", "none")
+        },
+        error:function(result){
+          response =result["responseJSON"]
+          if(response["type"]=="signin"){
+            var responsehtml=`<p> ${response["message"]}. Please click here to <a href="/users/signin"> Sign In</a></p>`
+            $('#modalError').html(responsehtml )
+          }else{
+            $('#modalError').text(response["message"] )
+          }
+        }
+      })
+    }
+  }
+  $(document).keydown(function (event) {
+    if ( (event.keyCode || event.which) === 13) {
+        $("#submitAddReview").click();
+    }
+  });
+
+  $('#submitAddReview').on('click',function(event){
+    submitCart()
+  })
+}
