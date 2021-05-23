@@ -39,6 +39,8 @@ Signout will destroy the session. When the session is destroyed, then the client
 
 If a user is searching something or have selected something in the main page but is not signed in, they will be reverted back to that page when they immediately sign in or sign up.
 
+If the user has forgotten the password, a link will be sent to an email they input. If the email does exist, they will receive an email with a link. It expires in 20mins. Then the user can change their password. once the password is change the link will be invalid
+
 ## Validation
 The validation that requires access to the database is in the controller. 
 
@@ -95,7 +97,6 @@ The user can update the quantity of each product in the checkout. Once again the
 
 The user can remove multiple products in the checkout (tick checkbox)
 
-The user can purchase multiple products in the checkout (tick checkbox)
 
 ### Edge cases
 
@@ -106,6 +107,7 @@ The user can purchase multiple products in the checkout (tick checkbox)
   - The item is SOLD out or has been disabled, then when the user goes to checkout, these products will be removed and a message will show.
 
   - If the items are sold are not completely sold out but the remaining stock is less than the items in the cart, when the user goes to the checkout, these quantities will be udpated and a message will show
+
 
 ## Main Page
 
