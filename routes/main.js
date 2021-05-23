@@ -17,32 +17,6 @@ main.main
 )
 
 
-router.post('/',function (req, res,next) {
-	searchtext = req.body.searchtext
-	if(searchtext == undefined) {
-		return next('route')
-	}
-	next()
-},
-main.search
-)
-
-router.post('/',function (req, res,next) {
-	selectItem = req.body.selectItem
-
-	if(selectItem == undefined) {
-		next('route')
-	}
-	next()
-},
-main.selectItem
-)
-
-router.post('/',function (req, res,next) {
-	next()
-},
-main.main
-)
 
 router.post('/search',function (req, res,next) {
 	next()
