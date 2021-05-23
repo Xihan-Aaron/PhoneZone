@@ -84,6 +84,7 @@ $(document).ready(function() {
 
     $('.reviews').on('click', showMoreComments);
     $('.showMoreReviews').on('click', showMoreReviews);
+    $('.showLessReviews').on('click', showLessReviews);
     $('#addToCart').on('click', modalPopUpAddCart);
     updateCartQuantity();
     updateItemQuantity();
