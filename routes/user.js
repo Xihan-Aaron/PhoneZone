@@ -53,4 +53,32 @@ router.get('/signout', (req,res,next)=>{
     res.redirect('/');
 });
 
+router.post('/forgotPassword', userController.forgotPassword)
+
+router.get('/restPassword/:token', (req,res,next)=>{
+	req.session.token=req.params.token
+	res.render('forgetPassword.ejs',{errors: []})
+})
+
+router.post('/resetPassword',[
+	(req,res,next)=>{
+		resultValidatePassword = validation.validatePassword(req.body.password.trim())
+		resultValidateConfirmPassword = validation.validatePassword(req.body.confirmPassword.trim())
+		req.session.errors={}
+		req.session.success=true // Set to true so that previous false does not carry forward
+		req.session.errors['password']=[]
+		req.session.errors['confirmPassword']=[]
+		if(resultValidatePassword!==true){
+			req.session.success=false
+			req.session.errors['password']=resultValidatePassword
+		}
+		if(resultValidateConfirmPassword!==true){
+			req.session.success=false
+			req.session.errors['confirmPassword']=resultValidatePassword
+		}
+		next()
+	},
+	],userController.resetPassword
+)
+
 module.exports = router

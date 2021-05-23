@@ -25,7 +25,7 @@ $(document).ready(function() {
   });
 
 
-  $('.title').on('click', selectItem);
+  $('.title, .image, .price, .quantity, .subtotal').on('click', selectItem);
 
   $('.quantityDiv').find('input[name="quantity"]').each(function(e){
     $(this).on('click', function(){
@@ -131,17 +131,14 @@ $(document).ready(function() {
           for(i=0;i<results["items"].length;i++){
             $(`#${results["items"][i]}`).css("display","none")
           }
+          $('input[type="checkbox"]').each(function(item){
+            $(this).prop("checked", false);
+          })
           $('#info').html("<p><span>Items removed from cart successfully</span></p>")
         });
         closeModal()
         updateCartQuantity();
       }
-
-      $(document).keydown(function (event) {
-            if ( (event.keyCode || event.which) === 13) {
-                $("#submitAddtoCart").click();
-            }
-        });
 
       $('#removeAll').on('click',function(event){
         removeAll()
@@ -169,6 +166,7 @@ $(document).ready(function() {
   $('#confirm').on('click', function(e){
 
     results = getSelectedItems()
+    console.log(results)
 
 
     if(results["quantity"]==0){
@@ -245,19 +243,11 @@ $(document).ready(function() {
 
     }
   })
-  updateCartQuantity()
-  // function updateCartQuantity() {
-  //   $.post('/getCartInfo',function(result) {
-  //     $('#cartQuantity').empty()
-  //     $('#cartQuantity').text(`Total items: ${result.cartQuantity}`)
-  //     $('#cartPrice').empty()
-  //     $('#cartPrice').text(`Total price: $${result.cartPrice}`)
-  //   })
-  // }
-
 })
 
+
 function getSelectedItems(){
+  updateCartQuantity();
   var selectedItemsId = [];
   var selectedItemsTitle = {};
   var selectedItemsQuantity = {};
@@ -292,22 +282,9 @@ function selectItem(result) {
 
       $.post('/item',id,function(result) {
         window.location.href = '/'
-        // $('#soldOutSoon').remove();
-        // $('#bestSellers').remove();
-        // $('#searchResult').empty();
-        // $('#heading').empty();
-        // viewItem(result.info);
       })
 }
 
-function updateCartTotals() {
-  $.post('/getCartInfo',function(result) {
-    // $('#cartQuantity').empty()
-    $('#cartQuantity').text(result.cartQuantity)
-    // $('#cartPrice').empty()
-    $('#cartPrice').text(result.cartPrice)
-  })
-}
 
 function updateCartQuantity() {
   $.post('/getCartInfo',function(result) {

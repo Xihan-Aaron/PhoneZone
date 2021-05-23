@@ -38,23 +38,11 @@ router.post('/',function (req, res,next) {
 main.selectItem
 )
 
-router.post('/',function (req, res,next) {
-	next()
-},
-main.main
-)
+router.post('/',main.main)
 
-router.post('/search',function (req, res,next) {
-	next()
-},
-main.search
-)
+router.post('/search',main.search)
 
-router.post('/item',function (req, res,next) {
-	next()
-},
-main.selectItem
-)
+router.post('/item',main.selectItem)
 
 router.post('/addToCart', main.addItemToCart);
 
