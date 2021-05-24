@@ -214,7 +214,7 @@ module.exports.addReview = async function(req,res,next){
 
 		var userFromDb = await User.getUserById(user_id)
 		if(userFromDb == null) {
-			return res.status(400).json({"status":"fail","message":"Please sign in before adding to Cart","type":"signin"})
+			return res.status(400).json({"status":"fail","message":"Please sign in before adding a review","type":"signin"})
 		}
 
 		var review = {reviewer:user_id,rating:rating,comment:comment}
