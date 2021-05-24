@@ -1,3 +1,3 @@
 module.exports={
-	databaseLocal: 'mongodb://localhost/assignmentTest',
+	databaseLocal: 'mongodb://localhost/assignment2Gp32',
 }

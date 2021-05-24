@@ -402,6 +402,7 @@ function modalPopUpAddReview(e){
   <div class="form-group">
     <input type="number" class="form-control" step=1 id="ratingInput" min=0  placeholder="Enter rating (1-5)">
     <textarea class="form-control" id="commentInput" rows="3"  placeholder="Enter comment" maxlength="${text_max}"></textarea>
+    <span id="commentLength"> </span>
     <br>
   </div>
   <div class="error" id="modalError">
@@ -420,6 +421,16 @@ function modalPopUpAddReview(e){
     modalBox.css("display", "none")
   })
 
+  $('#commentInput').keyup(function() {
+    var commentLength = $('#commentInput').val().length;
+    if(commentLength >= 500) {
+      $('#commentInput').text($('#commentInput').val().substring(0,499))
+      $('#commentLength').html(`${commentLength}/500 - character limit 500`)
+    } else {
+      $('#commentLength').html(`${commentLength}/500`)
+    }
+  })
+
   function submitReview(){
     var rating =$('#ratingInput').val();
     var comment =$('#commentInput').val();
@@ -436,6 +447,8 @@ function modalPopUpAddReview(e){
         url:"/AddReview",
         success:function(result){
           showNewReview(result.review)
+          $('.reviews').on('click', showMoreComments);
+
           modalTitle.text()
           modalBody.html('')
           modalBox.css("display", "none")
@@ -497,7 +510,7 @@ function showNewReview(review) {
   if (reviews.length > 2){
     reviews[2].classList.add("hide")
   }
-  
+
   $('#reviewTable').prepend(newReview)
   $('#reviewTable').append(showmore)
 }
