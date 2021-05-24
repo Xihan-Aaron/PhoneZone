@@ -485,14 +485,19 @@ function showNewReview(review) {
   }
   newReview += `</tr>`
   var showmore = ""
-  if(reviews.length == 2) {
+  if(reviews.length == 3) {
     showmore = `<tr>
                 <td class="showMoreReviews" colspan=2><p class="textComment">show more reviews</p></td>
                 <td class="showLessReviews hide" colspan=3><p class="textComment">show less reviews</p></td>
                 <td></td>
               </tr>`
+    $('#reviewTable').on('click', '.showMoreReviews', showMoreReviews)
+    $('#reviewTable').on('click', '.showLessReviews', showLessReviews)
   }
-
+  if (reviews.length > 2){
+    reviews[2].classList.add("hide")
+  }
+  
   $('#reviewTable').prepend(newReview)
   $('#reviewTable').append(showmore)
 }

@@ -5,7 +5,7 @@
 
 - In MongoDb, create a database called : assignment2Gp32
 
-  - Create a collection called: Users
+  - Create a collection called: users
 
   - Create a collection called: phoneListing
 
