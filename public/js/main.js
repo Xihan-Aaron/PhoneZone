@@ -77,7 +77,9 @@ $(document).ready(function() {
     $('.topFiveItem').on('click', selectItem);
     $('.reviews').on('click', showMoreComments);
     $('.showMoreReviews').on('click', showMoreReviews);
+    $('.showLessReviews').on('click', showLessReviews);
     $('#addToCart').on('click', modalPopUpAddCart);
+    $('#addReview').on('click', modalPopUpAddReview);
     updateCartQuantity();
     updateItemQuantity();
 });
@@ -378,4 +380,137 @@ function updateItemQuantity(item) {
       $('#quantityInCart').text(result.quantityInCart)
     }
   })
+}
+
+
+
+function modalPopUpAddReview(e){
+  var id = $('#itemId').text().trim();
+
+  var modalBox = $('#modalCommon')
+  var modalTitle = $('#modalCommonTitle')
+  var modalBody = $('#modalCommonBody')
+  modalBody.attr("style", 'padding: 15px;')
+  var modalFooter = $('#modalCommonFooter')
+
+
+
+  modalBox.css("display", "block")
+  modalTitle.text("Please enter your review")
+  var text_max = 500;
+  var htmlBody = `
+  <div class="form-group">
+    <input type="number" class="form-control" step=1 id="ratingInput" min=0  placeholder="Enter rating (1-5)">
+    <textarea class="form-control" id="commentInput" rows="3"  placeholder="Enter comment" maxlength="${text_max}"></textarea>
+    <span id="commentLength"> </span>
+    <br>
+  </div>
+  <div class="error" id="modalError">
+  </div>
+  `
+
+  var htmlFooter = `<button class="btn btn-danger" id="closing" type="button">Cancel</button>
+                    <button class="btn btn-primary" id="submitAddReview" type="button">Add Review</button>`
+  modalBody.html(htmlBody)
+  modalFooter.html(htmlFooter)
+
+  $('#closing,#closeModal').on('click',function(e){
+    modalTitle.text()
+    modalBody.html('')
+    modalFooter.html('')
+    modalBox.css("display", "none")
+  })
+
+  $('#commentInput').keyup(function() {
+    var commentLength = $('#commentInput').val().length;
+    if(commentLength >= 500) {
+      $('#commentInput').text($('#commentInput').val().substring(0,499))
+      $('#commentLength').html(`${commentLength}/500 - character limit 500`)
+    } else {
+      $('#commentLength').html(`${commentLength}/500`)
+    }
+  })
+
+  function submitReview(){
+    var rating =$('#ratingInput').val();
+    var comment =$('#commentInput').val();
+    var validate = validateInteger(rating)
+    if(validate["status"]=="fail"){
+      $('#modalError').text(validateInteger(rating)["message"])
+    }else if (validate["status"]=="success" && validate["value"]> 5){
+      $('#modalError').text("Please enter a digit between 1-5")
+    }else{
+      var info = {id:id,rating:rating,comment:comment};
+      $.ajax({
+        data:info,
+        type:"post",
+        url:"/AddReview",
+        success:function(result){
+          showNewReview(result.review)
+          $('.reviews').on('click', showMoreComments);
+
+          modalTitle.text()
+          modalBody.html('')
+          modalBox.css("display", "none")
+        },
+        error:function(result){
+          response =result["responseJSON"]
+          if(response["type"]=="signin"){
+            var responsehtml=`<p> ${response["message"]}. Please click here to <a href="/users/signin"> Sign In</a></p>`
+            $('#modalError').html(responsehtml )
+          }else{
+            $('#modalError').text(response["message"] )
+          }
+        }
+      })
+    }
+  }
+  $(document).keydown(function (event) {
+    if ( (event.keyCode || event.which) === 13) {
+        $("#submitAddReview").click();
+    }
+  });
+
+  $('#submitAddReview').on('click',function(event){
+    submitReview()
+  })
+}
+
+function showNewReview(review) {
+  var reviews = $('.reviews')
+  var noReviews = $('#noReviews')
+  var table = $('#reviewTable')
+
+  var newReview
+  if(noReviews.length > 0) {
+    $('#reviewTable').empty()
+  }
+  newReview = `<tr class="reviews" >`
+
+  newReview += `<td class="id hide">` + review.id + `</td>
+  <td class="reviewer fit">` + review.reviewer + `</td>
+  <td class="rating">` + review.rating + `</td>`
+  if(review.comment.length > 200) {
+    newReview += `<td class="partialComment "> ` +review.comment.substring(0,200) +` <p class="textComment"> (Show More) </p> </td>
+    <td class="fullComment hide"> ` + review.comment + ` <p class="textComment"> (Show Less) </p> </td>`
+  } else {
+    newReview += `<td class="comment">` + review.comment + `</td>`
+  }
+  newReview += `</tr>`
+  var showmore = ""
+  if(reviews.length == 3) {
+    showmore = `<tr>
+                <td class="showMoreReviews" colspan=2><p class="textComment">show more reviews</p></td>
+                <td class="showLessReviews hide" colspan=3><p class="textComment">show less reviews</p></td>
+                <td></td>
+              </tr>`
+    $('#reviewTable').on('click', '.showMoreReviews', showMoreReviews)
+    $('#reviewTable').on('click', '.showLessReviews', showLessReviews)
+  }
+  if (reviews.length > 2){
+    reviews[2].classList.add("hide")
+  }
+
+  $('#reviewTable').prepend(newReview)
+  $('#reviewTable').append(showmore)
 }

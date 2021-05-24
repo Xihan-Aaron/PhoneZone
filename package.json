@@ -13,6 +13,7 @@
     "crypto": "*",
     "ejs": "*",
     "express": "*",
+    "express-mongo-sanitize": "^2.1.0",
     "express-session": "^1.17.1",
     "jsonwebtoken": "^8.5.1",
     "loadash": "^1.0.0",

@@ -118,7 +118,7 @@ PhoneListingSchema.statics.getTopFive = function(){
 			    {$match:{
 			        "reviews":{$elemMatch:{"rating":{$exists:true}}},
 			        disabled:null
-			        ,stock:{$gte:0}
+			        ,stock:{$gte:1}
 			        }
 			    },
 			    {$project:{"_id":1,image:1,title:1,brand:1,price:1,seller:1,stock:1,reviews:1,avgReviews:{$avg:"$reviews.rating"},numReviews:{$size:"$reviews"}}},
@@ -139,10 +139,14 @@ PhoneListingSchema.statics.soldOut = function(){
 		.limit(5)
 }
 
+PhoneListingSchema.statics.addReview = function(item_id,review){
+	return this
+	.findByIdAndUpdate({_id:item_id},{$push: {reviews:review}}, {new: true},).exec();
+}
+
 PhoneListingSchema.statics.all = function(){
 	return this
 		.find({})
 		.countDocuments()
-
 }
 module.exports = mongoose.model('PhoneListing', PhoneListingSchema)

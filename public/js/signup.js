@@ -37,7 +37,7 @@ $(document).ready(function(){
             lastname: $('input[name="lastname"]').val().trim(),
             email: $('input[name="email"]').val().trim(),
             password: $('input[name="password"]').val().trim(),
-            confirm_password: $('input[name="confirm_password"]').val().trim()
+            confirm_password: $('input[name="confirm_password"]').val()
         }
         if(signupInfo.firstname == ""){
             $('#firstnameError').append('<p class="error">- Please enter a name.</p>');

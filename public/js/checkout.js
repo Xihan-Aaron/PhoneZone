@@ -135,6 +135,7 @@ $(document).ready(function() {
             $(this).prop("checked", false);
           })
           $('#info').html("<p><span>Items removed from cart successfully</span></p>")
+          updateCartQuantity();
         });
         closeModal()
         updateCartQuantity();
@@ -237,12 +238,9 @@ $(document).ready(function() {
       $('#confirmBuy').on('click',function(event){
         buyAll()
       })
-
-
-
-
     }
   })
+  updateCartQuantity()
 })
 
 
@@ -284,8 +282,6 @@ function selectItem(result) {
         window.location.href = '/'
       })
 }
-
-
 function updateCartQuantity() {
   $.post('/getCartInfo',function(result) {
     $('#cartQuantity').empty()

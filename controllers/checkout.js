@@ -18,8 +18,8 @@ module.exports.checkoutPage = async function(req,res,next){
       var totalPrice= 0
       var totalQuantity=0
 			for(var i = 0;i<cart.length;i++) {
-				item = cart[i]
-				itemInfo = await PhoneListing.getItemById(item.id);
+				var item = cart[i]
+				var itemInfo = await PhoneListing.getItemById(item.id);
         if(itemInfo!=null ){
           if(cart[i]["quantity"]>itemInfo["stock"]){
             countQuantityChage+=1
@@ -34,7 +34,7 @@ module.exports.checkoutPage = async function(req,res,next){
 						cart_final.push(item)
           }else if(itemInfo["stock"]==0||itemInfo["disabled"]==""){
             countInvalid+=1
-            remove = await User.removeFromCart(req.session.user_id,item.id)
+            await User.removeFromCart(req.session.user_id,item.id)
           }else{
     				item['title'] = itemInfo['title']
     				item['price'] = itemInfo['price']
@@ -46,7 +46,7 @@ module.exports.checkoutPage = async function(req,res,next){
           }
         }else{
           countInvalid+=1
-          remove = await User.removeFromCart(req.session.user_id,item.id)
+          await User.removeFromCart(req.session.user_id,item.id)
         }
 			}
 			res.render('checkout.ejs',{user_id:req.session.user_id,
@@ -66,8 +66,8 @@ module.exports.checkoutPage = async function(req,res,next){
 
 module.exports.removeFromCart = async function(req,res,next){
 	try{
-    selectedItems = req.body.items;
-    user_id = req.session.user_id;
+    var selectedItems = req.body.items;
+    var user_id = req.session.user_id;
 
     for(var i =0; i<selectedItems.length;i++) {
       result = await User.removeFromCart(user_id,selectedItems[i])
@@ -83,20 +83,20 @@ module.exports.removeFromCart = async function(req,res,next){
 
 module.exports.clearCart = async function(req,res,next){
 	try{
-    selectedItems = req.body.selectedItemsQuantity;
-    arrayOfItemId = req.body.items
+    var selectedItems = req.body.selectedItemsQuantity;
+    var arrayOfItemId = req.body.items
 
-    userFromDb = await User.getUserById(req.session.user_id)
-    cart=userFromDb["checkout"]
+    var userFromDb = await User.getUserById(req.session.user_id)
+    var cart=userFromDb["checkout"]
     updatedCheckout = cart.filter(function(item){
       return arrayOfItemId.indexOf(item.id) === -1;
     })
     for( itemId in selectedItems) {
       quantityBought = selectedItems[itemId]
-      result1 = await PhoneListing.editStock(itemId,-parseInt(quantityBought))
+      await PhoneListing.editStock(itemId,-parseInt(quantityBought))
     }
-    clearCart = {checkout: updatedCheckout}
-    result2 = await User.updateUser(req.session.user_id,clearCart)
+    var clearCart = {checkout: updatedCheckout}
+    await User.updateUser(req.session.user_id,clearCart)
 		delete req.session.prevUrl
 		delete req.session.prevInfo
 
@@ -108,10 +108,10 @@ module.exports.clearCart = async function(req,res,next){
 }
 module.exports.changeQuantity = async function(req,res,next){
 	try{
-    selectedItem = req.body.items;
-    quantity = req.body.quantity;
-    user_id = req.session.user_id;
-    result2 = await User.editCart(user_id,selectedItem,quantity)
+    var selectedItem = req.body.items;
+    var quantity = req.body.quantity;
+    var user_id = req.session.user_id;
+    await User.editCart(user_id,selectedItem,quantity)
 
     return res.status(200).json({
       "status":"success",
@@ -126,7 +126,7 @@ module.exports.changeQuantity = async function(req,res,next){
 module.exports.verifyQuantiy= async function(req,res,next){
   try{
     var phoneInfo = await PhoneListing.getItemById(req.body.item_id)
-    currentQuantity = phoneInfo["stock"]
+    var currentQuantity = phoneInfo["stock"]
     if(phoneInfo ==null){
       return res.status(400).json({"status":"fail","message":"The stock has been removed"})
     }
