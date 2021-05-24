@@ -135,6 +135,7 @@ $(document).ready(function() {
             $(this).prop("checked", false);
           })
           $('#info').html("<p><span>Items removed from cart successfully</span></p>")
+          updateCartQuantity();
         });
         closeModal()
         updateCartQuantity();

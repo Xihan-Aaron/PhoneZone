@@ -84,6 +84,7 @@ $(document).ready(function(){
                 url: "/profile/checkPassword",
                 success: function(result){
                     $('#passwordModal').modal('hide');
+                    e.preventDefault();
 
                     // Send profile update
                     $.ajax({
@@ -116,9 +117,10 @@ $(document).ready(function(){
                             }
                         },
                         error: function(updateResult){
-                            if(updateResult.success == false){
-                                for(error in updateResult.errors){
-                                    $('#profile-serverError').append('<p class="error">- ' + updateResult.errors[error] + '</p>');
+                          console.log(updateResult);
+                            if(updateResult['responseJSON'].success == false){
+                                for(error in updateResult['responseJSON'].errors){
+                                    $('#profile-serverError').append('<p class="error">- ' + updateResult['responseJSON'].errors[error] + '</p>');
                                 }
                             }
                         }
@@ -378,7 +380,7 @@ $(document).ready(function(){
             })
 
         }
-          
+
 
     }
 });

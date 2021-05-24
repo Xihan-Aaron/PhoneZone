@@ -6,13 +6,14 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const config = require('./config/database')
 const session= require('express-session')
+const mongoSanitize = require('express-mongo-sanitize');
 
 console.log(config.databaseLocal)
 
-mongoose.connect(config.databaseLocal,{ 
+mongoose.connect(config.databaseLocal,{
 	useNewUrlParser: true ,
 	useUnifiedTopology: true ,
-	useFindAndModify: false,  
+	useFindAndModify: false,
 	useCreateIndex: true })
 
 mongoose.connection.on('connected', ()=>{
@@ -42,6 +43,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(mongoSanitize());
+
 
 const userAlreadyAuthenticated =(req,res,next)=>{
 	if(req.session.user_id && req.url !=="/signout"){
@@ -49,7 +52,7 @@ const userAlreadyAuthenticated =(req,res,next)=>{
 	}else{
 		next()
 	}
-	
+
 }
 
 const userAuthenticate =(req,res,next)=>{
@@ -61,7 +64,7 @@ const userAuthenticate =(req,res,next)=>{
 	}else{
 		next()
 	}
-	
+
 }
 
 const removeHistroy=(req,res,next)=>{
@@ -75,7 +78,7 @@ const removeHistroy=(req,res,next)=>{
 app.use(session({
 	secret:'ssshhhh',
 	cookie:{
-		sameSite:true,	
+		sameSite:true,
 		maxAge:600000},
 	resave:false,
 	saveUninitialized:false
@@ -95,6 +98,6 @@ app.use(errorHandlerControllers.pageNotFound);
 
 app.use(errorHandlerControllers.OtherErrors);
 
-app.listen(port, function(){ 
+app.listen(port, function(){
 	console.log("Server started on Port "+port)
 })
