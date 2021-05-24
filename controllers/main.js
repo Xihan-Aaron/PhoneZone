@@ -219,8 +219,12 @@ module.exports.addReview = async function(req,res,next){
 
 		var review = {reviewer:user_id,rating:rating,comment:comment}
 		var item = await PhoneListing.addReview(item_id,review)
+		var itemParsed = (await helper.extractNames([item]))[0]
+		req.session.prevInfo = itemParsed
+		req.session.prevUrl = 'item'
 		review.reviewer = userFromDb.firstname + " " + userFromDb.lastname
 		review.id = item_id
+
 		return res.status(200).json({"status":"success", review:review})
 	}catch(err){
 		console.log(err)

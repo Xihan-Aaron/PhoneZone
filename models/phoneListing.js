@@ -141,7 +141,7 @@ PhoneListingSchema.statics.soldOut = function(){
 
 PhoneListingSchema.statics.addReview = function(item_id,review){
 	return this
-	.findByIdAndUpdate({_id:item_id},{$push: {reviews:review}}).exec();
+	.findByIdAndUpdate({_id:item_id},{$push: {reviews:review}}, {new: true},).exec();
 }
 
 PhoneListingSchema.statics.all = function(){

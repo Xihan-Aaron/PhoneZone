@@ -10,7 +10,7 @@ function isFloat(stringInput){
 }
 function validateInteger(value){
   if(isFloat(value)){
-    return {"status":"fail","message":"Please do NOT put in a Float. Phones cannot be divided."}  //If quantity given a float. Disable confirm button and notify user
+    return {"status":"fail","message":"Please do NOT put in a Float."}  //If quantity given a float. Disable confirm button and notify user
   }else if(isNaN(parseFloat(value))){
     return {"status":"fail","message":"This is an invalid input. Make sure it is only numbers."}  //If quantity has more than just numbers. Disable confirm button and notify user
   }else if(isInteger(value)){
@@ -24,3 +24,4 @@ function validateInteger(value){
     }
   }
 }
+

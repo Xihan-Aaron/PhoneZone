@@ -397,10 +397,12 @@ function modalPopUpAddReview(e){
 
   modalBox.css("display", "block")
   modalTitle.text("Please enter your review")
+  var text_max = 500;
   var htmlBody = `
   <div class="form-group">
     <input type="number" class="form-control" step=1 id="ratingInput" min=0  placeholder="Enter rating (1-5)">
-    <input type="text" class="form-control" id="commentInput" placeholder="Enter comment">
+    <textarea class="form-control" id="commentInput" rows="3"  placeholder="Enter comment" maxlength="${text_max}"></textarea>
+    <br>
   </div>
   <div class="error" id="modalError">
   </div>
