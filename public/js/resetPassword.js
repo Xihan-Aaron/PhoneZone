@@ -16,8 +16,8 @@ $(document).ready(function(){
         $('#confirmPasswordError').empty();
         e.preventDefault();
         var signinInfo = {
-            password: $('input[name="password"]').val().trim(),
-            confirmPassword: $('input[name="confirmPassword"]').val().trim()
+            password: $('input[name="password"]').val(),
+            confirmPassword: $('input[name="confirmPassword"]').val()
 
         }
         if(signinInfo.password == ""){

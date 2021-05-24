@@ -74,7 +74,7 @@ $(document).ready(function(){
         }
 
         // Check password
-        var password = $('#confirmPassword').val().trim();
+        var password = $('#confirmPassword').val();
         if(password == ""){
             $('#confirmPasswordError').append('<p class="error">- Please enter your password to continue.</p>');
         } else {
@@ -142,8 +142,8 @@ $(document).ready(function(){
 
         e.preventDefault();
         var passwordInfo = {
-            currentPassword: $('#editPassword').find('input[name="currentPassword"]').val().trim(),
-            newPassword: $('#editPassword').find('input[name="newPassword"]').val().trim()
+            currentPassword: $('#editPassword').find('input[name="currentPassword"]').val(),
+            newPassword: $('#editPassword').find('input[name="newPassword"]').val()
         }
         if(passwordInfo.currentPassword == ""){
             $('#currentPasswordError').append('<p class="error">- Please enter your previous password.</p>');
@@ -312,9 +312,6 @@ $(document).ready(function(){
                         }
                     }
                 }
-                // for(var i = 0; i < result.responseJSON.errors['item'].length; i++){
-                //     $('#modifyListError').append('<p class="error">- ' + result.responseJSON.errors['item'][i] + '</p>');
-                // }
             }
         })
     });
@@ -362,11 +359,33 @@ $(document).ready(function(){
         })
     });
 
-    $('#confirmsignoutBtn').on('click', function(e){
+    $('#signout').on('click',function(e){
         e.preventDefault();
-        $('#signoutModal').modal('hide');
-        window.location.href = '/users/signout';
-      });
+        var modalBox = $('#modalCommon')
+        var modalTitle = $('#modalCommonTitle')
+        var modalBody = $('#modalCommonBody')
+        modalBody.attr("style", 'padding: 0px;')
+        var modalFooter = $('#modalCommonFooter')
+  
+        modalBox.css("display", "block")
+        modalTitle.text("Do you want to sign out?")
+  
+        var htmlFooter = `<button class="btn btn-danger" id="closing" type="button">Cancel</button>
+                          <button class="btn btn-primary" id="signoutButton" type="button">Sign Out</button>`
+        modalBody.empty()
+        modalFooter.html(htmlFooter)
+  
+        $('#closing,#closeModal').on('click',function(e){
+          modalTitle.text()
+          modalBody.html('')
+          modalFooter.html('')
+          modalBox.css("display", "none")
+        })
+        $('#signoutButton').on('click',function(e){
+          window.location.href = '/users/signout';
+        })
+  
+    })
 
     $('.title, .brand, .stock, .price, .seller, .status').on('click', selectItem);
     function selectItem(result) {
