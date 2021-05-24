@@ -38,7 +38,7 @@ $(document).ready(function(){
         e.preventDefault();
         var signinInfo = {
             email: $('#email').val().trim(),
-            password: $('input[name="password"]').val().trim()
+            password: $('input[name="password"]').val()
         }
         if(signinInfo.email == ""){
             $('#emailError').append('<p class="error">- Please enter an email address.</p>');
