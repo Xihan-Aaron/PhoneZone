@@ -192,8 +192,6 @@ module.exports.addNewListing = async function(req,res,next){
 		return res.status(400).json({errors: req.session.errors, success:req.session.success})
 	}
 	try{
-		const existingInfo = await PhoneListing.getItemByTitleBrand(req.body.title,req.body.brand)
-		if(existingInfo.length==0){
 			if(req.body.disabled=='on'){
 				var listingInformation
 				listingInformation = new PhoneListing({
@@ -220,12 +218,6 @@ module.exports.addNewListing = async function(req,res,next){
 			const addLisitng = await PhoneListing.addNewListing(listingInformation)
 			req.session.success=true
 			return res.status(200).json({errors:req.session.errors, success:req.session.success})
-		}else{
-			fs.unlinkSync('public/'+imagePath);
-			req.session.errors['title']=['There already exists a listing with the same title and brand']
-			req.session.success=false
-			return res.status(400).json({errors: req.session.errors, success:req.session.success})
-		}
 	}catch(err){
 		try{
 			fs.unlinkSync('public/'+imagePath);

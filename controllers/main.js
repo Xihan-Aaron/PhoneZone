@@ -3,6 +3,7 @@ var crypto = require('crypto');
 const User = require('../models/users');
 const PhoneListing = require('../models/phoneListing');
 const helper = require('./helper');
+const escapeStringRegexp = require('escape-string-regexp');
 
 
 module.exports.main = async function(req,res,next){
@@ -34,7 +35,7 @@ module.exports.main = async function(req,res,next){
 module.exports.search = async function(req,res,next){
 	try{
 		var searchtext = req.body.searchtext
-		var searchResults = await PhoneListing.getMatchingItems(searchtext);
+		var searchResults = await PhoneListing.getMatchingItems(escapeStringRegexp(searchtext));
 		req.session.prevInfo = searchResults
 		req.session.prevUrl = 'search'
 		res.status(200).json({
