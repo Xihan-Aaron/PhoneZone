@@ -193,18 +193,20 @@ $(document).ready(function(){
         var disabled;
         var files = $('#addNewListing').find('input[name="productImage"]')[0].files;
         var fileCheck = true;
+        var file;
         if(files.length < 1){
             $('#fileError').append('<p class="error">- Please choose a product image.</p>');
             fileCheck = false;
-        }
-        var file = files[0];
-        var filename = file.name;
-        var temp = filename.split('.');
-        // Check for file extension
-        temp = temp[temp.length - 1];
-        if ('jpg' != temp && 'jpeg' != temp && 'png' != temp){
-            fileCheck = false;
-            $('#fileError').append('<p class="error">- Please choose a valid image file.</p>');
+        } else {
+            file = files[0];
+            var filename = file.name;
+            var temp = filename.split('.');
+            // Check for file extension
+            temp = temp[temp.length - 1];
+            if ('jpg' != temp && 'jpeg' != temp && 'png' != temp){
+                fileCheck = false;
+                $('#fileError').append('<p class="error">- Please choose a valid image file.</p>');
+            }
         }
 
         if(title == ""){
