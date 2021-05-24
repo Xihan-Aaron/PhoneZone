@@ -23,6 +23,8 @@ router.post('/item',main.selectItem)
 
 router.post('/addToCart', main.addItemToCart);
 
+router.post('/addReview', main.addReview);
+
 router.post('/getCartInfo', main.getCartInfo);
 
 router.post('/getQuantityInCart', main.getQuantityInCart);

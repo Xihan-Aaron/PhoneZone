@@ -79,6 +79,7 @@ $(document).ready(function() {
     $('.showMoreReviews').on('click', showMoreReviews);
     $('.showLessReviews').on('click', showLessReviews);
     $('#addToCart').on('click', modalPopUpAddCart);
+    $('#addReview').on('click', modalPopUpAddReview);
     updateCartQuantity();
     updateItemQuantity();
 });
@@ -417,23 +418,22 @@ function modalPopUpAddReview(e){
     modalBox.css("display", "none")
   })
 
-  function submitCart(){
+  function submitReview(){
     var rating =$('#ratingInput').val();
     var comment =$('#commentInput').val();
-    validate = validateInteger(rating)
+    var validate = validateInteger(rating)
     if(validate["status"]=="fail"){
-      $('#modalError').text(validateInteger(quantityPurchase)["message"])
+      $('#modalError').text(validateInteger(rating)["message"])
     }else if (validate["status"]=="success" && validate["value"]> 5){
       $('#modalError').text("Please enter a digit between 1-5")
     }else{
-      var info = {id:id,rating:rating,comment:comment,maxQuantity:maxQuantity};
+      var info = {id:id,rating:rating,comment:comment};
       $.ajax({
         data:info,
         type:"post",
         url:"/AddReview",
         success:function(result){
-          updateCartQuantity()
-          updateItemQuantity(info.id)
+          showNewReview(result.review)
           modalTitle.text()
           modalBody.html('')
           modalBox.css("display", "none")
@@ -457,6 +457,40 @@ function modalPopUpAddReview(e){
   });
 
   $('#submitAddReview').on('click',function(event){
-    submitCart()
+    submitReview()
   })
+}
+
+function showNewReview(review) {
+  var reviews = $('.reviews')
+  var noReviews = $('#noReviews')
+  var table = $('#reviewTable')
+
+  var newReview
+  if(noReviews.length > 0) {
+    $('#reviewTable').empty()
+  }
+  newReview = `<tr class="reviews" >`
+
+  newReview += `<td class="id hide">` + review.id + `</td>
+  <td class="reviewer fit">` + review.reviewer + `</td>
+  <td class="rating">` + review.rating + `</td>`
+  if(review.comment.length > 200) {
+    newReview += `<td class="partialComment "> ` +review.comment.substring(0,200) +` <p class="textComment"> (Show More) </p> </td>
+    <td class="fullComment hide"> ` + review.comment + ` <p class="textComment"> (Show Less) </p> </td>`
+  } else {
+    newReview += `<td class="comment">` + review.comment + `</td>`
+  }
+  newReview += `</tr>`
+  var showmore = ""
+  if(reviews.length == 2) {
+    showmore = `<tr>
+                <td class="showMoreReviews" colspan=2><p class="textComment">show more reviews</p></td>
+                <td class="showLessReviews hide" colspan=3><p class="textComment">show less reviews</p></td>
+                <td></td>
+              </tr>`
+  }
+
+  $('#reviewTable').prepend(newReview)
+  $('#reviewTable').append(showmore)
 }

@@ -203,3 +203,27 @@ module.exports.getQuantityInCart = async function(req,res,next){
 		return res.status(500).json({"status":"fail","message":`Server Side Error`})
 	}
 }
+
+module.exports.addReview = async function(req,res,next){
+	try{
+		var item_id = req.body.id
+		var rating = parseInt(req.body.rating)
+		var comment = req.body.comment
+
+		var user_id = req.session.user_id
+
+		var userFromDb = await User.getUserById(user_id)
+		if(userFromDb == null) {
+			return res.status(400).json({"status":"fail","message":"Please sign in before adding to Cart","type":"signin"})
+		}
+
+		var review = {reviewer:user_id,rating:rating,comment:comment}
+		var item = await PhoneListing.addReview(item_id,review)
+		review.reviewer = userFromDb.firstname + " " + userFromDb.lastname
+		review.id = item_id
+		return res.status(200).json({"status":"success", review:review})
+	}catch(err){
+		console.log(err)
+		return res.status(500).json({"status":"fail","message":`Server Side Error`})
+	}
+}

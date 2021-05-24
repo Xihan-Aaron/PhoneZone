@@ -139,10 +139,14 @@ PhoneListingSchema.statics.soldOut = function(){
 		.limit(5)
 }
 
+PhoneListingSchema.statics.addReview = function(item_id,review){
+	return this
+	.findByIdAndUpdate({_id:item_id},{$push: {reviews:review}}).exec();
+}
+
 PhoneListingSchema.statics.all = function(){
 	return this
 		.find({})
 		.countDocuments()
-
 }
 module.exports = mongoose.model('PhoneListing', PhoneListingSchema)

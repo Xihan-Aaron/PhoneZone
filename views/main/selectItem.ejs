@@ -25,7 +25,7 @@
         <th>Rating</th>
         <th>Comment</th>
       </thead>
-      <tbody>
+      <tbody id="reviewTable">
         <% for(var i =0; i<info.reviews.length ;i++) {%>
           <% if(i >= 3) { %>
             <tr class="reviews hide" >
@@ -49,7 +49,7 @@
             <td></td>
           </tr>
         <% } else if(info.reviews.length == 0) {%>
-          <tr class="reviews">
+          <tr class="reviews" id="noReviews">
             <td colspan=3> No Reviews Yet</td>
           </tr>
         <% } %>
