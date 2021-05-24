@@ -118,7 +118,7 @@ PhoneListingSchema.statics.getTopFive = function(){
 			    {$match:{
 			        "reviews":{$elemMatch:{"rating":{$exists:true}}},
 			        disabled:null
-			        ,stock:{$gte:1}
+			        ,stock:{$gte:0}
 			        }
 			    },
 			    {$project:{"_id":1,image:1,title:1,brand:1,price:1,seller:1,stock:1,reviews:1,avgReviews:{$avg:"$reviews.rating"},numReviews:{$size:"$reviews"}}},

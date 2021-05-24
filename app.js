@@ -6,7 +6,6 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const config = require('./config/database')
 const session= require('express-session')
-const mongoSanitize = require('express-mongo-sanitize');
 
 console.log(config.databaseLocal)
 
@@ -42,9 +41,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(mongoSanitize());
-
 
 const userAlreadyAuthenticated =(req,res,next)=>{
 	if(req.session.user_id && req.url !=="/signout"){

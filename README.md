@@ -1,5 +1,26 @@
 # WebDev_G32
 
+It is an ecommerce website allowing user to buy and sell phones.
+
+## dependencies
+
+  - bcryptjs
+  - body-parser
+  - cors
+  - crypto
+  - ejs
+  - express
+  - express-mongo-sanitize
+  - express-session
+  - jsonwebtoken
+  - loadash
+  - mongoose
+  - multer
+  - nodemailer
+  - nodemailer-smtp-transport
+  - passport
+
+
 ## Installing
 - Go to the directory
 
@@ -19,10 +40,16 @@
 
     - db.getCollection('phoneListing').updateMany({}, [{$set:{"image":{$concat: ["/images/phone_default_images/", "$brand", ".jpeg"]}}}]);
 
-
+  ## Executing Program
 - npm install
 
 - npm start
+
+# Authors
+
+Alan Hoang - ahoa5624
+Liam ireland - lire2640
+Xihan Liu - xliu3349
 
 # Tasks completed
 
@@ -83,7 +110,7 @@ To remove the listing use endpoint profile/removeListing with parameters req.bod
 
 To edit the listing for disabled or not disabled use endpoint profile/editListing with parameters req.body.editId (the id of the listing) ,req.body.disabled (boolean: True - Disabled and False - Enable)
 
-If you click on the row of the table, then it will lead you to the item. However, this will only occur when the item is enabled. 
+If you click on the row of the table, then it will lead you to the item. However, this will only occur when the item is enabled.
 
 ## Checkout
 
@@ -119,7 +146,3 @@ The user can remove multiple products in the checkout (tick checkbox)
 ### Edge Cases
 
 - When a user uploads a phone for sale and then the user's account is removed, it will still show in the Phone zone website but when its in the item state, no one can add to cart and it will say Seller Unknown.
-
-# Further Steps
-## Testing!!!
-

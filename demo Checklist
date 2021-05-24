@@ -1,0 +1,45 @@
+*  main 
+  - search
+    - filter
+    - price
+  - item state
+    - show more comments
+    - show more reviews
+    - add to cart
+      - currently added
+    - add review
+  - home
+    - show two tables
+  - sign out
+
+* sign in
+  - sign in
+  - invalid inputs
+  - goes back
+
+* sign up
+  - sign up
+  - invalid inputs
+
+* checkout
+  - back button
+  - remove multiple
+  - change quantity
+    - 0
+    - too many
+    - valid
+  - total price
+  - checkout
+    - all
+    - some
+
+* Profile
+  - edit profile
+  - change Password
+  - add new listing
+  - disable/ enable listing
+  - remove listing
+
+Bonus
+  - forgot password - email validation
+  - default image
